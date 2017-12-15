@@ -1,5 +1,5 @@
 buildscript {
-	ext.kotlin_version = '1.2.0'
+	ext.kotlin_version = "1.2.0"
 	repositories {
 		maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
 		maven { url "https://plugins.gradle.org/m2/" }
@@ -7,7 +7,7 @@ buildscript {
 	}
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-		classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
+		classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
 	}
 }
 
@@ -56,7 +56,7 @@ sourceSets {
 task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
 	from compileKotlin2Js.destinationDir
 	configurations.testCompile.each {
-		from zipTree(it.absolutePath).matching { include '*.js' }
+		from zipTree(it.absolutePath).matching { include "*.js" }
 	}
 	into "$buildDir/node_modules"
 }
@@ -65,11 +65,11 @@ node {
 	download = true
 }
 
-task installJasmine(type: NpmTask) {
-	args = ['install', 'jasmine']
+task installNpmDependencies(type: NpmTask) {
+	args = ["install", "jasmine", "three"]
 }
-task runJasmine(type: NodeTask, dependsOn: [compileTestKotlin2Js, populateNodeModules, installJasmine]) {
-	script = file('node_modules/jasmine/bin/jasmine.js')
+task runJasmine(type: NodeTask, dependsOn: [compileTestKotlin2Js, populateNodeModules, installNpmDependencies]) {
+	script = file("node_modules/jasmine/bin/jasmine.js")
 	args = [compileTestKotlin2Js.outputFile]
 }
 test.dependsOn runJasmine
