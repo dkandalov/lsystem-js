@@ -1,12 +1,8 @@
 package lsystem
 
-import org.w3c.dom.*
-import org.w3c.dom.events.Event
-import org.w3c.dom.events.KeyboardEvent
 import lsystem.LSystem3d.Companion.emptyVector
 import lsystem.THREE.Color
 import lsystem.THREE.EffectComposer
-import lsystem.THREE.Euler
 import lsystem.THREE.Geometry
 import lsystem.THREE.Line
 import lsystem.THREE.LineBasicMaterial
@@ -15,9 +11,11 @@ import lsystem.THREE.PerspectiveCamera
 import lsystem.THREE.Scene
 import lsystem.THREE.Vector3
 import lsystem.THREE.WebGLRenderer
+import org.w3c.dom.*
+import org.w3c.dom.events.Event
+import org.w3c.dom.events.KeyboardEvent
 import kotlin.browser.document
 import kotlin.browser.window
-import kotlin.coroutines.experimental.buildSequence
 import kotlin.math.PI
 import kotlin.math.min
 import kotlin.math.round
@@ -333,177 +331,6 @@ class LSystem3dPresenter {
         val url: String? = null
     ) {
         var iterations: Int = 1
-    }
-}
-
-private val kochSnowflake = LSystem3d(
-    axiom = "F--F--F",
-    rules = mapOf('F' to "F+F--F+F"),
-    angle = PI / 3,
-    closedPath = true
-)
-
-private val cesaroFractal = LSystem3d(
-    axiom = "F",
-    rules = mapOf('F' to "F+F-F-F+F"),
-    angle = 85.toRadians()
-)
-
-private val quadraticType2Curve = LSystem3d(
-    axiom = "F",
-    rules = mapOf('F' to "F+F-F-FF+F+F-F"),
-    angle = PI / 2
-)
-
-// https://en.wikipedia.org/wiki/Hilbert_curve
-private val hilbertCurve = LSystem3d(
-    axiom = "A",
-    rules = mapOf(
-        'A' to "-BF+AFA+FB-",
-        'B' to "+AF-BFB-FA+"
-    ),
-    angle = PI / 2
-)
-
-private val lindenmayerCurve = LSystem3d(
-    axiom = "X",
-    rules = mapOf(
-        'X' to "XFYFX+F+YFXFY-F-XFYFX",
-        'Y' to "YFXFY-F-XFYFX+F+YFXFY"
-    ),
-    angle = PI / 2
-)
-
-// https://en.wikipedia.org/wiki/Gosper_curve
-private val gosperCurve = LSystem3d(
-    axiom = "F",
-    rules = mapOf(
-        'F' to "F-G--G+F++FF+G-",
-        'G' to "+F-GG--G-F++F+G"
-    ),
-    angle = 60.toRadians()
-)
-
-// https://en.wikipedia.org/wiki/Sierpinski_triangle
-private val sierpinskiTriangle = LSystem3d(
-    axiom = "F-G-G",
-    rules = mapOf(
-        'F' to "F-G+F+G-F",
-        'G' to "GG"
-    ),
-    angle = 120.toRadians()
-)
-
-// https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve
-private val sierpinskiArrowheadCurve = LSystem3d(
-    axiom = "F",
-    rules = mapOf(
-        'F' to "G-F-G",
-        'G' to "F+G+F"
-    ),
-    angle = PI / 3
-)
-
-// https://en.wikipedia.org/wiki/Dragon_curve
-private val dragonCurve = LSystem3d(
-    axiom = "FX",
-    rules = mapOf(
-        'X' to "X+YF+",
-        'Y' to "-FX-Y"
-    ),
-    angle = PI / 2
-)
-
-private val fractalPlant = LSystem3d(
-    axiom = "X",
-    rules = mapOf(
-        'X' to "F[-X][X]F[-X]+FX",
-        'F' to "FF"
-    ),
-    angle = 25.toRadians()
-)
-
-private val hilbertCurve3d = LSystem3d(
-    axiom = "X",
-    rules = mapOf('X' to "^<XF^<XFX-F^>>XFX&F+>>XFX-F>X->"),
-    angle = PI / 2
-)
-
-private val kochCurve3d = LSystem3d(
-    axiom = "A",
-    rules = mapOf(
-        'A' to "[[[[F+F-F-F+F]G<G>G>G<G]H-H+H+H-H]I>I<I<I>I]",
-        'F' to "F+F-F-F+F",
-        'G' to "G<G>G>G<G",
-        'H' to "H-H+H+H-H",
-        'I' to "I>I<I<I>I"
-    ),
-    angle = PI / 2
-)
-
-class LSystem3d(
-    var axiom: String,
-    var rules: Map<Char, String>,
-    var angle: Double,
-    val closedPath: Boolean = false,
-    val stepLength: Double = 10.0
-) {
-    fun generatePoints(iterations: Int = 3): Sequence<Vector3> {
-        return applyRules(axiom, iterations).toPoints(stepLength)
-    }
-
-    private fun applyRules(input: String, iterations: Int): String {
-        if (iterations == 0) return input
-        val result = input
-            .asIterable()
-            .joinToString("") { char ->
-                rules[char] ?: char.toString()
-            }
-        return applyRules(result, iterations - 1)
-    }
-
-    private fun String.toPoints(stepLength: Double): Sequence<Vector3> {
-        return buildSequence {
-            val startPoint = Vector3(0, 0, 0)
-            yield(startPoint.clone())
-
-            var angles = Vector3(0, 0, 0)
-            var p = startPoint.clone()
-            val stack = emptyArray<Pair<Vector3, Vector3>>()
-            forEach { c ->
-                when (c) {
-                    'F', 'G', 'H', 'I' -> {
-                        val v = Vector3(0, stepLength, 0)
-                        v.applyEuler(Euler(angles.x, angles.y, angles.z, "XYZ"))
-                        p.add(v)
-                        yield(p.clone())
-                    }
-
-                    '+' -> angles.z += this@LSystem3d.angle
-                    '-' -> angles.z -= this@LSystem3d.angle
-
-                    '<' -> angles.x += this@LSystem3d.angle
-                    '>' -> angles.x -= this@LSystem3d.angle
-                    '|' -> angles.x -= this@LSystem3d.angle * 2
-
-                    '^' -> angles.y += this@LSystem3d.angle
-                    '&' -> angles.y -= this@LSystem3d.angle
-
-                    '[' -> stack.push(Pair(p.clone(), angles.clone()))
-                    ']' -> {
-                        val removed = stack.pop()
-                        p = removed.first
-                        angles = removed.second
-                        yield(emptyVector)
-                    }
-                }
-            }
-            if (closedPath) yield(startPoint.clone())
-        }
-    }
-
-    companion object {
-        val emptyVector = Vector3(Double.NaN, Double.NaN, Double.NaN)
     }
 }
 
