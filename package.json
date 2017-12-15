@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "three": "0.88.0",
+    "jasmine": "2.8.0"
+  }
+}
