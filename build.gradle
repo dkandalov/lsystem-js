@@ -1,48 +1,75 @@
 buildscript {
 	ext.kotlin_version = '1.2.0'
-
 	repositories {
-		maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.1' }
+		maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
 		maven { url "https://plugins.gradle.org/m2/" }
 		mavenCentral()
 	}
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+		classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
 	}
 }
 
-apply plugin:'kotlin2js'
-apply plugin:'kotlin-dce-js'
+apply plugin:"kotlin2js"
+apply plugin:"kotlin-dce-js"
+apply plugin:"com.moowork.node"
 
 repositories {
-	maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.1' }
+	maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
 	mavenCentral()
 }
 
 dependencies {
 	compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+	testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
 
 compileKotlin2Js {
 	kotlinOptions {
-		moduleKind = "plain"
+		moduleKind = "commonjs"
 		sourceMapEmbedSources = "always"
 		sourceMap = true
 		apiVersion = "1.2"
 		languageVersion = "1.2"
 	}
 }
-
-sourceSets {
-	main {
-		kotlin {
-			srcDir { "src" }
-		}
-	}
-}
-
 kotlin {
 	experimental {
 		coroutines "enable"
 	}
 }
+
+sourceSets {
+	main {
+		kotlin { srcDir { "src" } }
+	}
+	test {
+		kotlin { srcDir { "test" } }
+	}
+}
+
+[compileKotlin2Js, compileTestKotlin2Js]*.configure {
+	kotlinOptions.moduleKind = "commonjs"
+}
+
+task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
+	from compileKotlin2Js.destinationDir
+	configurations.testCompile.each {
+		from zipTree(it.absolutePath).matching { include '*.js' }
+	}
+	into "$buildDir/node_modules"
+}
+
+node {
+	download = true
+}
+
+task installJasmine(type: NpmTask) {
+	args = ['install', 'jasmine']
+}
+task runJasmine(type: NodeTask, dependsOn: [compileTestKotlin2Js, populateNodeModules, installJasmine]) {
+	script = file('node_modules/jasmine/bin/jasmine.js')
+	args = [compileTestKotlin2Js.outputFile]
+}
+test.dependsOn runJasmine

@@ -2,6 +2,23 @@ package lsystem
 
 import lsystem.THREE.Vector3
 import kotlin.coroutines.experimental.buildSequence
+import kotlin.math.PI
+
+/**
+ * See https://en.wikipedia.org/wiki/L-system
+ */
+class LSystem(var axiom: String, var rules: Map<Char, String>) {
+    fun produce(input: String = axiom): Sequence<String> = buildSequence {
+        var result = input
+        while (true) {
+            yield(result)
+            result = result.asIterable()
+                .joinToString("") { char ->
+                    rules[char] ?: char.toString()
+                }
+        }
+    }
+}
 
 class LSystem3d(
     var axiom: String,
@@ -11,17 +28,10 @@ class LSystem3d(
     val stepLength: Double = 10.0
 ) {
     fun generatePoints(iterations: Int = 3): Sequence<Vector3> {
-        return applyRules(axiom, iterations).toPoints(stepLength)
-    }
-
-    private fun applyRules(input: String, iterations: Int): String {
-        if (iterations == 0) return input
-        val result = input
-            .asIterable()
-            .joinToString("") { char ->
-                rules[char] ?: char.toString()
-            }
-        return applyRules(result, iterations - 1)
+        return LSystem(axiom, rules)
+            .produce()
+            .take(iterations + 1)
+            .last().toPoints(stepLength)
     }
 
     private fun String.toPoints(stepLength: Double): Sequence<Vector3> {
@@ -68,3 +78,9 @@ class LSystem3d(
         val emptyVector = Vector3(Double.NaN, Double.NaN, Double.NaN)
     }
 }
+
+fun Int.toRadians(): Double = toDouble().toRadians()
+fun Double.toDegrees(): Double = (this / PI) * 180
+fun Double.toRadians(): Double = (this / 180) * PI
+
+fun Vector3.toXYZString() = x.toString() + " " + y + " " + z
