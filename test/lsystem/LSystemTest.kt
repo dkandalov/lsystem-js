@@ -2,10 +2,13 @@
 
 package lsystem
 
+import lsystem.THREE.Vector3
+import kotlin.math.PI
+import kotlin.math.roundToInt
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LSystemTest {
+class LSystemTests {
     @Test fun algae_rules() {
         val lSystem = LSystem("A", mapOf(
             'A' to "AB",
@@ -31,7 +34,29 @@ class LSystemTest {
         val outputs = lSystem.produce().take(3).toList()
         outputs expectToEqual listOf("F", "F+F−F−F+F", "F+F−F−F+F+F+F−F−F+F−F+F−F−F+F−F+F−F−F+F+F+F−F−F+F")
     }
+
+    @Test fun interpret_output_as_navigation_commands_in_2d_space() {
+        val halfPi = PI / 2
+        "".toPoints(angle = halfPi) expectToEqual sequenceOf(Vector3(0, 0, 0))
+        "F".toPoints(angle = halfPi) expectToEqual sequenceOf(Vector3(0, 0, 0), Vector3(0, 10, 0))
+
+        // |___|
+        "F+F−F−F+F".toPoints(angle = halfPi).map{ it.roundToInt() } expectToEqual sequenceOf(
+            Vector3(0, 0, 0),
+            Vector3(0, 10, 0),
+            Vector3(-10, 10, 0),
+            Vector3(-20, 10, 0),
+            Vector3(-30, 10, 0),
+            Vector3(-30, 0, 0)
+        )
+    }
 }
 
+private fun Vector3.roundToInt() = Vector3(x.roundToInt(), y.roundToInt(), z.roundToInt())
+
+infix fun Sequence<Vector3>.expectToEqual(expected: Sequence<Vector3>) = assertEquals(
+    expected.map { it.toXYZString() }.toList(),
+    this.map { it.toXYZString() }.toList()
+)
 infix fun <T> T.expectToEqual(expected: T) = assertEquals(expected, this)
 

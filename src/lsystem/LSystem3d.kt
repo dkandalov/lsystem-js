@@ -20,6 +20,50 @@ class LSystem(var axiom: String, var rules: Map<Char, String>) {
     }
 }
 
+fun String.toPoints(
+    angle: Double,
+    stepLength: Double = 10.0,
+    closedPath: Boolean = false
+): Sequence<Vector3> {
+    return buildSequence {
+        val startPoint = Vector3(0, 0, 0)
+        yield(startPoint.clone())
+
+        var angles = Vector3(0, 0, 0)
+        var p = startPoint.clone()
+        val stack = emptyArray<Pair<Vector3, Vector3>>()
+        forEach { c ->
+            when (c) {
+                'F', 'G', 'H', 'I' -> {
+                    val v = Vector3(0, stepLength, 0)
+                    v.applyEuler(THREE.Euler(angles.x, angles.y, angles.z, "XYZ"))
+                    p.add(v)
+                    yield(p.clone())
+                }
+
+                '+' -> angles.z += angle
+                '-' -> angles.z -= angle
+
+                '<' -> angles.x += angle
+                '>' -> angles.x -= angle
+                '|' -> angles.x -= angle * 2
+
+                '^' -> angles.y += angle
+                '&' -> angles.y -= angle
+
+                '[' -> stack.push(Pair(p.clone(), angles.clone()))
+                ']' -> {
+                    val removed = stack.pop()
+                    p = removed.first
+                    angles = removed.second
+                    yield(LSystem3d.emptyVector)
+                }
+            }
+        }
+        if (closedPath) yield(startPoint.clone())
+    }
+}
+
 class LSystem3d(
     var axiom: String,
     var rules: Map<Char, String>,
@@ -83,4 +127,4 @@ fun Int.toRadians(): Double = toDouble().toRadians()
 fun Double.toDegrees(): Double = (this / PI) * 180
 fun Double.toRadians(): Double = (this / 180) * PI
 
-fun Vector3.toXYZString() = x.toString() + " " + y + " " + z
+fun Vector3.toXYZString() = "$x $y $z"
