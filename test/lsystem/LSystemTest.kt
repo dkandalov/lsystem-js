@@ -40,14 +40,16 @@ class LSystemTests {
         "".toPoints(angle = halfPi) expectToEqual sequenceOf(Vector3(0, 0, 0))
         "F".toPoints(angle = halfPi) expectToEqual sequenceOf(Vector3(0, 0, 0), Vector3(0, 10, 0))
 
-        // |___|
-        "F+F−F−F+F".toPoints(angle = halfPi).map{ it.roundToInt() } expectToEqual sequenceOf(
+        //  _|
+        // |_
+        //   |
+        "F+F-F-F+F".toPoints(angle = halfPi).map{ it.roundToInt() } expectToEqual sequenceOf(
             Vector3(0, 0, 0),
             Vector3(0, 10, 0),
             Vector3(-10, 10, 0),
-            Vector3(-20, 10, 0),
-            Vector3(-30, 10, 0),
-            Vector3(-30, 0, 0)
+            Vector3(-10, 20, 0),
+            Vector3(0, 20, 0),
+            Vector3(0, 30, 0)
         )
     }
 }

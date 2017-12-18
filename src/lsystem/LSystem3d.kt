@@ -29,33 +29,33 @@ fun String.toPoints(
         val startPoint = Vector3(0, 0, 0)
         yield(startPoint.clone())
 
-        var angles = Vector3(0, 0, 0)
+        var direction = Vector3(0, 0, 0)
         var p = startPoint.clone()
         val stack = emptyArray<Pair<Vector3, Vector3>>()
         forEach { c ->
             when (c) {
                 'F', 'G', 'H', 'I' -> {
                     val v = Vector3(0, stepLength, 0)
-                    v.applyEuler(THREE.Euler(angles.x, angles.y, angles.z, "XYZ"))
+                    v.applyEuler(THREE.Euler(direction.x, direction.y, direction.z, "XYZ"))
                     p.add(v)
                     yield(p.clone())
                 }
 
-                '+' -> angles.z += angle
-                '-' -> angles.z -= angle
+                '+' -> direction.z += angle
+                '-' -> direction.z -= angle
 
-                '<' -> angles.x += angle
-                '>' -> angles.x -= angle
-                '|' -> angles.x -= angle * 2
+                '<' -> direction.x += angle
+                '>' -> direction.x -= angle
+                '|' -> direction.x -= angle * 2
 
-                '^' -> angles.y += angle
-                '&' -> angles.y -= angle
+                '^' -> direction.y += angle
+                '&' -> direction.y -= angle
 
-                '[' -> stack.push(Pair(p.clone(), angles.clone()))
+                '[' -> stack.push(Pair(p.clone(), direction.clone()))
                 ']' -> {
                     val removed = stack.pop()
                     p = removed.first
-                    angles = removed.second
+                    direction = removed.second
                     yield(LSystem3d.emptyVector)
                 }
             }
