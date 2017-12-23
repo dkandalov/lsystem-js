@@ -19,7 +19,7 @@ import kotlin.math.min
 import kotlin.math.round
 
 /**
- * Translation of https://github.com/mrdoob/three.js/blob/334ab72b4251f5dd0abc5c72a96942d438eae24a/examples/webgl_lines_cubes.html
+ * Based on https://github.com/mrdoob/three.js/blob/334ab72b4251f5dd0abc5c72a96942d438eae24a/examples/webgl_lines_cubes.html
  *
  * Misc links:
  *  - http://www.robertdickau.com/kochsurface.html
@@ -27,6 +27,7 @@ import kotlin.math.round
  *  - http://www.kevs3d.co.uk/dev/lsystems
  *  - http://www.3dfractals.com/docs/3DFractals.pdf
  */
+@JsName("main")
 fun main(window: Window, document: Document) {
     WebUI(window, document).apply {
         init()

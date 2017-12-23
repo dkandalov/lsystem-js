@@ -27,8 +27,7 @@ dependencies {
 
 compileKotlin2Js {
 	kotlinOptions {
-		moduleKind = "commonjs"
-		sourceMapEmbedSources = "always"
+		moduleKind = "umd"
 		sourceMap = true
 		apiVersion = "1.2"
 		languageVersion = "1.2"
@@ -49,10 +48,19 @@ sourceSets {
 	}
 }
 
-[compileKotlin2Js, compileTestKotlin2Js]*.configure {
-	kotlinOptions.moduleKind = "commonjs"
+task copyCompiledJsFile(type: Copy, dependsOn: compileKotlin2Js) {
+	from(compileKotlin2Js.destinationDir.absolutePath + "/dependencies")
+	from(compileKotlin2Js.destinationDir) {
+		include "*.js"
+		exclude "*.meta.js"
+	}
+	into "html/js"
 }
+build.dependsOn copyCompiledJsFile
 
+[compileKotlin2Js, compileTestKotlin2Js]*.configure {
+	kotlinOptions.moduleKind = "umd"
+}
 task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
 	from compileKotlin2Js.destinationDir
 	configurations.testCompile.each {
@@ -60,13 +68,11 @@ task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
 	}
 	into "$buildDir/node_modules"
 }
-
 node {
 	download = true
 }
-
 task installNpmDependencies(type: NpmTask) {
-	args = ["install", "jasmine", "three"]
+	args = ["install"]
 }
 task runJasmine(type: NodeTask, dependsOn: [compileTestKotlin2Js, populateNodeModules, installNpmDependencies]) {
 	script = file("node_modules/jasmine/bin/jasmine.js")

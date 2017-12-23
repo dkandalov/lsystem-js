@@ -5,6 +5,7 @@ package lsystem
 import org.w3c.dom.Node
 
 @JsModule("three")
+@JsNonModule
 external object THREE {
     class PerspectiveCamera(fov: Number, aspect: Double, near: Number, far: Number): Camera {
         var aspect: Double
