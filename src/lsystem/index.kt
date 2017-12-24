@@ -1,6 +1,5 @@
 package lsystem
 
-import lsystem.LSystem3d.Companion.emptyVector
 import lsystem.THREE.Color
 import lsystem.THREE.EffectComposer
 import lsystem.THREE.Geometry
@@ -105,7 +104,7 @@ class WebUI(val window: Window, val document: Document) {
                 .generatePoints()
 //            .onEach { println(it.toXYZString()) }
                 .forEach {
-                    if (it === LSystem3d.emptyVector) {
+                    if (it === nanVector) {
                         scene.add(Line(geometry, lineMaterial))
                         geometry = Geometry()
                     } else {
@@ -298,7 +297,7 @@ class WebUI(val window: Window, val document: Document) {
         }
 
         class ConfigurableLSystem(
-            val value: LSystem3d,
+            val value: LSystem,
             val maxIterations: Int = 9,
             val title: String = "",
             val url: String? = null
@@ -334,7 +333,7 @@ fun List<Vector3>.fitCenteredInto(x1: Double, y1: Double, z1: Double, x2: Double
     val minScale = min(min(width / pointsWidth, height / pointsHeight), depth / pointsDepth)
 
     return this.map {
-        if (it === emptyVector) it
+        if (it === nanVector) it
         else {
             it.multiplyScalar(minScale)
             it.set(

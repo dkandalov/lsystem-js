@@ -3,27 +3,27 @@ package lsystem
 import kotlin.math.PI
 
 
-val kochSnowflake = LSystem3d(
+val kochSnowflake = LSystem(
     axiom = "F--F--F",
     rules = mapOf('F' to "F+F--F+F"),
     angle = PI / 3,
     closedPath = true
 )
 
-val cesaroFractal = LSystem3d(
+val cesaroFractal = LSystem(
     axiom = "F",
     rules = mapOf('F' to "F+F-F-F+F"),
     angle = 85.toRadians()
 )
 
-val quadraticType2Curve = LSystem3d(
+val quadraticType2Curve = LSystem(
     axiom = "F",
     rules = mapOf('F' to "F+F-F-FF+F+F-F"),
     angle = PI / 2
 )
 
 // https://en.wikipedia.org/wiki/Hilbert_curve
-val hilbertCurve = LSystem3d(
+val hilbertCurve = LSystem(
     axiom = "A",
     rules = mapOf(
         'A' to "-BF+AFA+FB-",
@@ -32,7 +32,7 @@ val hilbertCurve = LSystem3d(
     angle = PI / 2
 )
 
-val lindenmayerCurve = LSystem3d(
+val lindenmayerCurve = LSystem(
     axiom = "X",
     rules = mapOf(
         'X' to "XFYFX+F+YFXFY-F-XFYFX",
@@ -42,7 +42,7 @@ val lindenmayerCurve = LSystem3d(
 )
 
 // https://en.wikipedia.org/wiki/Gosper_curve
-val gosperCurve = LSystem3d(
+val gosperCurve = LSystem(
     axiom = "F",
     rules = mapOf(
         'F' to "F-G--G+F++FF+G-",
@@ -52,7 +52,7 @@ val gosperCurve = LSystem3d(
 )
 
 // https://en.wikipedia.org/wiki/Sierpinski_triangle
-val sierpinskiTriangle = LSystem3d(
+val sierpinskiTriangle = LSystem(
     axiom = "F-G-G",
     rules = mapOf(
         'F' to "F-G+F+G-F",
@@ -62,7 +62,7 @@ val sierpinskiTriangle = LSystem3d(
 )
 
 // https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve
-val sierpinskiArrowheadCurve = LSystem3d(
+val sierpinskiArrowheadCurve = LSystem(
     axiom = "F",
     rules = mapOf(
         'F' to "G-F-G",
@@ -72,7 +72,7 @@ val sierpinskiArrowheadCurve = LSystem3d(
 )
 
 // https://en.wikipedia.org/wiki/Dragon_curve
-val dragonCurve = LSystem3d(
+val dragonCurve = LSystem(
     axiom = "FX",
     rules = mapOf(
         'X' to "X+YF+",
@@ -81,7 +81,7 @@ val dragonCurve = LSystem3d(
     angle = PI / 2
 )
 
-val fractalPlant = LSystem3d(
+val fractalPlant = LSystem(
     axiom = "X",
     rules = mapOf(
         'X' to "F[-X][X]F[-X]+FX",
@@ -90,13 +90,13 @@ val fractalPlant = LSystem3d(
     angle = 25.toRadians()
 )
 
-val hilbertCurve3d = LSystem3d(
+val hilbertCurve3d = LSystem(
     axiom = "X",
     rules = mapOf('X' to "^<XF^<XFX-F^>>XFX&F+>>XFX-F>X->"),
     angle = PI / 2
 )
 
-val kochCurve3d = LSystem3d(
+val kochCurve3d = LSystem(
     axiom = "A",
     rules = mapOf(
         'A' to "[[[[F+F-F-F+F]G<G>G>G<G]H-H+H+H-H]I>I<I<I>I]",
