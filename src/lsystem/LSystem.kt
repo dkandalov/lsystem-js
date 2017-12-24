@@ -68,7 +68,8 @@ fun String.toPoints(
                     val removed = stack.pop()
                     p = removed.first
                     direction = removed.second
-                    yield(nanVector)
+                    yield(dontConnectDots)
+                    yield(p.clone())
                 }
             }
         }
@@ -81,5 +82,5 @@ fun Int.toRadians(): Double = toDouble().toRadians()
 fun Double.toDegrees(): Double = (this / PI) * 180
 fun Double.toRadians(): Double = (this / 180) * PI
 
-fun Vector3.toXYZString() = "$x $y $z"
-val nanVector = Vector3(Double.NaN, Double.NaN, Double.NaN)
+fun Vector3.toXYZString() = if (this == dontConnectDots) "dcd" else "$x $y $z"
+val dontConnectDots = Vector3(Double.NaN, Double.NaN, Double.NaN)

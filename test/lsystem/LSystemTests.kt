@@ -59,14 +59,17 @@ class InterpretingLSystemExpressionAsPathTests {
     }
 
     @Test fun push_pop_current_position_and_angle_on_stack() {
-        "[F+F]F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
-            Vector3(0, 0, 0), Vector3(0, 10, 0), Vector3(-10, 10, 0),
-            Vector3(0, 0, 0), Vector3(0, 10, 0)
+        "F[F+F]F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+            Vector3(0, 0, 0), Vector3(0, 10, 0), Vector3(0, 20, 0), Vector3(-10, 20, 0),
+            dontConnectDots, Vector3(0, 10, 0), Vector3(0, 20, 0)
         )
     }
 }
 
-private fun Sequence<Vector3>.roundedToInt() = map { Vector3(it.x.roundToInt(), it.y.roundToInt(), it.z.roundToInt()) }
+private fun Sequence<Vector3>.roundedToInt() = map {
+    if (it == dontConnectDots) it
+    else Vector3(it.x.roundToInt(), it.y.roundToInt(), it.z.roundToInt())
+}
 
 private infix fun Sequence<Vector3>.expectToEqual(expected: Sequence<Vector3>) = assertEquals(
     expected.map { it.toXYZString() }.toList(),

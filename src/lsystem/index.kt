@@ -104,7 +104,7 @@ class WebUI(val window: Window, val document: Document) {
                 .generatePoints()
 //            .onEach { println(it.toXYZString()) }
                 .forEach {
-                    if (it === nanVector) {
+                    if (it === dontConnectDots) {
                         scene.add(Line(geometry, lineMaterial))
                         geometry = Geometry()
                     } else {
@@ -333,7 +333,7 @@ fun List<Vector3>.fitCenteredInto(x1: Double, y1: Double, z1: Double, x2: Double
     val minScale = min(min(width / pointsWidth, height / pointsHeight), depth / pointsDepth)
 
     return this.map {
-        if (it === nanVector) it
+        if (it === dontConnectDots) it
         else {
             it.multiplyScalar(minScale)
             it.set(
