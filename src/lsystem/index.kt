@@ -26,7 +26,7 @@ import kotlin.math.round
  *  - http://www.kevs3d.co.uk/dev/lsystems
  *  - http://www.3dfractals.com/docs/3DFractals.pdf
  */
-@JsName("main")
+@JsName("main") @Suppress("unused")
 fun main(window: Window, document: Document) {
     WebUI(window, document).apply {
         init()
@@ -151,9 +151,9 @@ class WebUI(val window: Window, val document: Document) {
             "c" to { orbitControls.reset() },
             "q" to { applyTheme1() },
             "w" to { applyTheme2() },
-//        "d" to { presenter.debugMode = !presenter.debugMode },
-//        "s" to { presenter.increaseDebugStep() },
-//        "S" to { presenter.decreaseDebugStep() },
+            "d" to { presenter.debugMode = !presenter.debugMode },
+            "s" to { presenter.increaseDebugStep() },
+            "S" to { presenter.decreaseDebugStep() },
             "u" to { window.open(presenter.lSystem.url ?: "")?.focus() }
         )
         return { event ->
@@ -211,6 +211,7 @@ class WebUI(val window: Window, val document: Document) {
         document.body?.style?.background = "#000000"
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun animate(d: Double = 0.0) {
         window.requestAnimationFrame(::animate)
         render()
@@ -243,8 +244,8 @@ class WebUI(val window: Window, val document: Document) {
             ConfigurableLSystem(sierpinskiArrowheadCurve, title = "Sierpinski arrow head triangle", url = "https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve"),
             ConfigurableLSystem(dragonCurve, maxIterations = 14, title = "Dragon curve", url = "https://en.wikipedia.org/wiki/Dragon_curve"),
             ConfigurableLSystem(fractalPlant, title = "Plant", url = "https://en.wikipedia.org/wiki/L-system#Example_7:_Fractal_plant"),
-            ConfigurableLSystem(kochCurve3d, title = "Koch curve 3d", url = "https://github.com/Hiestaa/3D-Lsystem/blob/master/lsystem/KochCurve3D.py")
-//        ConfigurableLSystem(hilbertCurve3d, title = "Hilbert Curve 3d", url = "https://en.wikipedia.org/wiki/Hilbert_curve"),
+            ConfigurableLSystem(kochCurve3d, title = "Koch curve 3d", url = "https://github.com/Hiestaa/3D-Lsystem/blob/master/lsystem/KochCurve3D.py"),
+            ConfigurableLSystem(hilbertCurve3d, title = "Hilbert Curve 3d", url = "https://en.wikipedia.org/wiki/Hilbert_curve")
         )
         var lSystem: ConfigurableLSystem = lSystems.first()
         var debugMode = false

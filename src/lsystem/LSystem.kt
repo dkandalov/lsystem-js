@@ -35,13 +35,14 @@ fun applySubstitutionRules(axiom: String, rules: Map<Char, String>, input: Strin
 fun String.toPoints(
     angle: Double,
     stepLength: Double = 10.0,
-    closedPath: Boolean = false
+    closedPath: Boolean = false,
+    startPoint: Vector3 = Vector3(0, 0, 0),
+    startDirection: Vector3 = Vector3(0, 0, 0)
 ): Sequence<Vector3> {
     return buildSequence {
-        val startPoint = Vector3(0, 0, 0)
         yield(startPoint.clone())
 
-        var direction = Vector3(0, 0, 0)
+        var direction = startDirection
         var p = startPoint.clone()
         val stack = emptyArray<Pair<Vector3, Vector3>>()
         forEach { c ->
@@ -56,12 +57,12 @@ fun String.toPoints(
                 '+' -> direction.z += angle
                 '-' -> direction.z -= angle
 
-                '<' -> direction.x += angle
-                '>' -> direction.x -= angle
-                '|' -> direction.x -= angle * 2
+                '<' -> direction.y += angle
+                '>' -> direction.y -= angle
+                '|' -> direction.y -= angle * 2
 
-                '^' -> direction.y += angle
-                '&' -> direction.y -= angle
+                '^' -> direction.x += angle
+                '&' -> direction.x -= angle
 
                 '[' -> stack.push(Pair(p.clone(), direction.clone()))
                 ']' -> {
@@ -82,5 +83,5 @@ fun Int.toRadians(): Double = toDouble().toRadians()
 fun Double.toDegrees(): Double = (this / PI) * 180
 fun Double.toRadians(): Double = (this / 180) * PI
 
-fun Vector3.toXYZString() = if (this == dontConnectDots) "dcd" else "$x $y $z"
+fun Vector3.toXYZString() = if (this === dontConnectDots) "dcd" else "$x $y $z"
 val dontConnectDots = Vector3(Double.NaN, Double.NaN, Double.NaN)

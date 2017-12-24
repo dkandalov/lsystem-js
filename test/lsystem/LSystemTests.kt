@@ -39,12 +39,14 @@ class SubstitutionRulesTests {
     }
 }
 
-class InterpretingLSystemExpressionAsPathTests {
-    @Test fun interpret_output_as_navigation_commands_in_2d_space() {
+class InterpretationOfLSystemIn2dSpaceTests {
+    @Test fun moving_forward() {
         "".toPoints(angle = PI / 2) expectToEqual sequenceOf(Vector3(0, 0, 0))
         "F".toPoints(angle = PI / 2) expectToEqual sequenceOf(Vector3(0, 0, 0), Vector3(0, 10, 0))
         "FF".toPoints(angle = PI / 2) expectToEqual sequenceOf(Vector3(0, 0, 0), Vector3(0, 10, 0), Vector3(0, 20, 0))
+    }
 
+    @Test fun koch_curve() {
         //  _|
         // |_
         //   |
@@ -66,8 +68,41 @@ class InterpretingLSystemExpressionAsPathTests {
     }
 }
 
+class InterpretationOfLSystemIn3dSpaceTests {
+    @Test fun change_direction_up_and_down() {
+        "F^F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+            Vector3(0, 0, 0),
+            Vector3(0, 10, 0),
+            Vector3(0, 10, 10)
+        )
+        "F&F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+            Vector3(0, 0, 0),
+            Vector3(0, 10, 0),
+            Vector3(0, 10, -10)
+        )
+    }
+
+    @Test fun tilt_left_and_right() {
+        "F>F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+            Vector3(0, 0, 0),
+            Vector3(0, 10, 0),
+            Vector3(0, 20, 0)
+        )
+        "F>+F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+            Vector3(0, 0, 0),
+            Vector3(0, 10, 0),
+            Vector3(0, 10, -10)
+        )
+        "F<+F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+            Vector3(0, 0, 0),
+            Vector3(0, 10, 0),
+            Vector3(0, 10, 10)
+        )
+    }
+}
+
 private fun Sequence<Vector3>.roundedToInt() = map {
-    if (it == dontConnectDots) it
+    if (it === dontConnectDots) it
     else Vector3(it.x.roundToInt(), it.y.roundToInt(), it.z.roundToInt())
 }
 
