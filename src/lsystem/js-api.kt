@@ -6,6 +6,9 @@ import org.w3c.dom.Node
 
 @JsModule("three")
 @JsNonModule
+/**
+ * Use custom bindings because ts2kt doesn't work with threejs typescript bindings (https://github.com/Kotlin/ts2kt/issues/52).
+ */
 external object THREE {
     class PerspectiveCamera(fov: Number, aspect: Double, near: Number, far: Number): Camera {
         var aspect: Double
@@ -60,6 +63,11 @@ external object THREE {
         fun applyEuler(euler: Euler)
         fun add(v: Vector3)
         fun multiplyScalar(i: Number)
+        fun applyQuaternion(quaternion: Quaternion)
+    }
+
+    class Quaternion {
+        fun setFromAxisAngle(vector: Vector3, w: Double)
     }
 
     class LineBasicMaterial(any: dynamic)
