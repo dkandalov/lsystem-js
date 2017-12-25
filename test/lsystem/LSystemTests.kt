@@ -42,62 +42,85 @@ class SubstitutionRulesTests {
 class InterpretationOfLSystemIn2dSpaceTests {
     @Test fun moving_forward() {
         "".toPoints(angle = PI / 2) expectToEqual sequenceOf(Vector3(0, 0, 0))
-        "F".toPoints(angle = PI / 2) expectToEqual sequenceOf(Vector3(0, 0, 0), Vector3(0, 10, 0))
-        "FF".toPoints(angle = PI / 2) expectToEqual sequenceOf(Vector3(0, 0, 0), Vector3(0, 10, 0), Vector3(0, 20, 0))
+        "F".toPoints(angle = PI / 2) expectToEqual sequenceOf(Vector3(0, 0, 0), Vector3(10, 0, 0))
+        "FF".toPoints(angle = PI / 2) expectToEqual sequenceOf(Vector3(0, 0, 0), Vector3(10, 0, 0), Vector3(20, 0, 0))
     }
 
     @Test fun koch_curve() {
-        //  _|
-        // |_
-        //   |
+        //   _
+        // _| |_
         "F+F-F-F+F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
             Vector3(0, 0, 0),
-            Vector3(0, 10, 0),
-            Vector3(-10, 10, 0),
-            Vector3(-10, 20, 0),
-            Vector3(0, 20, 0),
-            Vector3(0, 30, 0)
+            Vector3(10, 0, 0),
+            Vector3(10, 10, 0),
+            Vector3(20, 10, 0),
+            Vector3(20, 0, 0),
+            Vector3(30, 0, 0)
         )
     }
 
     @Test fun push_pop_current_position_and_angle_on_stack() {
         "F[F+F]F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
-            Vector3(0, 0, 0), Vector3(0, 10, 0), Vector3(0, 20, 0), Vector3(-10, 20, 0),
-            dontConnectDots, Vector3(0, 10, 0), Vector3(0, 20, 0)
+            Vector3(0, 0, 0), Vector3(10, 0, 0), Vector3(20, 0, 0), Vector3(20, 10, 0),
+            dontConnectDots, Vector3(10, 0, 0), Vector3(20, 0, 0)
         )
     }
 }
 
 class InterpretationOfLSystemIn3dSpaceTests {
     @Test fun change_direction_up_and_down() {
-        "F^F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+        "F^F^F^F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
             Vector3(0, 0, 0),
-            Vector3(0, 10, 0),
-            Vector3(0, 10, 10)
+            Vector3(10, 0, 0),
+            Vector3(10, 0, -10),
+            Vector3(0, 0, -10),
+            Vector3(0, 0, 0)
         )
-        "F&F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+        "F&F&F&F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
             Vector3(0, 0, 0),
-            Vector3(0, 10, 0),
-            Vector3(0, 10, -10)
+            Vector3(10, 0, 0),
+            Vector3(10, 0, 10),
+            Vector3(0, 0, 10),
+            Vector3(0, 0, 0)
         )
     }
 
-    @Test fun tilt_left_and_right() {
-        "F>F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+    @Test fun tilt_right() {
+        "F>F>F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
             Vector3(0, 0, 0),
-            Vector3(0, 10, 0),
-            Vector3(0, 20, 0)
+            Vector3(10, 0, 0),
+            Vector3(20, 0, 0),
+            Vector3(30, 0, 0)
         )
-        "F>+F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+        //        +
+        //       /|
+        // +->--+ |
+        //        +
+        //
+        "F>+F>+F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
             Vector3(0, 0, 0),
-            Vector3(0, 10, 0),
-            Vector3(0, 10, -10)
+            Vector3(10, 0, 0),
+            Vector3(10, 10, 0),
+            Vector3(10, 10, -10)
         )
-        "F<+F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+        "F>+>+F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
             Vector3(0, 0, 0),
-            Vector3(0, 10, 0),
-            Vector3(0, 10, 10)
+            Vector3(10, 0, 0),
+            Vector3(10, 0, -10)
         )
+    }
+
+    @Test fun a() {
+//        "^<F^<F".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+//            Vector3(0, 0, 0),
+//            Vector3(0, 10, 0),
+//            Vector3(0, 10, 10)
+//        )
+//        "^<XF^<XFX-F^>>XFX&F+>>XFX-F>X->".toPoints(angle = PI / 2).roundedToInt() expectToEqual sequenceOf(
+//            Vector3(0, 0, 0),
+//            Vector3(0, 10, 0),
+//            Vector3(0, 10, 10)
+//        )
     }
 }
 

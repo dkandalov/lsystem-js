@@ -1,5 +1,6 @@
 package lsystem
 
+import lsystem.THREE.Euler
 import lsystem.THREE.Vector3
 import kotlin.coroutines.experimental.buildSequence
 import kotlin.math.PI
@@ -37,40 +38,40 @@ fun String.toPoints(
     stepLength: Double = 10.0,
     closedPath: Boolean = false,
     startPoint: Vector3 = Vector3(0, 0, 0),
-    startDirection: Vector3 = Vector3(0, 0, 0)
+    startDirection: Vector3 = Vector3(1, 0, 0)
 ): Sequence<Vector3> {
     return buildSequence {
         yield(startPoint.clone())
 
-        var direction = startDirection
-        var p = startPoint.clone()
+        var point = startPoint.clone()
+        var v = startDirection.clone()
+        v.multiplyScalar(stepLength)
         val stack = emptyArray<Pair<Vector3, Vector3>>()
+
         forEach { c ->
             when (c) {
                 'F', 'G', 'H', 'I' -> {
-                    val v = Vector3(0, stepLength, 0)
-                    v.applyEuler(THREE.Euler(direction.x, direction.y, direction.z, "XYZ"))
-                    p.add(v)
-                    yield(p.clone())
+                    point.add(v)
+                    yield(point.clone())
                 }
 
-                '+' -> direction.z += angle
-                '-' -> direction.z -= angle
+                '+' -> v.applyEuler(Euler(0, 0, angle, "XYZ"))
+                '-' -> v.applyEuler(Euler(0, 0, -angle, "XYZ"))
 
-                '<' -> direction.y += angle
-                '>' -> direction.y -= angle
-                '|' -> direction.y -= angle * 2
+                '^' -> v.applyEuler(Euler(0, angle, 0, "XYZ"))
+                '&' -> v.applyEuler(Euler(0, -angle, 0, "XYZ"))
 
-                '^' -> direction.x += angle
-                '&' -> direction.x -= angle
+                '<' -> v.applyEuler(Euler(angle, 0, 0, "XYZ"))
+                '>' -> v.applyEuler(Euler(-angle, 0, 0, "XYZ"))
+                '|' -> v.applyEuler(Euler(-2 * angle, 0, 0, "XYZ"))
 
-                '[' -> stack.push(Pair(p.clone(), direction.clone()))
+                '[' -> stack.push(Pair(point.clone(), v.clone()))
                 ']' -> {
                     val removed = stack.pop()
-                    p = removed.first
-                    direction = removed.second
+                    point = removed.first
+                    v = removed.second
                     yield(dontConnectDots)
-                    yield(p.clone())
+                    yield(point.clone())
                 }
             }
         }
