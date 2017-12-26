@@ -23,8 +23,7 @@ class LSystemEditor {
     private var debugStepSize = 1
 
     fun generatePoints(): List<THREE.Vector3> {
-        val points = presenter.generatePoints()
-            .toList().fitCenteredInto(-100.0, -100.0, -100.0, 100.0, 100.0, 100.0)
+        val points = presenter.generatePoints().toList()
         return points.let {
             if (debugMode) it.take(debugStepSize) else it
         }
