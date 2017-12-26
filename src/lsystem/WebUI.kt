@@ -1,5 +1,6 @@
 package lsystem
 
+import lsystem.THREE.Vector3
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.Window
@@ -11,12 +12,12 @@ class WebUI(private val window: Window, private val page: IndexPage) {
     private lateinit var scene: THREE.Scene
     private lateinit var renderer: THREE.WebGLRenderer
     private lateinit var composer: THREE.EffectComposer
+    private lateinit var stats: Stats
     private var windowHalfX = window.innerWidth / 2.0
     private var windowHalfY = window.innerHeight / 2.0
 
     private val material1 = THREE.LineBasicMaterial(object {}.applyDynamic {
         color = 0x000000
-        linewidth = 5.0
         opacity = 1.0
         blending = THREE.AdditiveBlending
         transparent = false
@@ -40,6 +41,8 @@ class WebUI(private val window: Window, private val page: IndexPage) {
             far = 10000.0
         )
         camera.position.set(0, 0, 400)
+        stats = Stats()
+        //container.appendChild(stats.dom)
 
         scene = THREE.Scene()
         renderer = THREE.WebGLRenderer().apply {
@@ -53,39 +56,35 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         }
         applyTheme2()
 
-        val effectFXAA = THREE.ShaderPass(THREE.FXAAShader).applyDynamic {
-            uniforms["resolution"].value.set(1.0 / window.innerWidth, 1.0 / window.innerHeight)
-        }
-        val effectBloom = THREE.BloomPass(1.3)
-        val effectCopy = THREE.ShaderPass(THREE.CopyShader).applyDynamic {
-            renderToScreen = true
-        }
         composer = THREE.EffectComposer(renderer)
         composer.addPass(THREE.RenderPass(scene, camera))
-//    composer.addPass(effectFXAA)
-//    composer.addPass(effectBloom)
-        composer.addPass(effectCopy)
+        composer.addPass(THREE.ShaderPass(THREE.CopyShader).applyDynamic {
+            renderToScreen = true
+        })
 
         val editor = LSystemEditor()
 
         fun generateScene() {
             scene.clear()
 
-            var geometry = THREE.Geometry()
+            val points = Array(0, { Vector3(0, 0, 0) })
             editor
                 .generatePoints()
                 .fitCenteredInto(-100.0, -100.0, -100.0, 100.0, 100.0, 100.0)
-//            .onEach { println(it.toXYZString()) }
                 .forEach {
                     if (it === dontConnectDots) {
-                        scene.add(THREE.Line(geometry, lineMaterial))
-                        geometry = THREE.Geometry()
+                        val bufferGeometry = THREE.BufferGeometry()
+                        bufferGeometry.setFromPoints(points)
+                        scene.add(THREE.Line(bufferGeometry, lineMaterial))
+                        points.clear()
                     } else {
-                        geometry.vertices.push(it)
+                        points.push(it)
                     }
                 }
-            if (geometry.vertices.isNotEmpty()) {
-                scene.add(THREE.Line(geometry, lineMaterial))
+            if (points.isNotEmpty()) {
+                val bufferGeometry = THREE.BufferGeometry()
+                bufferGeometry.setFromPoints(points)
+                scene.add(THREE.Line(bufferGeometry, lineMaterial))
             }
 
             render()
@@ -188,6 +187,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
     fun animate(d: Double = 0.0) {
         window.requestAnimationFrame(::animate)
         render()
+        stats.update()
     }
 
     private fun render() {
@@ -215,14 +215,14 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         }
     }
 
-    private fun List<THREE.Vector3>.fitCenteredInto(x1: Double, y1: Double, z1: Double, x2: Double, y2: Double, z2: Double): List<THREE.Vector3> {
+    private fun List<Vector3>.fitCenteredInto(x1: Double, y1: Double, z1: Double, x2: Double, y2: Double, z2: Double): List<Vector3> {
         require(x1 < x2 && y1 < y2 && z1 < z2)
         val width = x2 - x1
         val height = y2 - y1
         val depth = z2 - z1
 
-        val minPoint = THREE.Vector3(minBy { it.x }!!.x, minBy { it.y }!!.y, minBy { it.z }!!.z)
-        val maxPoint = THREE.Vector3(maxBy { it.x }!!.x, maxBy { it.y }!!.y, maxBy { it.z }!!.z)
+        val minPoint = Vector3(minBy { it.x }!!.x, minBy { it.y }!!.y, minBy { it.z }!!.z)
+        val maxPoint = Vector3(maxBy { it.x }!!.x, maxBy { it.y }!!.y, maxBy { it.z }!!.z)
         val pointsWidth = maxPoint.x - minPoint.x
         val pointsHeight = maxPoint.y - minPoint.y
         val pointsDepth = maxPoint.z - minPoint.z

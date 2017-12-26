@@ -38,10 +38,13 @@ external object THREE {
         fun clear()
     }
 
-    class Geometry {
+    open class Geometry {
         val vertices: Array<Vector3>
     }
-    class BufferGeometry
+    class BufferGeometry : Geometry {
+        fun fromGeometry(geometry: Geometry)
+        fun setFromPoints(geometry: Array<Vector3>)
+    }
 
     interface Camera: Object3D
 
@@ -78,6 +81,7 @@ external object THREE {
         fun clone(): Quaternion
     }
 
+    interface Material
     class LineBasicMaterial(any: dynamic)
     class MeshBasicMaterial(any: dynamic)
 
@@ -97,7 +101,7 @@ external object THREE {
 
     class CubeGeometry(width: Double, height: Double, depth: Double)
 
-    class Mesh(cubeGeometry: CubeGeometry, meshBasicMaterial: MeshBasicMaterial): Object3D {
+    class Mesh(cubeGeometry: CubeGeometry, meshBasicMaterial: Material): Object3D {
         override val scale: Vector3
         override val position: Vector3
         override val children: Array<Object3D>
@@ -135,30 +139,35 @@ external object THREE {
     }
 
     class Color(value: Any)
+    
     class Euler(x: Number, y: Number, z: Number, order: String)
-
 
     open class RenderPass(scene: Scene, camera: Camera)
 
-    class ShaderPass(fxaaShader: dynamic): RenderPass
+    class ShaderPass(shader: dynamic): RenderPass
 
-    class BloomPass(d: Double): RenderPass
+    class BloomPass(strength: Double, kernelSize: Double, sigma: Double, resolution: Double): RenderPass
 
     class EffectComposer(renderer: WebGLRenderer) {
         fun addPass(renderPass: RenderPass)
         fun render()
-
     }
-    val CopyShader: dynamic
 
+    val CopyShader: dynamic
     val FXAAShader: dynamic
+}
+
+external class Stats {
+    val dom: Node
+    fun update()
 }
 
 inline fun <T> Array<T>.push(e: T): Int = asDynamic().push(e)
 inline fun <T> Array<T>.pop(): T = asDynamic().pop()
+inline fun Array<*>.clear() { applyDynamic{ this.length = value } }
 inline val Array<*>.length get() = size
 
-fun <T> T.applyDynamic(f: dynamic.() -> Unit): T {
+inline fun <T> T.applyDynamic(f: dynamic.() -> Unit): T {
     f(this.asDynamic())
     return this
 }

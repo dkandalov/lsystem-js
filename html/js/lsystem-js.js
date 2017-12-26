@@ -15,6 +15,11 @@
 }(this, function (_, Kotlin, $module$three) {
   'use strict';
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
+  var ensureNotNull = Kotlin.ensureNotNull;
+  var throwCCE = Kotlin.throwCCE;
+  var Kind_CLASS = Kotlin.Kind.CLASS;
+  var take = Kotlin.kotlin.sequences.take_wuwhe2$;
+  var last = Kotlin.kotlin.sequences.last_veqyi0$;
   var asIterable = Kotlin.kotlin.text.asIterable_gw00vp$;
   var unboxChar = Kotlin.unboxChar;
   var joinToString = Kotlin.kotlin.collections.joinToString_fmv235$;
@@ -22,82 +27,109 @@
   var CoroutineImpl = Kotlin.kotlin.coroutines.experimental.CoroutineImpl;
   var COROUTINE_SUSPENDED = Kotlin.kotlin.coroutines.experimental.intrinsics.COROUTINE_SUSPENDED;
   var buildSequence = Kotlin.kotlin.coroutines.experimental.buildSequence_of7nec$;
-  var Kind_CLASS = Kotlin.Kind.CLASS;
   var THREE$Vector3 = $module$three.Vector3;
-  var THREE$Euler = $module$three.Euler;
+  var THREE$Quaternion = $module$three.Quaternion;
   var Pair = Kotlin.kotlin.Pair;
-  var take = Kotlin.kotlin.sequences.take_wuwhe2$;
-  var last = Kotlin.kotlin.sequences.last_veqyi0$;
-  var kotlin_js_internal_DoubleCompanionObject = Kotlin.kotlin.js.internal.DoubleCompanionObject;
-  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var math = Kotlin.kotlin.math;
+  var kotlin_js_internal_DoubleCompanionObject = Kotlin.kotlin.js.internal.DoubleCompanionObject;
+  var toList = Kotlin.kotlin.sequences.toList_veqyi0$;
+  var take_0 = Kotlin.kotlin.collections.take_ba2ldo$;
+  var equals = Kotlin.equals;
+  var last_0 = Kotlin.kotlin.collections.last_2p1efm$;
+  var first = Kotlin.kotlin.collections.first_2p1efm$;
+  var round = Kotlin.kotlin.math.round_14dthe$;
+  var listOf = Kotlin.kotlin.collections.listOf_i5x0yv$;
   var throwUPAE = Kotlin.throwUPAE;
-  var throwCCE = Kotlin.throwCCE;
   var THREE$PerspectiveCamera = $module$three.PerspectiveCamera;
   var THREE$Scene = $module$three.Scene;
   var THREE$WebGLRenderer = $module$three.WebGLRenderer;
-  var THREE$ShaderPass = $module$three.ShaderPass;
-  var THREE$BloomPass = $module$three.BloomPass;
   var THREE$EffectComposer = $module$three.EffectComposer;
   var THREE$RenderPass = $module$three.RenderPass;
-  var THREE$Geometry = $module$three.Geometry;
+  var THREE$ShaderPass = $module$three.ShaderPass;
+  var THREE$BufferGeometry = $module$three.BufferGeometry;
   var THREE$Line = $module$three.Line;
   var THREE$OrbitControls = $module$three.OrbitControls;
   var getCallableRef = Kotlin.getCallableRef;
   var to = Kotlin.kotlin.to_ujzrz7$;
   var mapOf = Kotlin.kotlin.collections.mapOf_qfcya0$;
-  var equals = Kotlin.equals;
   var split = Kotlin.kotlin.text.split_ip8yn$;
   var toBoxedChar = Kotlin.toBoxedChar;
   var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
   var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
-  var listOf = Kotlin.kotlin.collections.listOf_i5x0yv$;
   var THREE$Color = $module$three.Color;
-  var toList = Kotlin.kotlin.sequences.toList_veqyi0$;
-  var take_0 = Kotlin.kotlin.collections.take_ba2ldo$;
-  var last_0 = Kotlin.kotlin.collections.last_2p1efm$;
-  var first = Kotlin.kotlin.collections.first_2p1efm$;
-  var round = Kotlin.kotlin.math.round_14dthe$;
   var THREE$LineBasicMaterial = $module$three.LineBasicMaterial;
-  var ensureNotNull = Kotlin.ensureNotNull;
   var defineInlineFunction = Kotlin.defineInlineFunction;
+  var wrapFunction = Kotlin.wrapFunction;
   var mapOf_0 = Kotlin.kotlin.collections.mapOf_x2b85n$;
-  function LSystem(axiom, rules) {
+  function IndexPage(document) {
+    this.body = ensureNotNull(document.body);
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
+    this.content = Kotlin.isType(tmp$ = document.getElementById('content'), Node) ? tmp$ : throwCCE();
+    this.configToolbar = Kotlin.isType(tmp$_0 = document.getElementById('config-toolbar'), HTMLDivElement) ? tmp$_0 : throwCCE();
+    this.axiom = Kotlin.isType(tmp$_1 = document.getElementById('axiom'), HTMLInputElement) ? tmp$_1 : throwCCE();
+    this.rules = Kotlin.isType(tmp$_2 = document.getElementById('rules'), HTMLInputElement) ? tmp$_2 : throwCCE();
+    this.angle = Kotlin.isType(tmp$_3 = document.getElementById('angle'), HTMLInputElement) ? tmp$_3 : throwCCE();
+    this.iterations = Kotlin.isType(tmp$_4 = document.getElementById('iterations'), HTMLInputElement) ? tmp$_4 : throwCCE();
+    this.title = Kotlin.isType(tmp$_5 = document.getElementById('title'), HTMLInputElement) ? tmp$_5 : throwCCE();
+  }
+  IndexPage.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'IndexPage',
+    interfaces: []
+  };
+  function LSystem(axiom, rules, angle, closedPath, stepLength) {
+    if (closedPath === void 0)
+      closedPath = false;
+    if (stepLength === void 0)
+      stepLength = 10.0;
     this.axiom = axiom;
     this.rules = rules;
+    this.angle = angle;
+    this.closedPath = closedPath;
+    this.stepLength = stepLength;
   }
-  function LSystem$produce$lambda$lambda(this$LSystem) {
+  LSystem.prototype.generatePoints_za3lpa$ = function (iterations) {
+    if (iterations === void 0)
+      iterations = 3;
+    return toPoints(last(take(applySubstitutionRules(this.axiom, this.rules), iterations + 1 | 0)), this.angle, this.stepLength, this.closedPath);
+  };
+  LSystem.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'LSystem',
+    interfaces: []
+  };
+  function applySubstitutionRules$lambda$lambda(closure$rules) {
     return function (char) {
       var tmp$;
-      return (tmp$ = this$LSystem.rules.get_11rb$(char)) != null ? tmp$ : String.fromCharCode(unboxChar(char));
+      return (tmp$ = closure$rules.get_11rb$(char)) != null ? tmp$ : String.fromCharCode(unboxChar(char));
     };
   }
-  function LSystem$produce$lambda(closure$input_0, this$LSystem_0) {
+  function applySubstitutionRules$lambda(closure$input_0, closure$rules_0) {
     return function ($receiver_0, continuation_0, suspended) {
-      var instance = new Coroutine$LSystem$produce$lambda(closure$input_0, this$LSystem_0, $receiver_0, this, continuation_0);
+      var instance = new Coroutine$applySubstitutionRules$lambda(closure$input_0, closure$rules_0, $receiver_0, this, continuation_0);
       if (suspended)
         return instance;
       else
         return instance.doResume(null);
     };
   }
-  function Coroutine$LSystem$produce$lambda(closure$input_0, this$LSystem_0, $receiver_0, controller, continuation_0) {
+  function Coroutine$applySubstitutionRules$lambda(closure$input_0, closure$rules_0, $receiver_0, controller, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.$controller = controller;
     this.exceptionState_0 = 1;
     this.local$closure$input = closure$input_0;
-    this.local$this$LSystem = this$LSystem_0;
+    this.local$closure$rules = closure$rules_0;
     this.local$result = void 0;
     this.local$$receiver = $receiver_0;
   }
-  Coroutine$LSystem$produce$lambda.$metadata$ = {
+  Coroutine$applySubstitutionRules$lambda.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
     simpleName: null,
     interfaces: [CoroutineImpl]
   };
-  Coroutine$LSystem$produce$lambda.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$LSystem$produce$lambda.prototype.constructor = Coroutine$LSystem$produce$lambda;
-  Coroutine$LSystem$produce$lambda.prototype.doResume = function () {
+  Coroutine$applySubstitutionRules$lambda.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$applySubstitutionRules$lambda.prototype.constructor = Coroutine$applySubstitutionRules$lambda;
+  Coroutine$applySubstitutionRules$lambda.prototype.doResume = function () {
     do
       try {
         switch (this.state_0) {
@@ -114,7 +146,7 @@
               return COROUTINE_SUSPENDED;
             break;
           case 3:
-            this.local$result = joinToString(asIterable(this.local$result), '', void 0, void 0, void 0, void 0, LSystem$produce$lambda$lambda(this.local$this$LSystem));
+            this.local$result = joinToString(asIterable(this.local$result), '', void 0, void 0, void 0, void 0, applySubstitutionRules$lambda$lambda(this.local$closure$rules));
             this.state_0 = 2;
             continue;
         }
@@ -129,39 +161,37 @@
       }
      while (true);
   };
-  LSystem.prototype.produce_61zpoe$ = function (input) {
+  function applySubstitutionRules(axiom, rules, input) {
     if (input === void 0)
-      input = this.axiom;
-    return buildSequence(LSystem$produce$lambda(input, this));
-  };
-  LSystem.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'LSystem',
-    interfaces: []
-  };
+      input = axiom;
+    return buildSequence(applySubstitutionRules$lambda(input, rules));
+  }
   var iterator = Kotlin.kotlin.text.iterator_gw00vp$;
-  function toPoints$lambda(closure$stepLength_0, closure$angle_0, this$toPoints_0, closure$closedPath_0) {
+  function toPoints$lambda(closure$startPoint_0, closure$startDirection_0, closure$stepLength_0, closure$angle_0, this$toPoints_0, closure$closedPath_0) {
     return function ($receiver_0, continuation_0, suspended) {
-      var instance = new Coroutine$toPoints$lambda(closure$stepLength_0, closure$angle_0, this$toPoints_0, closure$closedPath_0, $receiver_0, this, continuation_0);
+      var instance = new Coroutine$toPoints$lambda(closure$startPoint_0, closure$startDirection_0, closure$stepLength_0, closure$angle_0, this$toPoints_0, closure$closedPath_0, $receiver_0, this, continuation_0);
       if (suspended)
         return instance;
       else
         return instance.doResume(null);
     };
   }
-  function Coroutine$toPoints$lambda(closure$stepLength_0, closure$angle_0, this$toPoints_0, closure$closedPath_0, $receiver_0, controller, continuation_0) {
+  function Coroutine$toPoints$lambda(closure$startPoint_0, closure$startDirection_0, closure$stepLength_0, closure$angle_0, this$toPoints_0, closure$closedPath_0, $receiver_0, controller, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.$controller = controller;
     this.exceptionState_0 = 1;
+    this.local$closure$startPoint = closure$startPoint_0;
+    this.local$closure$startDirection = closure$startDirection_0;
     this.local$closure$stepLength = closure$stepLength_0;
     this.local$closure$angle = closure$angle_0;
     this.local$this$toPoints = this$toPoints_0;
     this.local$closure$closedPath = closure$closedPath_0;
-    this.local$startPoint = void 0;
+    this.local$point = void 0;
+    this.local$step = void 0;
     this.local$direction = void 0;
-    this.local$p = void 0;
     this.local$stack = void 0;
     this.local$tmp$ = void 0;
+    this.local$closure$continuation = void 0;
     this.local$$receiver = $receiver_0;
   }
   Coroutine$toPoints$lambda.$metadata$ = {
@@ -176,103 +206,102 @@
       try {
         switch (this.state_0) {
           case 0:
-            this.local$startPoint = new THREE$Vector3(0, 0, 0);
             this.state_0 = 2;
-            this.result_0 = this.local$$receiver.yield_11rb$(this.local$startPoint.clone(), this);
+            this.result_0 = this.local$$receiver.yield_11rb$(this.local$closure$startPoint.clone(), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
           case 1:
             throw this.exception_0;
           case 2:
-            this.local$direction = {v: new THREE$Vector3(0, 0, 0)};
-            this.local$p = {v: this.local$startPoint.clone()};
+            this.local$point = {v: this.local$closure$startPoint.clone()};
+            this.local$step = this.local$closure$startDirection.clone();
+            this.local$step.multiplyScalar(this.local$closure$stepLength);
+            this.local$direction = {v: new THREE$Quaternion()};
             this.local$stack = [];
             this.local$tmp$ = iterator(this.local$this$toPoints);
             this.state_0 = 3;
             continue;
           case 3:
             if (!this.local$tmp$.hasNext()) {
-              this.state_0 = 16;
+              this.state_0 = 17;
               continue;
             }
 
             var element = unboxChar(this.local$tmp$.next());
-            var closure$stepLength = this.local$closure$stepLength;
+            this.local$closure$continuation = this;
             var closure$angle = this.local$closure$angle;
             var tmp$;
             tmp$ = unboxChar(toBoxedChar(element));
             if (tmp$ === 70 || tmp$ === 71 || tmp$ === 72 || tmp$ === 73) {
-              var v = new THREE$Vector3(0, closure$stepLength, 0);
-              v.applyEuler(new THREE$Euler(this.local$direction.v.x, this.local$direction.v.y, this.local$direction.v.z, 'XYZ'));
-              this.local$p.v.add(v);
-              this.state_0 = 14;
-              this.result_0 = this.local$$receiver.yield_11rb$(this.local$p.v.clone(), this);
+              this.local$point.v.add(this.local$step.clone().applyQuaternion(this.local$direction.v));
+              this.state_0 = 15;
+              this.result_0 = this.local$$receiver.yield_11rb$(this.local$point.v.clone(), this.local$closure$continuation);
               if (this.result_0 === COROUTINE_SUSPENDED)
                 return COROUTINE_SUSPENDED;
               break;
             }
              else {
               if (tmp$ === 43) {
-                this.local$direction.v.z = this.local$direction.v.z + closure$angle;
-                this.state_0 = 13;
+                this.local$direction.v = this.local$direction.v.multiply(rotation(zAxis, closure$angle));
+                this.state_0 = 14;
                 continue;
               }
                else {
                 if (tmp$ === 45) {
-                  this.local$direction.v.z = this.local$direction.v.z - closure$angle;
-                  this.state_0 = 12;
+                  this.local$direction.v = this.local$direction.v.multiply(rotation(zAxis, -closure$angle));
+                  this.state_0 = 13;
                   continue;
                 }
                  else {
-                  if (tmp$ === 60) {
-                    this.local$direction.v.x = this.local$direction.v.x + closure$angle;
-                    this.state_0 = 11;
+                  if (tmp$ === 94) {
+                    this.local$direction.v = this.local$direction.v.multiply(rotation(yAxis, -closure$angle));
+                    this.state_0 = 12;
                     continue;
                   }
                    else {
-                    if (tmp$ === 62) {
-                      this.local$direction.v.x = this.local$direction.v.x - closure$angle;
-                      this.state_0 = 10;
+                    if (tmp$ === 38) {
+                      this.local$direction.v = this.local$direction.v.multiply(rotation(yAxis, closure$angle));
+                      this.state_0 = 11;
                       continue;
                     }
                      else {
-                      if (tmp$ === 124) {
-                        this.local$direction.v.x = this.local$direction.v.x - closure$angle * 2;
-                        this.state_0 = 9;
+                      if (tmp$ === 60) {
+                        this.local$direction.v = this.local$direction.v.multiply(rotation(xAxis, -closure$angle));
+                        this.state_0 = 10;
                         continue;
                       }
                        else {
-                        if (tmp$ === 94) {
-                          this.local$direction.v.y = this.local$direction.v.y + closure$angle;
-                          this.state_0 = 8;
+                        if (tmp$ === 62) {
+                          this.local$direction.v = this.local$direction.v.multiply(rotation(xAxis, closure$angle));
+                          this.state_0 = 9;
                           continue;
                         }
                          else {
-                          if (tmp$ === 38) {
-                            this.local$direction.v.y = this.local$direction.v.y - closure$angle;
-                            this.state_0 = 7;
+                          if (tmp$ === 124) {
+                            this.local$direction.v = this.local$direction.v.multiply(rotation(xAxis, 2 * closure$angle));
+                            this.state_0 = 8;
                             continue;
                           }
                            else {
                             if (tmp$ === 91) {
-                              this.local$stack.push(new Pair(this.local$p.v.clone(), this.local$direction.v.clone()));
-                              this.state_0 = 6;
+                              this.local$stack.push(new Pair(this.local$point.v.clone(), this.local$direction.v.clone()));
+                              this.state_0 = 7;
                               continue;
                             }
                              else {
                               if (tmp$ === 93) {
                                 var removed = this.local$stack.pop();
-                                this.local$p.v = removed.first;
+                                this.local$point.v = removed.first;
                                 this.local$direction.v = removed.second;
                                 this.state_0 = 4;
-                                this.result_0 = this.local$$receiver.yield_11rb$(LSystem3d$Companion_getInstance().emptyVector, this);
+                                this.result_0 = this.local$$receiver.yield_11rb$(dontConnectDots, this.local$closure$continuation);
                                 if (this.result_0 === COROUTINE_SUSPENDED)
                                   return COROUTINE_SUSPENDED;
                                 break;
                               }
                                else {
-                                this.state_0 = 5;
+                                this.state_0 = 6;
                                 continue;
                               }
                             }
@@ -287,240 +316,10 @@
 
           case 4:
             this.state_0 = 5;
-            continue;
-          case 5:
-            this.state_0 = 6;
-            continue;
-          case 6:
-            this.state_0 = 7;
-            continue;
-          case 7:
-            this.state_0 = 8;
-            continue;
-          case 8:
-            this.state_0 = 9;
-            continue;
-          case 9:
-            this.state_0 = 10;
-            continue;
-          case 10:
-            this.state_0 = 11;
-            continue;
-          case 11:
-            this.state_0 = 12;
-            continue;
-          case 12:
-            this.state_0 = 13;
-            continue;
-          case 13:
-            this.state_0 = 15;
-            continue;
-          case 14:
-            this.state_0 = 15;
-            continue;
-          case 15:
-            this.state_0 = 3;
-            continue;
-          case 16:
-            if (this.local$closure$closedPath) {
-              this.state_0 = 17;
-              this.result_0 = this.local$$receiver.yield_11rb$(this.local$startPoint.clone(), this);
-              if (this.result_0 === COROUTINE_SUSPENDED)
-                return COROUTINE_SUSPENDED;
-              break;
-            }
-             else {
-              this.state_0 = 18;
-              continue;
-            }
-
-          case 17:
-            return Unit;
-          case 18:
-            return Unit;
-        }
-      }
-       catch (e) {
-        if (this.state_0 === 1)
-          throw e;
-        else {
-          this.state_0 = this.exceptionState_0;
-          this.exception_0 = e;
-        }
-      }
-     while (true);
-  };
-  function toPoints($receiver, angle, stepLength, closedPath) {
-    if (stepLength === void 0)
-      stepLength = 10.0;
-    if (closedPath === void 0)
-      closedPath = false;
-    return buildSequence(toPoints$lambda(stepLength, angle, $receiver, closedPath));
-  }
-  function LSystem3d(axiom, rules, angle, closedPath, stepLength) {
-    LSystem3d$Companion_getInstance();
-    if (closedPath === void 0)
-      closedPath = false;
-    if (stepLength === void 0)
-      stepLength = 10.0;
-    this.axiom = axiom;
-    this.rules = rules;
-    this.angle = angle;
-    this.closedPath = closedPath;
-    this.stepLength = stepLength;
-  }
-  LSystem3d.prototype.generatePoints_za3lpa$ = function (iterations) {
-    if (iterations === void 0)
-      iterations = 3;
-    return this.toPoints_0(last(take((new LSystem(this.axiom, this.rules)).produce_61zpoe$(), iterations + 1 | 0)), this.stepLength);
-  };
-  function LSystem3d$toPoints$lambda(closure$stepLength_0, this$LSystem3d_0, this$toPoints_0) {
-    return function ($receiver_0, continuation_0, suspended) {
-      var instance = new Coroutine$LSystem3d$toPoints$lambda(closure$stepLength_0, this$LSystem3d_0, this$toPoints_0, $receiver_0, this, continuation_0);
-      if (suspended)
-        return instance;
-      else
-        return instance.doResume(null);
-    };
-  }
-  function Coroutine$LSystem3d$toPoints$lambda(closure$stepLength_0, this$LSystem3d_0, this$toPoints_0, $receiver_0, controller, continuation_0) {
-    CoroutineImpl.call(this, continuation_0);
-    this.$controller = controller;
-    this.exceptionState_0 = 1;
-    this.local$closure$stepLength = closure$stepLength_0;
-    this.local$this$LSystem3d = this$LSystem3d_0;
-    this.local$this$toPoints = this$toPoints_0;
-    this.local$startPoint = void 0;
-    this.local$angles = void 0;
-    this.local$p = void 0;
-    this.local$stack = void 0;
-    this.local$tmp$ = void 0;
-    this.local$$receiver = $receiver_0;
-  }
-  Coroutine$LSystem3d$toPoints$lambda.$metadata$ = {
-    kind: Kotlin.Kind.CLASS,
-    simpleName: null,
-    interfaces: [CoroutineImpl]
-  };
-  Coroutine$LSystem3d$toPoints$lambda.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$LSystem3d$toPoints$lambda.prototype.constructor = Coroutine$LSystem3d$toPoints$lambda;
-  Coroutine$LSystem3d$toPoints$lambda.prototype.doResume = function () {
-    do
-      try {
-        switch (this.state_0) {
-          case 0:
-            this.local$startPoint = new THREE$Vector3(0, 0, 0);
-            this.state_0 = 2;
-            this.result_0 = this.local$$receiver.yield_11rb$(this.local$startPoint.clone(), this);
+            this.result_0 = this.local$$receiver.yield_11rb$(this.local$point.v.clone(), this.local$closure$continuation);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
-          case 1:
-            throw this.exception_0;
-          case 2:
-            this.local$angles = {v: new THREE$Vector3(0, 0, 0)};
-            this.local$p = {v: this.local$startPoint.clone()};
-            this.local$stack = [];
-            this.local$tmp$ = iterator(this.local$this$toPoints);
-            this.state_0 = 3;
-            continue;
-          case 3:
-            if (!this.local$tmp$.hasNext()) {
-              this.state_0 = 16;
-              continue;
-            }
-
-            var element = unboxChar(this.local$tmp$.next());
-            var closure$stepLength = this.local$closure$stepLength;
-            var this$LSystem3d = this.local$this$LSystem3d;
-            var tmp$;
-            tmp$ = unboxChar(toBoxedChar(element));
-            if (tmp$ === 70 || tmp$ === 71 || tmp$ === 72 || tmp$ === 73) {
-              var v = new THREE$Vector3(0, closure$stepLength, 0);
-              v.applyEuler(new THREE$Euler(this.local$angles.v.x, this.local$angles.v.y, this.local$angles.v.z, 'XYZ'));
-              this.local$p.v.add(v);
-              this.state_0 = 14;
-              this.result_0 = this.local$$receiver.yield_11rb$(this.local$p.v.clone(), this);
-              if (this.result_0 === COROUTINE_SUSPENDED)
-                return COROUTINE_SUSPENDED;
-              break;
-            }
-             else {
-              if (tmp$ === 43) {
-                this.local$angles.v.z = this.local$angles.v.z + this$LSystem3d.angle;
-                this.state_0 = 13;
-                continue;
-              }
-               else {
-                if (tmp$ === 45) {
-                  this.local$angles.v.z = this.local$angles.v.z - this$LSystem3d.angle;
-                  this.state_0 = 12;
-                  continue;
-                }
-                 else {
-                  if (tmp$ === 60) {
-                    this.local$angles.v.x = this.local$angles.v.x + this$LSystem3d.angle;
-                    this.state_0 = 11;
-                    continue;
-                  }
-                   else {
-                    if (tmp$ === 62) {
-                      this.local$angles.v.x = this.local$angles.v.x - this$LSystem3d.angle;
-                      this.state_0 = 10;
-                      continue;
-                    }
-                     else {
-                      if (tmp$ === 124) {
-                        this.local$angles.v.x = this.local$angles.v.x - this$LSystem3d.angle * 2;
-                        this.state_0 = 9;
-                        continue;
-                      }
-                       else {
-                        if (tmp$ === 94) {
-                          this.local$angles.v.y = this.local$angles.v.y + this$LSystem3d.angle;
-                          this.state_0 = 8;
-                          continue;
-                        }
-                         else {
-                          if (tmp$ === 38) {
-                            this.local$angles.v.y = this.local$angles.v.y - this$LSystem3d.angle;
-                            this.state_0 = 7;
-                            continue;
-                          }
-                           else {
-                            if (tmp$ === 91) {
-                              this.local$stack.push(new Pair(this.local$p.v.clone(), this.local$angles.v.clone()));
-                              this.state_0 = 6;
-                              continue;
-                            }
-                             else {
-                              if (tmp$ === 93) {
-                                var removed = this.local$stack.pop();
-                                this.local$p.v = removed.first;
-                                this.local$angles.v = removed.second;
-                                this.state_0 = 4;
-                                this.result_0 = this.local$$receiver.yield_11rb$(LSystem3d$Companion_getInstance().emptyVector, this);
-                                if (this.result_0 === COROUTINE_SUSPENDED)
-                                  return COROUTINE_SUSPENDED;
-                                break;
-                              }
-                               else {
-                                this.state_0 = 5;
-                                continue;
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-
-          case 4:
-            this.state_0 = 5;
-            continue;
           case 5:
             this.state_0 = 6;
             continue;
@@ -546,30 +345,33 @@
             this.state_0 = 13;
             continue;
           case 13:
-            this.state_0 = 15;
+            this.state_0 = 14;
             continue;
           case 14:
-            this.state_0 = 15;
+            this.state_0 = 16;
             continue;
           case 15:
-            this.state_0 = 3;
+            this.state_0 = 16;
             continue;
           case 16:
-            if (this.local$this$LSystem3d.closedPath) {
-              this.state_0 = 17;
-              this.result_0 = this.local$$receiver.yield_11rb$(this.local$startPoint.clone(), this);
+            this.state_0 = 3;
+            continue;
+          case 17:
+            if (this.local$closure$closedPath) {
+              this.state_0 = 18;
+              this.result_0 = this.local$$receiver.yield_11rb$(this.local$closure$startPoint.clone(), this);
               if (this.result_0 === COROUTINE_SUSPENDED)
                 return COROUTINE_SUSPENDED;
               break;
             }
              else {
-              this.state_0 = 18;
+              this.state_0 = 19;
               continue;
             }
 
-          case 17:
-            return Unit;
           case 18:
+            return Unit;
+          case 19:
             return Unit;
         }
       }
@@ -583,30 +385,25 @@
       }
      while (true);
   };
-  LSystem3d.prototype.toPoints_0 = function ($receiver, stepLength) {
-    return buildSequence(LSystem3d$toPoints$lambda(stepLength, this, $receiver));
-  };
-  function LSystem3d$Companion() {
-    LSystem3d$Companion_instance = this;
-    this.emptyVector = new THREE$Vector3(kotlin_js_internal_DoubleCompanionObject.NaN, kotlin_js_internal_DoubleCompanionObject.NaN, kotlin_js_internal_DoubleCompanionObject.NaN);
+  function toPoints($receiver, angle, stepLength, closedPath, startPoint, startDirection) {
+    if (stepLength === void 0)
+      stepLength = 10.0;
+    if (closedPath === void 0)
+      closedPath = false;
+    if (startPoint === void 0)
+      startPoint = new THREE$Vector3(0, 0, 0);
+    if (startDirection === void 0)
+      startDirection = new THREE$Vector3(1, 0, 0);
+    return buildSequence(toPoints$lambda(startPoint, startDirection, stepLength, angle, $receiver, closedPath));
   }
-  LSystem3d$Companion.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: 'Companion',
-    interfaces: []
-  };
-  var LSystem3d$Companion_instance = null;
-  function LSystem3d$Companion_getInstance() {
-    if (LSystem3d$Companion_instance === null) {
-      new LSystem3d$Companion();
-    }
-    return LSystem3d$Companion_instance;
+  function rotation(axis, angle) {
+    var $receiver = new THREE$Quaternion();
+    $receiver.setFromAxisAngle(axis, angle);
+    return $receiver;
   }
-  LSystem3d.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'LSystem3d',
-    interfaces: []
-  };
+  var xAxis;
+  var yAxis;
+  var zAxis;
   function toRadians($receiver) {
     return toRadians_0($receiver);
   }
@@ -617,27 +414,132 @@
     return $receiver / 180 * math.PI;
   }
   function toXYZString($receiver) {
-    return $receiver.x.toString() + ' ' + $receiver.y + ' ' + $receiver.z;
+    return $receiver === dontConnectDots ? 'dcd' : $receiver.x.toString() + ' ' + $receiver.y + ' ' + $receiver.z;
   }
-  function main(window_0, document) {
-    var $receiver = new WebUI(window_0, document);
-    $receiver.init();
-    $receiver.animate_14dthe$();
+  function toXYZWString($receiver) {
+    return $receiver.x.toString() + ' ' + $receiver.y + ' ' + $receiver.z + ' ' + $receiver.w;
   }
-  function WebUI(window_0, document) {
-    this.window = window_0;
-    this.document = document;
+  var dontConnectDots;
+  function LSystemEditor() {
+    this.lSystemPresenters_0 = listOf([new LSystemEditor$LSystemPresenter(kochSnowflake, void 0, 'Koch snowflake', 'https://en.wikipedia.org/wiki/Koch_snowflake'), new LSystemEditor$LSystemPresenter(cesaroFractal, void 0, 'Cesaro fractal', 'http://mathworld.wolfram.com/CesaroFractal.html'), new LSystemEditor$LSystemPresenter(quadraticType2Curve, void 0, 'Quadratic type 2', 'https://en.wikipedia.org/wiki/Koch_snowflake#Variants_of_the_Koch_curve'), new LSystemEditor$LSystemPresenter(hilbertCurve, void 0, 'Hilbert curve', 'https://en.wikipedia.org/wiki/Hilbert_curve'), new LSystemEditor$LSystemPresenter(lindenmayerCurve, void 0, 'Lindenmayer curve'), new LSystemEditor$LSystemPresenter(gosperCurve, void 0, 'Gosper curve', 'https://en.wikipedia.org/wiki/Gosper_curve'), new LSystemEditor$LSystemPresenter(sierpinskiTriangle, void 0, 'Sierpinski triangle', 'https://en.wikipedia.org/wiki/Sierpinski_triangle'), new LSystemEditor$LSystemPresenter(sierpinskiArrowheadCurve, void 0, 'Sierpinski arrow head triangle', 'https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve'), new LSystemEditor$LSystemPresenter(dragonCurve, 14, 'Dragon curve', 'https://en.wikipedia.org/wiki/Dragon_curve'), new LSystemEditor$LSystemPresenter(fractalPlant, void 0, 'Plant', 'https://en.wikipedia.org/wiki/L-system#Example_7:_Fractal_plant'), new LSystemEditor$LSystemPresenter(hilbertCurve3d, void 0, 'Hilbert Curve 3d', 'https://math.stackexchange.com/questions/123642/representing-a-3d-hilbert-curve-as-an-l-system')]);
+    this.presenter = first(this.lSystemPresenters_0);
+    this.debugMode = false;
+    this.debugStepSize_0 = 1;
+  }
+  LSystemEditor.prototype.generatePoints = function () {
+    var points = toList(this.presenter.generatePoints());
+    return this.debugMode ? take_0(points, this.debugStepSize_0) : points;
+  };
+  LSystemEditor.prototype.changeLSystem_za3lpa$ = function (direction) {
+    var tmp$;
+    var $receiver = this.lSystemPresenters_0;
+    var indexOfFirst$result;
+    indexOfFirst$break: do {
+      var tmp$_0;
+      var index = 0;
+      tmp$_0 = $receiver.iterator();
+      while (tmp$_0.hasNext()) {
+        var item = tmp$_0.next();
+        if (equals(item.lSystem, this.presenter.lSystem)) {
+          indexOfFirst$result = index;
+          break indexOfFirst$break;
+        }
+        index = index + 1 | 0;
+      }
+      indexOfFirst$result = -1;
+    }
+     while (false);
+    var i = indexOfFirst$result + direction | 0;
+    if (i < 0)
+      tmp$ = last_0(this.lSystemPresenters_0);
+    else if (i >= this.lSystemPresenters_0.size)
+      tmp$ = first(this.lSystemPresenters_0);
+    else
+      tmp$ = this.lSystemPresenters_0.get_za3lpa$(i);
+    this.presenter = tmp$;
+    this.debugMode = false;
+    this.debugStepSize_0 = 0;
+  };
+  LSystemEditor.prototype.changeIterationCount_za3lpa$ = function (increment) {
+    var tmp$;
+    tmp$ = this.presenter;
+    tmp$.iterations = tmp$.iterations + increment | 0;
+    if (this.presenter.iterations > this.presenter.maxIterations) {
+      this.presenter.iterations = this.presenter.maxIterations;
+    }
+    if (this.presenter.iterations <= 0) {
+      this.presenter.iterations = 0;
+    }
+  };
+  LSystemEditor.prototype.increaseDebugStep = function () {
+    if (this.debugMode) {
+      this.debugStepSize_0 = this.debugStepSize_0 + 1 | 0;
+    }
+  };
+  LSystemEditor.prototype.decreaseDebugStep = function () {
+    if (this.debugMode) {
+      this.debugStepSize_0 = this.debugStepSize_0 - 1 | 0;
+    }
+  };
+  LSystemEditor.prototype.changeAngle_14dthe$ = function (value) {
+    var $receiver = this.presenter.lSystem;
+    $receiver.angle = toRadians_0(round(toDegrees($receiver.angle + value)));
+    if ($receiver.angle < 0)
+      $receiver.angle += 2 * math.PI;
+    if ($receiver.angle > 2 * math.PI)
+      $receiver.angle -= 2 * math.PI;
+  };
+  function LSystemEditor$LSystemPresenter(lSystem, maxIterations, title, url) {
+    if (maxIterations === void 0)
+      maxIterations = 9;
+    if (title === void 0)
+      title = '';
+    if (url === void 0)
+      url = null;
+    this.lSystem = lSystem;
+    this.maxIterations = maxIterations;
+    this.title = title;
+    this.url = url;
+    this.iterations = 1;
+  }
+  LSystemEditor$LSystemPresenter.prototype.generatePoints = function () {
+    return this.lSystem.generatePoints_za3lpa$(this.iterations);
+  };
+  LSystemEditor$LSystemPresenter.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'LSystemPresenter',
+    interfaces: []
+  };
+  LSystemEditor.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'LSystemEditor',
+    interfaces: []
+  };
+  function WebUI(window_0, page) {
+    this.window_0 = window_0;
+    this.page_0 = page;
     this.camera_wd379g$_0 = this.camera_wd379g$_0;
     this.scene_2lulix$_0 = this.scene_2lulix$_0;
     this.renderer_otbw2q$_0 = this.renderer_otbw2q$_0;
     this.composer_7cvly7$_0 = this.composer_7cvly7$_0;
-    this.windowHalfX = this.window.innerWidth / 2.0;
-    this.windowHalfY = this.window.innerHeight / 2.0;
-    this.material1 = new THREE$LineBasicMaterial(applyDynamic(new WebUI$material1$ObjectLiteral(), WebUI$material1$lambda));
-    this.material2 = new THREE$LineBasicMaterial(applyDynamic(new WebUI$material2$ObjectLiteral(), WebUI$material2$lambda));
-    this.lineMaterial = this.material1;
+    this.stats_2ckilo$_0 = this.stats_2ckilo$_0;
+    this.windowHalfX_0 = this.window_0.innerWidth / 2.0;
+    this.windowHalfY_0 = this.window_0.innerHeight / 2.0;
+    var $receiver = new WebUI$material1$ObjectLiteral();
+    $receiver.color = 0;
+    $receiver.opacity = 1.0;
+    $receiver.blending = $module$three.AdditiveBlending;
+    $receiver.transparent = false;
+    this.material1_0 = new THREE$LineBasicMaterial($receiver);
+    var $receiver_0 = new WebUI$material2$ObjectLiteral();
+    $receiver_0.color = 16777215;
+    $receiver_0.opacity = 1.0;
+    $receiver_0.blending = $module$three.AdditiveBlending;
+    $receiver_0.transparent = false;
+    this.material2_0 = new THREE$LineBasicMaterial($receiver_0);
+    this.lineMaterial_0 = this.material1_0;
   }
-  Object.defineProperty(WebUI.prototype, 'camera', {
+  Object.defineProperty(WebUI.prototype, 'camera_0', {
     get: function () {
       if (this.camera_wd379g$_0 == null)
         return throwUPAE('camera');
@@ -647,7 +549,7 @@
       this.camera_wd379g$_0 = camera;
     }
   });
-  Object.defineProperty(WebUI.prototype, 'scene', {
+  Object.defineProperty(WebUI.prototype, 'scene_0', {
     get: function () {
       if (this.scene_2lulix$_0 == null)
         return throwUPAE('scene');
@@ -657,7 +559,7 @@
       this.scene_2lulix$_0 = scene;
     }
   });
-  Object.defineProperty(WebUI.prototype, 'renderer', {
+  Object.defineProperty(WebUI.prototype, 'renderer_0', {
     get: function () {
       if (this.renderer_otbw2q$_0 == null)
         return throwUPAE('renderer');
@@ -667,7 +569,7 @@
       this.renderer_otbw2q$_0 = renderer;
     }
   });
-  Object.defineProperty(WebUI.prototype, 'composer', {
+  Object.defineProperty(WebUI.prototype, 'composer_0', {
     get: function () {
       if (this.composer_7cvly7$_0 == null)
         return throwUPAE('composer');
@@ -677,80 +579,91 @@
       this.composer_7cvly7$_0 = composer;
     }
   });
+  Object.defineProperty(WebUI.prototype, 'stats_0', {
+    get: function () {
+      if (this.stats_2ckilo$_0 == null)
+        return throwUPAE('stats');
+      return this.stats_2ckilo$_0;
+    },
+    set: function (stats) {
+      this.stats_2ckilo$_0 = stats;
+    }
+  });
   function WebUI$init$lambda$lambda(closure$child) {
     return function (f) {
       closure$child.focus();
       return Unit;
     };
   }
-  function WebUI$init$lambda(this$WebUI) {
-    return function ($receiver) {
-      $receiver.uniforms['resolution'].value.set(1.0 / this$WebUI.window.innerWidth, 1.0 / this$WebUI.window.innerHeight);
-      return Unit;
-    };
-  }
-  function WebUI$init$lambda_0($receiver) {
-    $receiver.renderToScreen = true;
-    return Unit;
-  }
-  function WebUI$init$generateScene(this$WebUI, closure$presenter) {
+  var Array_0 = Array;
+  function WebUI$init$generateScene(this$WebUI, closure$editor) {
     return function () {
-      this$WebUI.clear_0(this$WebUI.scene);
-      var geometry = {v: new THREE$Geometry()};
-      var $receiver = closure$presenter.generatePoints();
+      this$WebUI.clear_0(this$WebUI.scene_0);
+      var array = Array_0(0);
       var tmp$;
-      tmp$ = $receiver.iterator();
-      while (tmp$.hasNext()) {
-        var element = tmp$.next();
+      tmp$ = array.length - 1 | 0;
+      for (var i = 0; i <= tmp$; i++) {
+        array[i] = new THREE$Vector3(0, 0, 0);
+      }
+      var points = array;
+      var $receiver = this$WebUI.fitCenteredInto_0(closure$editor.generatePoints(), -100.0, -100.0, -100.0, 100.0, 100.0, 100.0);
+      var tmp$_0;
+      tmp$_0 = $receiver.iterator();
+      while (tmp$_0.hasNext()) {
+        var element = tmp$_0.next();
         var this$WebUI_0 = this$WebUI;
-        if (element === LSystem3d$Companion_getInstance().emptyVector) {
-          this$WebUI_0.scene.add(new THREE$Line(geometry.v, this$WebUI_0.lineMaterial));
-          geometry.v = new THREE$Geometry();
+        if (element === dontConnectDots) {
+          var bufferGeometry = new THREE$BufferGeometry();
+          bufferGeometry.setFromPoints(points);
+          this$WebUI_0.scene_0.add(new THREE$Line(bufferGeometry, this$WebUI_0.lineMaterial_0));
+          points.length = points.value;
         }
          else {
-          geometry.v.vertices.push(element);
+          points.push(element);
         }
       }
-      if (!(geometry.v.vertices.length === 0)) {
-        this$WebUI.scene.add(new THREE$Line(geometry.v, this$WebUI.lineMaterial));
+      if (!(points.length === 0)) {
+        var bufferGeometry_0 = new THREE$BufferGeometry();
+        bufferGeometry_0.setFromPoints(points);
+        this$WebUI.scene_0.add(new THREE$Line(bufferGeometry_0, this$WebUI.lineMaterial_0));
       }
       this$WebUI.render_0();
     };
   }
   WebUI.prototype.init = function () {
-    var tmp$;
-    var container = Kotlin.isType(tmp$ = this.document.getElementById('content'), Node) ? tmp$ : throwCCE();
-    this.camera = new THREE$PerspectiveCamera(33.0, this.window.innerWidth / this.window.innerHeight, 1.0, 10000.0);
-    this.camera.position.set(0, 0, 400);
-    this.scene = new THREE$Scene();
+    var container = this.page_0.content;
+    this.camera_0 = new THREE$PerspectiveCamera(33.0, this.window_0.innerWidth / this.window_0.innerHeight, 1.0, 10000.0);
+    this.camera_0.position.set(0, 0, 400);
+    this.stats_0 = new Stats();
+    this.scene_0 = new THREE$Scene();
     var $receiver = new THREE$WebGLRenderer();
-    var tmp$_0;
-    $receiver.setPixelRatio(this.window.devicePixelRatio);
-    $receiver.setSize(this.window.innerWidth, this.window.innerHeight);
-    var child = Kotlin.isType(tmp$_0 = container.appendChild($receiver.domElement), HTMLElement) ? tmp$_0 : throwCCE();
+    var tmp$;
+    $receiver.setPixelRatio(this.window_0.devicePixelRatio);
+    $receiver.setSize(this.window_0.innerWidth, this.window_0.innerHeight);
+    var child = Kotlin.isType(tmp$ = container.appendChild($receiver.domElement), HTMLElement) ? tmp$ : throwCCE();
     child.setAttribute('tabindex', '0');
     child.addEventListener('click', WebUI$init$lambda$lambda(child));
-    this.renderer = $receiver;
+    this.renderer_0 = $receiver;
     this.applyTheme2_0();
-    var effectFXAA = applyDynamic(new THREE$ShaderPass($module$three.FXAAShader), WebUI$init$lambda(this));
-    var effectBloom = new THREE$BloomPass(1.3);
-    var effectCopy = applyDynamic(new THREE$ShaderPass($module$three.CopyShader), WebUI$init$lambda_0);
-    this.composer = new THREE$EffectComposer(this.renderer);
-    this.composer.addPass(new THREE$RenderPass(this.scene, this.camera));
-    this.composer.addPass(effectCopy);
-    var presenter = new WebUI$LSystem3dPresenter();
-    var generateScene = WebUI$init$generateScene(this, presenter);
+    this.composer_0 = new THREE$EffectComposer(this.renderer_0);
+    this.composer_0.addPass(new THREE$RenderPass(this.scene_0, this.camera_0));
+    var tmp$_0 = this.composer_0;
+    var $receiver_0 = new THREE$ShaderPass($module$three.CopyShader);
+    $receiver_0.renderToScreen = true;
+    tmp$_0.addPass($receiver_0);
+    var editor = new LSystemEditor();
+    var generateScene = WebUI$init$generateScene(this, editor);
     generateScene();
-    var orbitControls = new THREE$OrbitControls(this.camera, this.renderer.domElement);
+    var orbitControls = new THREE$OrbitControls(this.camera_0, this.renderer_0.domElement);
     orbitControls.keyPanSpeed = 0.0;
-    this.initConfigToolbar_0(presenter, getCallableRef('generateScene', function () {
+    this.initConfigToolbar_0(editor, getCallableRef('generateScene', function () {
       return generateScene(), Unit;
     }));
-    this.updateConfigToolbar_0(presenter);
-    this.window.addEventListener('resize', getCallableRef('onWindowResize', function ($receiver, event) {
+    this.updateConfigToolbar_0(editor);
+    this.window_0.addEventListener('resize', getCallableRef('onWindowResize', function ($receiver, event) {
       return $receiver.onWindowResize_0(event), Unit;
     }.bind(null, this)), false);
-    this.window.addEventListener('keypress', this.onKeyPress_0(presenter, orbitControls, getCallableRef('generateScene', function () {
+    this.window_0.addEventListener('keypress', this.onKeyPress_0(editor, orbitControls, getCallableRef('generateScene', function () {
       return generateScene(), Unit;
     })));
   };
@@ -760,39 +673,39 @@
       $receiver.remove(children[0]);
     }
   };
-  function WebUI$onKeyPress$lambda(closure$presenter) {
+  function WebUI$onKeyPress$lambda(closure$editor) {
     return function () {
-      closure$presenter.switch_za3lpa$(1);
+      closure$editor.changeLSystem_za3lpa$(1);
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_0(closure$presenter) {
+  function WebUI$onKeyPress$lambda_0(closure$editor) {
     return function () {
-      closure$presenter.switch_za3lpa$(-1);
+      closure$editor.changeLSystem_za3lpa$(-1);
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_1(closure$presenter) {
+  function WebUI$onKeyPress$lambda_1(closure$editor) {
     return function () {
-      closure$presenter.changeIterationCount_za3lpa$(1);
+      closure$editor.changeIterationCount_za3lpa$(1);
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_2(closure$presenter) {
+  function WebUI$onKeyPress$lambda_2(closure$editor) {
     return function () {
-      closure$presenter.changeIterationCount_za3lpa$(-1);
+      closure$editor.changeIterationCount_za3lpa$(-1);
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_3(closure$presenter) {
+  function WebUI$onKeyPress$lambda_3(closure$editor) {
     return function () {
-      closure$presenter.changeAngle_14dthe$(toRadians(5));
+      closure$editor.changeAngle_14dthe$(toRadians(5));
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_4(closure$presenter) {
+  function WebUI$onKeyPress$lambda_4(closure$editor) {
     return function () {
-      closure$presenter.changeAngle_14dthe$(toRadians(-5));
+      closure$editor.changeAngle_14dthe$(toRadians(-5));
       return Unit;
     };
   }
@@ -814,44 +727,62 @@
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_8(this$WebUI, closure$presenter) {
+  function WebUI$onKeyPress$lambda_8(closure$editor) {
     return function () {
-      var tmp$, tmp$_0;
-      return (tmp$_0 = this$WebUI.window.open((tmp$ = closure$presenter.lSystem.url) != null ? tmp$ : '')) != null ? (tmp$_0.focus(), Unit) : null;
+      closure$editor.debugMode = !closure$editor.debugMode;
+      return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_9(this$WebUI, closure$mapping, closure$updateUI, closure$presenter) {
+  function WebUI$onKeyPress$lambda_9(closure$editor) {
+    return function () {
+      closure$editor.increaseDebugStep();
+      return Unit;
+    };
+  }
+  function WebUI$onKeyPress$lambda_10(closure$editor) {
+    return function () {
+      closure$editor.decreaseDebugStep();
+      return Unit;
+    };
+  }
+  function WebUI$onKeyPress$lambda_11(this$WebUI, closure$editor) {
+    return function () {
+      var tmp$, tmp$_0;
+      return (tmp$_0 = this$WebUI.window_0.open((tmp$ = closure$editor.presenter.url) != null ? tmp$ : '')) != null ? (tmp$_0.focus(), Unit) : null;
+    };
+  }
+  function WebUI$onKeyPress$lambda_12(this$WebUI, closure$mapping, closure$updateUI, closure$editor) {
     return function (event) {
       if (Kotlin.isType(event, KeyboardEvent)) {
         if (equals(event.key, '`')) {
-          this$WebUI.toggleConfigToolbar_5oryg$(this$WebUI.document);
+          this$WebUI.toggleConfigToolbar_0();
         }
         if (!Kotlin.isType(event.target, HTMLInputElement)) {
           var action = closure$mapping.get_11rb$(event.key);
           if (action != null) {
             action();
             closure$updateUI();
-            this$WebUI.updateConfigToolbar_0(closure$presenter);
+            this$WebUI.updateConfigToolbar_0(closure$editor);
           }
         }
       }
       return Unit;
     };
   }
-  WebUI.prototype.onKeyPress_0 = function (presenter, orbitControls, updateUI) {
-    var mapping = mapOf([to('n', WebUI$onKeyPress$lambda(presenter)), to('N', WebUI$onKeyPress$lambda_0(presenter)), to('i', WebUI$onKeyPress$lambda_1(presenter)), to('I', WebUI$onKeyPress$lambda_2(presenter)), to('a', WebUI$onKeyPress$lambda_3(presenter)), to('A', WebUI$onKeyPress$lambda_4(presenter)), to('c', WebUI$onKeyPress$lambda_5(orbitControls)), to('q', WebUI$onKeyPress$lambda_6(this)), to('w', WebUI$onKeyPress$lambda_7(this)), to('u', WebUI$onKeyPress$lambda_8(this, presenter))]);
-    return WebUI$onKeyPress$lambda_9(this, mapping, updateUI, presenter);
+  WebUI.prototype.onKeyPress_0 = function (editor, orbitControls, updateUI) {
+    var mapping = mapOf([to('n', WebUI$onKeyPress$lambda(editor)), to('N', WebUI$onKeyPress$lambda_0(editor)), to('i', WebUI$onKeyPress$lambda_1(editor)), to('I', WebUI$onKeyPress$lambda_2(editor)), to('a', WebUI$onKeyPress$lambda_3(editor)), to('A', WebUI$onKeyPress$lambda_4(editor)), to('c', WebUI$onKeyPress$lambda_5(orbitControls)), to('q', WebUI$onKeyPress$lambda_6(this)), to('w', WebUI$onKeyPress$lambda_7(this)), to('d', WebUI$onKeyPress$lambda_8(editor)), to('s', WebUI$onKeyPress$lambda_9(editor)), to('S', WebUI$onKeyPress$lambda_10(editor)), to('u', WebUI$onKeyPress$lambda_11(this, editor))]);
+    return WebUI$onKeyPress$lambda_12(this, mapping, updateUI, editor);
   };
   var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
   var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   var mapCapacity = Kotlin.kotlin.collections.mapCapacity_za3lpa$;
   var coerceAtLeast = Kotlin.kotlin.ranges.coerceAtLeast_dqglrj$;
   var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_xf5xz2$;
-  function WebUI$initConfigToolbar$applyChanges(this$WebUI, closure$presenter, closure$updateUI) {
+  function WebUI$initConfigToolbar$applyChanges(this$WebUI, closure$editor, closure$updateUI) {
     return function () {
-      closure$presenter.lSystem.value.axiom = this$WebUI.inputById_61zpoe$('axiom').value;
-      var tmp$ = closure$presenter.lSystem.value;
-      var $receiver = split(this$WebUI.inputById_61zpoe$('rules').value, ['; ']);
+      closure$editor.presenter.lSystem.axiom = this$WebUI.page_0.axiom.value;
+      var tmp$ = closure$editor.presenter.lSystem;
+      var $receiver = split(this$WebUI.page_0.rules.value, ['; ']);
       var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
       var tmp$_0;
       tmp$_0 = $receiver.iterator();
@@ -869,8 +800,8 @@
         destination_0.put_xwzc9p$(pair.first, pair.second);
       }
       tmp$.rules = destination_0;
-      closure$presenter.lSystem.value.angle = toRadians_0(toDouble(this$WebUI.inputById_61zpoe$('angle').value));
-      closure$presenter.lSystem.iterations = toInt(this$WebUI.inputById_61zpoe$('iterations').value);
+      closure$editor.presenter.lSystem.angle = toRadians_0(toDouble(this$WebUI.page_0.angle.value));
+      closure$editor.presenter.iterations = toInt(this$WebUI.page_0.iterations.value);
       closure$updateUI();
     };
   }
@@ -880,10 +811,10 @@
       return Unit;
     };
   }
-  WebUI.prototype.initConfigToolbar_0 = function (presenter, updateUI) {
-    var applyChanges = WebUI$initConfigToolbar$applyChanges(this, presenter, updateUI);
+  WebUI.prototype.initConfigToolbar_0 = function (editor, updateUI) {
+    var applyChanges = WebUI$initConfigToolbar$applyChanges(this, editor, updateUI);
     var tmp$;
-    tmp$ = listOf([this.inputById_61zpoe$('axiom'), this.inputById_61zpoe$('rules'), this.inputById_61zpoe$('angle'), this.inputById_61zpoe$('iterations')]).iterator();
+    tmp$ = listOf([this.page_0.axiom, this.page_0.rules, this.page_0.angle, this.page_0.iterations]).iterator();
     while (tmp$.hasNext()) {
       var element = tmp$.next();
       element.addEventListener('change', WebUI$initConfigToolbar$lambda$lambda(applyChanges));
@@ -893,184 +824,54 @@
     var $receiver = unboxChar(it.key);
     return String.fromCharCode($receiver) + ' => ' + it.value;
   }
-  WebUI.prototype.updateConfigToolbar_0 = function (presenter) {
-    this.inputById_61zpoe$('title').value = presenter.lSystem.title;
-    this.inputById_61zpoe$('axiom').value = presenter.lSystem.value.axiom;
-    this.inputById_61zpoe$('rules').value = joinToString(presenter.lSystem.value.rules.entries, '; ', void 0, void 0, void 0, void 0, WebUI$updateConfigToolbar$lambda);
-    this.inputById_61zpoe$('angle').value = toDegrees(presenter.lSystem.value.angle).toString();
-    this.inputById_61zpoe$('iterations').value = presenter.lSystem.iterations.toString();
+  WebUI.prototype.updateConfigToolbar_0 = function (editor) {
+    this.page_0.title.value = editor.presenter.title;
+    this.page_0.axiom.value = editor.presenter.lSystem.axiom;
+    this.page_0.rules.value = joinToString(editor.presenter.lSystem.rules.entries, '; ', void 0, void 0, void 0, void 0, WebUI$updateConfigToolbar$lambda);
+    this.page_0.angle.value = toDegrees(editor.presenter.lSystem.angle).toString();
+    this.page_0.iterations.value = editor.presenter.iterations.toString();
   };
   WebUI.prototype.applyTheme1_0 = function () {
-    var tmp$, tmp$_0;
-    this.lineMaterial = this.material1;
-    this.scene.background = new THREE$Color(16777215);
-    (tmp$_0 = (tmp$ = this.document.body) != null ? tmp$.style : null) != null ? (tmp$_0.background = '#ffffff') : null;
+    this.lineMaterial_0 = this.material1_0;
+    this.scene_0.background = new THREE$Color(16777215);
+    this.page_0.body.style.background = '#ffffff';
   };
   WebUI.prototype.applyTheme2_0 = function () {
-    var tmp$, tmp$_0;
-    this.lineMaterial = this.material2;
-    this.scene.background = new THREE$Color(0);
-    (tmp$_0 = (tmp$ = this.document.body) != null ? tmp$.style : null) != null ? (tmp$_0.background = '#000000') : null;
+    this.lineMaterial_0 = this.material2_0;
+    this.scene_0.background = new THREE$Color(0);
+    this.page_0.body.style.background = '#000000';
   };
   WebUI.prototype.animate_14dthe$ = function (d) {
     if (d === void 0)
       d = 0.0;
-    this.window.requestAnimationFrame(getCallableRef('animate', function ($receiver, d) {
+    this.window_0.requestAnimationFrame(getCallableRef('animate', function ($receiver, d) {
       return $receiver.animate_14dthe$(d), Unit;
     }.bind(null, this)));
     this.render_0();
+    this.stats_0.update();
   };
   WebUI.prototype.render_0 = function () {
-    this.composer.render();
+    this.composer_0.render();
   };
   WebUI.prototype.onWindowResize_0 = function (event) {
-    this.windowHalfX = this.window.innerWidth / 2.0;
-    this.windowHalfY = this.window.innerHeight / 2.0;
-    this.camera.aspect = this.window.innerWidth / this.window.innerHeight;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(this.window.innerWidth, this.window.innerHeight);
+    this.windowHalfX_0 = this.window_0.innerWidth / 2.0;
+    this.windowHalfY_0 = this.window_0.innerHeight / 2.0;
+    this.camera_0.aspect = this.window_0.innerWidth / this.window_0.innerHeight;
+    this.camera_0.updateProjectionMatrix();
+    this.renderer_0.setSize(this.window_0.innerWidth, this.window_0.innerHeight);
   };
-  function WebUI$LSystem3dPresenter() {
-    this.lSystems_0 = listOf([new WebUI$LSystem3dPresenter$ConfigurableLSystem(kochSnowflake, void 0, 'Koch snowflake', 'https://en.wikipedia.org/wiki/Koch_snowflake'), new WebUI$LSystem3dPresenter$ConfigurableLSystem(cesaroFractal, void 0, 'Cesaro fractal', 'http://mathworld.wolfram.com/CesaroFractal.html'), new WebUI$LSystem3dPresenter$ConfigurableLSystem(quadraticType2Curve, void 0, 'Quadratic type 2', 'https://en.wikipedia.org/wiki/Koch_snowflake#Variants_of_the_Koch_curve'), new WebUI$LSystem3dPresenter$ConfigurableLSystem(hilbertCurve, void 0, 'Hilbert curve', 'https://en.wikipedia.org/wiki/Hilbert_curve'), new WebUI$LSystem3dPresenter$ConfigurableLSystem(lindenmayerCurve, void 0, 'Lindenmayer curve'), new WebUI$LSystem3dPresenter$ConfigurableLSystem(gosperCurve, void 0, 'Gosper curve', 'https://en.wikipedia.org/wiki/Gosper_curve'), new WebUI$LSystem3dPresenter$ConfigurableLSystem(sierpinskiTriangle, void 0, 'Sierpinski triangle', 'https://en.wikipedia.org/wiki/Sierpinski_triangle'), new WebUI$LSystem3dPresenter$ConfigurableLSystem(sierpinskiArrowheadCurve, void 0, 'Sierpinski arrow head triangle', 'https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve'), new WebUI$LSystem3dPresenter$ConfigurableLSystem(dragonCurve, 14, 'Dragon curve', 'https://en.wikipedia.org/wiki/Dragon_curve'), new WebUI$LSystem3dPresenter$ConfigurableLSystem(fractalPlant, void 0, 'Plant', 'https://en.wikipedia.org/wiki/L-system#Example_7:_Fractal_plant'), new WebUI$LSystem3dPresenter$ConfigurableLSystem(kochCurve3d, void 0, 'Koch curve 3d', 'https://github.com/Hiestaa/3D-Lsystem/blob/master/lsystem/KochCurve3D.py')]);
-    this.lSystem = first(this.lSystems_0);
-    this.debugMode = false;
-    this.debugStepSize_0 = 1;
-  }
-  WebUI$LSystem3dPresenter.prototype.generatePoints = function () {
-    var points = fitCenteredInto(toList(this.lSystem.value.generatePoints_za3lpa$(this.lSystem.iterations)), -100.0, -100.0, -100.0, 100.0, 100.0, 100.0);
-    return this.debugMode ? take_0(points, this.debugStepSize_0) : points;
-  };
-  WebUI$LSystem3dPresenter.prototype.switch_za3lpa$ = function (direction) {
-    var tmp$;
-    var $receiver = this.lSystems_0;
-    var indexOfFirst$result;
-    indexOfFirst$break: do {
-      var tmp$_0;
-      var index = 0;
-      tmp$_0 = $receiver.iterator();
-      while (tmp$_0.hasNext()) {
-        var item = tmp$_0.next();
-        if (equals(item.value, this.lSystem.value)) {
-          indexOfFirst$result = index;
-          break indexOfFirst$break;
-        }
-        index = index + 1 | 0;
-      }
-      indexOfFirst$result = -1;
-    }
-     while (false);
-    var i = indexOfFirst$result + direction | 0;
-    if (i < 0)
-      tmp$ = last_0(this.lSystems_0);
-    else if (i >= this.lSystems_0.size)
-      tmp$ = first(this.lSystems_0);
-    else
-      tmp$ = this.lSystems_0.get_za3lpa$(i);
-    this.lSystem = tmp$;
-    this.debugMode = false;
-    this.debugStepSize_0 = 0;
-  };
-  WebUI$LSystem3dPresenter.prototype.changeIterationCount_za3lpa$ = function (increment) {
-    var tmp$;
-    tmp$ = this.lSystem;
-    tmp$.iterations = tmp$.iterations + increment | 0;
-    if (this.lSystem.iterations > this.lSystem.maxIterations) {
-      this.lSystem.iterations = this.lSystem.maxIterations;
-    }
-    if (this.lSystem.iterations <= 0) {
-      this.lSystem.iterations = 0;
-    }
-  };
-  WebUI$LSystem3dPresenter.prototype.increaseDebugStep = function () {
-    if (this.debugMode) {
-      this.debugStepSize_0 = this.debugStepSize_0 + 1 | 0;
-    }
-  };
-  WebUI$LSystem3dPresenter.prototype.decreaseDebugStep = function () {
-    if (this.debugMode) {
-      this.debugStepSize_0 = this.debugStepSize_0 - 1 | 0;
-    }
-  };
-  WebUI$LSystem3dPresenter.prototype.changeAngle_14dthe$ = function (value) {
-    var $receiver = this.lSystem.value;
-    $receiver.angle = toRadians_0(round(toDegrees($receiver.angle + value)));
-    if ($receiver.angle < 0)
-      $receiver.angle += 2 * math.PI;
-    if ($receiver.angle > 2 * math.PI)
-      $receiver.angle -= 2 * math.PI;
-  };
-  function WebUI$LSystem3dPresenter$ConfigurableLSystem(value, maxIterations, title, url) {
-    if (maxIterations === void 0)
-      maxIterations = 9;
-    if (title === void 0)
-      title = '';
-    if (url === void 0)
-      url = null;
-    this.value = value;
-    this.maxIterations = maxIterations;
-    this.title = title;
-    this.url = url;
-    this.iterations = 1;
-  }
-  WebUI$LSystem3dPresenter$ConfigurableLSystem.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'ConfigurableLSystem',
-    interfaces: []
-  };
-  WebUI$LSystem3dPresenter.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'LSystem3dPresenter',
-    interfaces: []
-  };
-  WebUI.prototype.toggleConfigToolbar_5oryg$ = function (document) {
-    var tmp$;
-    var element = Kotlin.isType(tmp$ = document.getElementById('config-toolbar'), HTMLDivElement) ? tmp$ : throwCCE();
-    if (equals(element.style.display, 'none')) {
-      element.style.display = '';
+  WebUI.prototype.toggleConfigToolbar_0 = function () {
+    var it = this.page_0.configToolbar;
+    if (equals(it.style.display, 'none')) {
+      it.style.display = '';
     }
      else {
-      element.style.display = 'none';
+      it.style.display = 'none';
     }
-  };
-  WebUI.prototype.inputById_61zpoe$ = function (id) {
-    var tmp$;
-    return Kotlin.isType(tmp$ = this.document.getElementById(id), HTMLInputElement) ? tmp$ : throwCCE();
-  };
-  function WebUI$material1$ObjectLiteral() {
-  }
-  WebUI$material1$ObjectLiteral.$metadata$ = {
-    kind: Kind_CLASS,
-    interfaces: []
-  };
-  function WebUI$material1$lambda($receiver) {
-    $receiver.color = 0;
-    $receiver.linewidth = 5.0;
-    $receiver.opacity = 1.0;
-    $receiver.blending = $module$three.AdditiveBlending;
-    $receiver.transparent = false;
-    return Unit;
-  }
-  function WebUI$material2$ObjectLiteral() {
-  }
-  WebUI$material2$ObjectLiteral.$metadata$ = {
-    kind: Kind_CLASS,
-    interfaces: []
-  };
-  function WebUI$material2$lambda($receiver) {
-    $receiver.color = 16777215;
-    $receiver.opacity = 1.0;
-    $receiver.blending = $module$three.AdditiveBlending;
-    $receiver.transparent = false;
-    return Unit;
-  }
-  WebUI.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'WebUI',
-    interfaces: []
   };
   var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException;
   var Math_0 = Math;
-  function fitCenteredInto($receiver, x1, y1, z1, x2, y2, z2) {
+  WebUI.prototype.fitCenteredInto_0 = function ($receiver, x1, y1, z1, x2, y2, z2) {
     if (!(x1 < x2 && y1 < y2 && z1 < z2)) {
       var message = 'Failed requirement.';
       throw new IllegalArgumentException_init(message.toString());
@@ -1219,7 +1020,7 @@
       var item = tmp$_3.next();
       var tmp$_4 = destination.add_11rb$;
       var transform$result;
-      if (item === LSystem3d$Companion_getInstance().emptyVector) {
+      if (item === dontConnectDots) {
         transform$result = item;
       }
        else {
@@ -1230,20 +1031,42 @@
       tmp$_4.call(destination, transform$result);
     }
     return destination;
+  };
+  function WebUI$material1$ObjectLiteral() {
   }
+  WebUI$material1$ObjectLiteral.$metadata$ = {
+    kind: Kind_CLASS,
+    interfaces: []
+  };
+  function WebUI$material2$ObjectLiteral() {
+  }
+  WebUI$material2$ObjectLiteral.$metadata$ = {
+    kind: Kind_CLASS,
+    interfaces: []
+  };
+  WebUI.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'WebUI',
+    interfaces: []
+  };
   var push = defineInlineFunction('lsystem-js.lsystem.push_dxn8qf$', function ($receiver, e) {
     return $receiver.push(e);
   });
   var pop = defineInlineFunction('lsystem-js.lsystem.pop_4b5429$', function ($receiver) {
     return $receiver.pop();
   });
+  var clear = defineInlineFunction('lsystem-js.lsystem.clear_qjns17$', wrapFunction(function () {
+    return function ($receiver) {
+      $receiver.length = $receiver.value;
+    };
+  }));
   var get_length = defineInlineFunction('lsystem-js.lsystem.get_length_qjns17$', function ($receiver) {
     return $receiver.length;
   });
-  function applyDynamic($receiver, f) {
+  var applyDynamic = defineInlineFunction('lsystem-js.lsystem.applyDynamic_isrcn9$', function ($receiver, f) {
     f($receiver);
     return $receiver;
-  }
+  });
   var kochSnowflake;
   var cesaroFractal;
   var quadraticType2Curve;
@@ -1256,27 +1079,35 @@
   var fractalPlant;
   var hilbertCurve3d;
   var kochCurve3d;
+  function main(window_0, document) {
+    var $receiver = new WebUI(window_0, new IndexPage(document));
+    $receiver.init();
+    $receiver.animate_14dthe$();
+  }
   var package$lsystem = _.lsystem || (_.lsystem = {});
+  package$lsystem.IndexPage = IndexPage;
   package$lsystem.LSystem = LSystem;
+  package$lsystem.applySubstitutionRules_5b5ews$ = applySubstitutionRules;
   $$importsForInline$$['lsystem-js'] = _;
-  package$lsystem.toPoints_c1up3s$ = toPoints;
-  Object.defineProperty(LSystem3d, 'Companion', {
-    get: LSystem3d$Companion_getInstance
-  });
-  package$lsystem.LSystem3d = LSystem3d;
+  package$lsystem.toPoints_uehay2$ = toPoints;
   package$lsystem.toRadians_s8ev3n$ = toRadians;
   package$lsystem.toDegrees_yrwdxr$ = toDegrees;
   package$lsystem.toRadians_yrwdxr$ = toRadians_0;
   package$lsystem.toXYZString_6oizvm$ = toXYZString;
-  package$lsystem.main = main;
-  WebUI$LSystem3dPresenter.ConfigurableLSystem = WebUI$LSystem3dPresenter$ConfigurableLSystem;
-  WebUI.LSystem3dPresenter = WebUI$LSystem3dPresenter;
+  package$lsystem.toXYZWString_p9pvvy$ = toXYZWString;
+  Object.defineProperty(package$lsystem, 'dontConnectDots', {
+    get: function () {
+      return dontConnectDots;
+    }
+  });
+  LSystemEditor.LSystemPresenter = LSystemEditor$LSystemPresenter;
+  package$lsystem.LSystemEditor = LSystemEditor;
   package$lsystem.WebUI = WebUI;
-  package$lsystem.fitCenteredInto_xk50sz$ = fitCenteredInto;
   package$lsystem.push_dxn8qf$ = push;
   package$lsystem.pop_4b5429$ = pop;
-  package$lsystem.get_length_qjns17$ = get_length;
   package$lsystem.applyDynamic_isrcn9$ = applyDynamic;
+  package$lsystem.clear_qjns17$ = clear;
+  package$lsystem.get_length_qjns17$ = get_length;
   Object.defineProperty(package$lsystem, 'kochSnowflake', {
     get: function () {
       return kochSnowflake;
@@ -1337,18 +1168,23 @@
       return kochCurve3d;
     }
   });
-  kochSnowflake = new LSystem3d('F--F--F', mapOf_0(to(toBoxedChar(70), 'F+F--F+F')), math.PI / 3, true);
-  cesaroFractal = new LSystem3d('F', mapOf_0(to(toBoxedChar(70), 'F+F-F-F+F')), toRadians(85));
-  quadraticType2Curve = new LSystem3d('F', mapOf_0(to(toBoxedChar(70), 'F+F-F-FF+F+F-F')), math.PI / 2);
-  hilbertCurve = new LSystem3d('A', mapOf([to(toBoxedChar(65), '-BF+AFA+FB-'), to(toBoxedChar(66), '+AF-BFB-FA+')]), math.PI / 2);
-  lindenmayerCurve = new LSystem3d('X', mapOf([to(toBoxedChar(88), 'XFYFX+F+YFXFY-F-XFYFX'), to(toBoxedChar(89), 'YFXFY-F-XFYFX+F+YFXFY')]), math.PI / 2);
-  gosperCurve = new LSystem3d('F', mapOf([to(toBoxedChar(70), 'F-G--G+F++FF+G-'), to(toBoxedChar(71), '+F-GG--G-F++F+G')]), toRadians(60));
-  sierpinskiTriangle = new LSystem3d('F-G-G', mapOf([to(toBoxedChar(70), 'F-G+F+G-F'), to(toBoxedChar(71), 'GG')]), toRadians(120));
-  sierpinskiArrowheadCurve = new LSystem3d('F', mapOf([to(toBoxedChar(70), 'G-F-G'), to(toBoxedChar(71), 'F+G+F')]), math.PI / 3);
-  dragonCurve = new LSystem3d('FX', mapOf([to(toBoxedChar(88), 'X+YF+'), to(toBoxedChar(89), '-FX-Y')]), math.PI / 2);
-  fractalPlant = new LSystem3d('X', mapOf([to(toBoxedChar(88), 'F[-X][X]F[-X]+FX'), to(toBoxedChar(70), 'FF')]), toRadians(25));
-  hilbertCurve3d = new LSystem3d('X', mapOf_0(to(toBoxedChar(88), '^<XF^<XFX-F^>>XFX&F+>>XFX-F>X->')), math.PI / 2);
-  kochCurve3d = new LSystem3d('A', mapOf([to(toBoxedChar(65), '[[[[F+F-F-F+F]G<G>G>G<G]H-H+H+H-H]I>I<I<I>I]'), to(toBoxedChar(70), 'F+F-F-F+F'), to(toBoxedChar(71), 'G<G>G>G<G'), to(toBoxedChar(72), 'H-H+H+H-H'), to(toBoxedChar(73), 'I>I<I<I>I')]), math.PI / 2);
+  package$lsystem.main = main;
+  xAxis = new THREE$Vector3(1, 0, 0);
+  yAxis = new THREE$Vector3(0, 1, 0);
+  zAxis = new THREE$Vector3(0, 0, 1);
+  dontConnectDots = new THREE$Vector3(kotlin_js_internal_DoubleCompanionObject.NaN, kotlin_js_internal_DoubleCompanionObject.NaN, kotlin_js_internal_DoubleCompanionObject.NaN);
+  kochSnowflake = new LSystem('F--F--F', mapOf_0(to(toBoxedChar(70), 'F+F--F+F')), math.PI / 3, true);
+  cesaroFractal = new LSystem('F', mapOf_0(to(toBoxedChar(70), 'F+F-F-F+F')), toRadians(85));
+  quadraticType2Curve = new LSystem('F', mapOf_0(to(toBoxedChar(70), 'F+F-F-FF+F+F-F')), math.PI / 2);
+  hilbertCurve = new LSystem('A', mapOf([to(toBoxedChar(65), '-BF+AFA+FB-'), to(toBoxedChar(66), '+AF-BFB-FA+')]), math.PI / 2);
+  lindenmayerCurve = new LSystem('X', mapOf([to(toBoxedChar(88), 'XFYFX+F+YFXFY-F-XFYFX'), to(toBoxedChar(89), 'YFXFY-F-XFYFX+F+YFXFY')]), math.PI / 2);
+  gosperCurve = new LSystem('F', mapOf([to(toBoxedChar(70), 'F-G--G+F++FF+G-'), to(toBoxedChar(71), '+F-GG--G-F++F+G')]), toRadians(60));
+  sierpinskiTriangle = new LSystem('F-G-G', mapOf([to(toBoxedChar(70), 'F-G+F+G-F'), to(toBoxedChar(71), 'GG')]), toRadians(120));
+  sierpinskiArrowheadCurve = new LSystem('F', mapOf([to(toBoxedChar(70), 'G-F-G'), to(toBoxedChar(71), 'F+G+F')]), math.PI / 3);
+  dragonCurve = new LSystem('FX', mapOf([to(toBoxedChar(88), 'X+YF+'), to(toBoxedChar(89), '-FX-Y')]), math.PI / 2);
+  fractalPlant = new LSystem('+++X', mapOf([to(toBoxedChar(88), 'F[-X][X]F[-X]+FX'), to(toBoxedChar(70), 'FF')]), toRadians(25));
+  hilbertCurve3d = new LSystem('X', mapOf_0(to(toBoxedChar(88), '^<XF^<XFX-F^>>XFX&F+>>XFX-F>X->')), math.PI / 2);
+  kochCurve3d = new LSystem('A', mapOf([to(toBoxedChar(65), '[[[[F+F-F-F+F]G<+G-G-G+G]H-H+H+H-H]I>+I-I-I+I]'), to(toBoxedChar(70), 'F+F-F-F+F'), to(toBoxedChar(71), 'G<+G-G-G+G'), to(toBoxedChar(72), 'H-H+H+H-H'), to(toBoxedChar(73), 'I>+I-I-I+I')]), math.PI / 2);
   Kotlin.defineModule('lsystem-js', _);
   return _;
 }));
