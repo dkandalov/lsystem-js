@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script type="text/javascript" src="js/three.min.js"></script>
     <script type="text/javascript" src="js/OrbitControls.js"></script>
     <script type="text/javascript" src="js/FXAAShader.js"></script>
@@ -19,8 +20,12 @@
             background-color: #000000;
             margin: 0;
             overflow: hidden;
-            font-size: 13px;
-            font-family: "Verdana", serif;
+            font-size: 15px;
+            font-family: 'Nunito', sans-serif;
+        }
+        input {
+            font-size: 15px;
+            font-family: 'Nunito', sans-serif;
         }
 
         #config-toolbar {
@@ -80,7 +85,7 @@ L-System rules syntax:
 <rules> ::= <rule> ["; " <rule>]*
 <rule> ::= <char> " => " <string>
 -->
-<div id="config-toolbar" style="display: none">
+<div id="config-toolbar">
     <label>Title:<input type="text" id="title" readonly/></label>&nbsp;&nbsp;
     <label>Axiom:<input type="text" id="axiom" value="F"/></label>&nbsp;&nbsp;
     <label>Rules:<input type="text" id="rules" value="F => F+F--F+F"/></label>&nbsp;&nbsp;
