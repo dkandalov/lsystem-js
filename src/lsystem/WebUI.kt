@@ -67,7 +67,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         fun generateScene() {
             scene.clear()
 
-            val points = Array(0, { Vector3(0, 0, 0) })
+            var points = Array(0, { Vector3(0, 0, 0) })
             editor
                 .generatePoints()
                 .fitCenteredInto(-100.0, -100.0, -100.0, 100.0, 100.0, 100.0)
@@ -76,7 +76,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
                         val bufferGeometry = THREE.BufferGeometry()
                         bufferGeometry.setFromPoints(points)
                         scene.add(THREE.Line(bufferGeometry, lineMaterial))
-                        points.clear()
+                        points = Array(0, { Vector3(0, 0, 0) })
                     } else {
                         points.push(it)
                     }

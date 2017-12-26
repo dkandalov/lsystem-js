@@ -605,7 +605,7 @@
       for (var i = 0; i <= tmp$; i++) {
         array[i] = new THREE$Vector3(0, 0, 0);
       }
-      var points = array;
+      var points = {v: array};
       var $receiver = this$WebUI.fitCenteredInto_0(closure$editor.generatePoints(), -100.0, -100.0, -100.0, 100.0, 100.0, 100.0);
       var tmp$_0;
       tmp$_0 = $receiver.iterator();
@@ -614,17 +614,23 @@
         var this$WebUI_0 = this$WebUI;
         if (element === dontConnectDots) {
           var bufferGeometry = new THREE$BufferGeometry();
-          bufferGeometry.setFromPoints(points);
+          bufferGeometry.setFromPoints(points.v);
           this$WebUI_0.scene_0.add(new THREE$Line(bufferGeometry, this$WebUI_0.lineMaterial_0));
-          points.length = points.value;
+          var array_0 = Array_0(0);
+          var tmp$_1;
+          tmp$_1 = array_0.length - 1 | 0;
+          for (var i_0 = 0; i_0 <= tmp$_1; i_0++) {
+            array_0[i_0] = new THREE$Vector3(0, 0, 0);
+          }
+          points.v = array_0;
         }
          else {
-          points.push(element);
+          points.v.push(element);
         }
       }
-      if (!(points.length === 0)) {
+      if (!(points.v.length === 0)) {
         var bufferGeometry_0 = new THREE$BufferGeometry();
-        bufferGeometry_0.setFromPoints(points);
+        bufferGeometry_0.setFromPoints(points.v);
         this$WebUI.scene_0.add(new THREE$Line(bufferGeometry_0, this$WebUI.lineMaterial_0));
       }
       this$WebUI.render_0();
