@@ -1,6 +1,6 @@
 package lsystem
 
-import lsystem.THREE.Euler
+import lsystem.THREE.Quaternion
 import lsystem.THREE.Vector3
 import kotlin.coroutines.experimental.buildSequence
 import kotlin.math.PI
@@ -44,32 +44,34 @@ fun String.toPoints(
         yield(startPoint.clone())
 
         var point = startPoint.clone()
-        var v = startDirection.clone()
-        v.multiplyScalar(stepLength)
-        val stack = emptyArray<Pair<Vector3, Vector3>>()
+        val step = startDirection.clone()
+        step.multiplyScalar(stepLength)
+
+        var direction = THREE.Quaternion()
+        val stack = emptyArray<Pair<Vector3, Quaternion>>()
 
         forEach { c ->
             when (c) {
                 'F', 'G', 'H', 'I' -> {
-                    point.add(v)
+                    point.add(step.clone().applyQuaternion(direction))
                     yield(point.clone())
                 }
 
-                '+' -> v.applyEuler(Euler(0, 0, angle, "XYZ"))
-                '-' -> v.applyEuler(Euler(0, 0, -angle, "XYZ"))
+                '+' -> direction = direction.multiply(rotation(zAxis, angle))
+                '-' -> direction = direction.multiply(rotation(zAxis, -angle))
 
-                '^' -> v.applyEuler(Euler(0, angle, 0, "XYZ"))
-                '&' -> v.applyEuler(Euler(0, -angle, 0, "XYZ"))
+                '^' -> direction = direction.multiply(rotation(yAxis, -angle))
+                '&' -> direction = direction.multiply(rotation(yAxis, angle))
 
-                '<' -> v.applyEuler(Euler(angle, 0, 0, "XYZ"))
-                '>' -> v.applyEuler(Euler(-angle, 0, 0, "XYZ"))
-                '|' -> v.applyEuler(Euler(-2 * angle, 0, 0, "XYZ"))
+                '<' -> direction = direction.multiply(rotation(xAxis, -angle))
+                '>' -> direction = direction.multiply(rotation(xAxis, angle))
+                '|' -> direction = direction.multiply(rotation(xAxis, 2 * angle))
 
-                '[' -> stack.push(Pair(point.clone(), v.clone()))
+                '[' -> stack.push(Pair(point.clone(), direction.clone()))
                 ']' -> {
                     val removed = stack.pop()
                     point = removed.first
-                    v = removed.second
+                    direction = removed.second
                     yield(dontConnectDots)
                     yield(point.clone())
                 }
@@ -79,10 +81,17 @@ fun String.toPoints(
     }
 }
 
+private fun rotation(axis: Vector3, angle: Double) =
+    THREE.Quaternion().apply { setFromAxisAngle(axis, angle) }
+
+private val xAxis = Vector3(1, 0, 0)
+private val yAxis = Vector3(0, 1, 0)
+private val zAxis = Vector3(0, 0, 1)
 
 fun Int.toRadians(): Double = toDouble().toRadians()
 fun Double.toDegrees(): Double = (this / PI) * 180
 fun Double.toRadians(): Double = (this / 180) * PI
 
 fun Vector3.toXYZString() = if (this === dontConnectDots) "dcd" else "$x $y $z"
+fun Quaternion.toXYZWString() = "$x $y $z $w"
 val dontConnectDots = Vector3(Double.NaN, Double.NaN, Double.NaN)

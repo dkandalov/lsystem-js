@@ -63,11 +63,19 @@ external object THREE {
         fun applyEuler(euler: Euler)
         fun add(v: Vector3)
         fun multiplyScalar(i: Number)
-        fun applyQuaternion(quaternion: Quaternion)
+        fun applyQuaternion(quaternion: Quaternion): Vector3
     }
 
-    class Quaternion {
+    class Quaternion() {
+        constructor(x: Number, y: Number, z: Number, w: Number)
+        var x: Double
+        var y: Double
+        var z: Double
+        var w: Double
         fun setFromAxisAngle(vector: Vector3, w: Double)
+        fun setFromEuler(euler: Euler)
+        fun multiply(that: Quaternion): Quaternion
+        fun clone(): Quaternion
     }
 
     class LineBasicMaterial(any: dynamic)
