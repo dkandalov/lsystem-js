@@ -22,7 +22,6 @@ val quadraticType2Curve = LSystem(
     angle = PI / 2
 )
 
-// https://en.wikipedia.org/wiki/Hilbert_curve
 val hilbertCurve = LSystem(
     axiom = "A",
     rules = mapOf(
@@ -41,7 +40,6 @@ val lindenmayerCurve = LSystem(
     angle = PI / 2
 )
 
-// https://en.wikipedia.org/wiki/Gosper_curve
 val gosperCurve = LSystem(
     axiom = "F",
     rules = mapOf(
@@ -51,7 +49,6 @@ val gosperCurve = LSystem(
     angle = 60.toRadians()
 )
 
-// https://en.wikipedia.org/wiki/Sierpinski_triangle
 val sierpinskiTriangle = LSystem(
     axiom = "F-G-G",
     rules = mapOf(
@@ -61,7 +58,6 @@ val sierpinskiTriangle = LSystem(
     angle = 120.toRadians()
 )
 
-// https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve
 val sierpinskiArrowheadCurve = LSystem(
     axiom = "F",
     rules = mapOf(
@@ -71,7 +67,6 @@ val sierpinskiArrowheadCurve = LSystem(
     angle = PI / 3
 )
 
-// https://en.wikipedia.org/wiki/Dragon_curve
 val dragonCurve = LSystem(
     axiom = "FX",
     rules = mapOf(
@@ -82,7 +77,7 @@ val dragonCurve = LSystem(
 )
 
 val fractalPlant = LSystem(
-    axiom = "X",
+    axiom = "+++X",
     rules = mapOf(
         'X' to "F[-X][X]F[-X]+FX",
         'F' to "FF"
@@ -99,11 +94,12 @@ val hilbertCurve3d = LSystem(
 val kochCurve3d = LSystem(
     axiom = "A",
     rules = mapOf(
-        'A' to "[[[[F+F-F-F+F]G<G>G>G<G]H-H+H+H-H]I>I<I<I>I]",
+        // [[[[F+F-F-F+F]G<+G-G-G+G]H-H+H+H-H]I>+I-I-I+I]
+        'A' to "[[[[F+F-F-F+F]G<+G-G-G+G]H-H+H+H-H]I>+I-I-I+I]",
         'F' to "F+F-F-F+F",
-        'G' to "G<G>G>G<G",
+        'G' to "G<+G-G-G+G",
         'H' to "H-H+H+H-H",
-        'I' to "I>I<I<I>I"
+        'I' to "I>+I-I-I+I"
     ),
     angle = PI / 2
 )

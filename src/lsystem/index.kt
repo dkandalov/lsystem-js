@@ -244,7 +244,7 @@ class WebUI(val window: Window, val document: Document) {
             ConfigurableLSystem(sierpinskiArrowheadCurve, title = "Sierpinski arrow head triangle", url = "https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve"),
             ConfigurableLSystem(dragonCurve, maxIterations = 14, title = "Dragon curve", url = "https://en.wikipedia.org/wiki/Dragon_curve"),
             ConfigurableLSystem(fractalPlant, title = "Plant", url = "https://en.wikipedia.org/wiki/L-system#Example_7:_Fractal_plant"),
-            ConfigurableLSystem(kochCurve3d, title = "Koch curve 3d", url = "https://github.com/Hiestaa/3D-Lsystem/blob/master/lsystem/KochCurve3D.py"),
+//            ConfigurableLSystem(kochCurve3d, title = "Koch curve 3d", url = "https://github.com/Hiestaa/3D-Lsystem/blob/master/lsystem/KochCurve3D.py"),
             ConfigurableLSystem(hilbertCurve3d, title = "Hilbert Curve 3d", url = "https://math.stackexchange.com/questions/123642/representing-a-3d-hilbert-curve-as-an-l-system")
         )
         var lSystem: ConfigurableLSystem = lSystems.first()
