@@ -13,9 +13,7 @@ import lsystem.THREE.WebGLRenderer
 import org.w3c.dom.*
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
-import kotlin.math.PI
 import kotlin.math.min
-import kotlin.math.round
 
 /**
  * Based on https://github.com/mrdoob/three.js/blob/334ab72b4251f5dd0abc5c72a96942d438eae24a/examples/webgl_lines_cubes.html
@@ -94,13 +92,13 @@ class WebUI(val window: Window, val document: Document) {
 //    composer.addPass(effectBloom)
         composer.addPass(effectCopy)
 
-        val presenter = LSystem3dPresenter()
+        val editor = LSystemEditor()
 
         fun generateScene() {
             scene.clear()
 
             var geometry = Geometry()
-            presenter
+            editor
                 .generatePoints()
 //            .onEach { println(it.toXYZString()) }
                 .forEach {
@@ -122,11 +120,11 @@ class WebUI(val window: Window, val document: Document) {
         val orbitControls = OrbitControls(camera, renderer.domElement)
         orbitControls.keyPanSpeed = 0.0
 
-        initConfigToolbar(presenter, ::generateScene)
-        updateConfigToolbar(presenter)
+        initConfigToolbar(editor, ::generateScene)
+        updateConfigToolbar(editor)
 
         window.addEventListener("resize", ::onWindowResize, false)
-        window.addEventListener("keypress", onKeyPress(presenter, orbitControls, ::generateScene))
+        window.addEventListener("keypress", onKeyPress(editor, orbitControls, ::generateScene))
     }
 
     private fun THREE.Object3D.clear() {
@@ -137,24 +135,24 @@ class WebUI(val window: Window, val document: Document) {
     }
 
     private fun onKeyPress(
-        presenter: LSystem3dPresenter,
+        editor: LSystemEditor,
         orbitControls: OrbitControls,
         updateUI: () -> Unit
     ): (Event) -> Unit {
         val mapping = mapOf(
-            "n" to { presenter.switch(1) },
-            "N" to { presenter.switch(-1) },
-            "i" to { presenter.changeIterationCount(1) },
-            "I" to { presenter.changeIterationCount(-1) },
-            "a" to { presenter.changeAngle(5.toRadians()) },
-            "A" to { presenter.changeAngle((-5).toRadians()) },
+            "n" to { editor.changeLSystem(1) },
+            "N" to { editor.changeLSystem(-1) },
+            "i" to { editor.changeIterationCount(1) },
+            "I" to { editor.changeIterationCount(-1) },
+            "a" to { editor.changeAngle(5.toRadians()) },
+            "A" to { editor.changeAngle((-5).toRadians()) },
             "c" to { orbitControls.reset() },
             "q" to { applyTheme1() },
             "w" to { applyTheme2() },
-            "d" to { presenter.debugMode = !presenter.debugMode },
-            "s" to { presenter.increaseDebugStep() },
-            "S" to { presenter.decreaseDebugStep() },
-            "u" to { window.open(presenter.lSystem.url ?: "")?.focus() }
+            "d" to { editor.debugMode = !editor.debugMode },
+            "s" to { editor.increaseDebugStep() },
+            "S" to { editor.decreaseDebugStep() },
+            "u" to { window.open(editor.presenter.url ?: "")?.focus() }
         )
         return { event ->
             if (event is KeyboardEvent) {
@@ -166,22 +164,22 @@ class WebUI(val window: Window, val document: Document) {
                     if (action != null) {
                         action()
                         updateUI()
-                        updateConfigToolbar(presenter)
+                        updateConfigToolbar(editor)
                     }
                 }
             }
         }
     }
 
-    private fun initConfigToolbar(presenter: LSystem3dPresenter, updateUI: () -> Unit) {
+    private fun initConfigToolbar(editor: LSystemEditor, updateUI: () -> Unit) {
         fun applyChanges() {
-            presenter.lSystem.value.axiom = inputById("axiom").value
-            presenter.lSystem.value.rules = inputById("rules").value
+            editor.presenter.lSystem.axiom = inputById("axiom").value
+            editor.presenter.lSystem.rules = inputById("rules").value
                 .split("; ")
                 .map { it.split(" => ") }
                 .associate { Pair(it[0][0], it[1]) }
-            presenter.lSystem.value.angle = inputById("angle").value.toDouble().toRadians()
-            presenter.lSystem.iterations = inputById("iterations").value.toInt()
+            editor.presenter.lSystem.angle = inputById("angle").value.toDouble().toRadians()
+            editor.presenter.iterations = inputById("iterations").value.toInt()
 
             updateUI()
         }
@@ -190,13 +188,13 @@ class WebUI(val window: Window, val document: Document) {
         }
     }
 
-    private fun updateConfigToolbar(presenter: LSystem3dPresenter) {
-        inputById("title").value = presenter.lSystem.title
-        inputById("axiom").value = presenter.lSystem.value.axiom
-        inputById("rules").value = presenter.lSystem.value.rules
+    private fun updateConfigToolbar(editor: LSystemEditor) {
+        inputById("title").value = editor.presenter.title
+        inputById("axiom").value = editor.presenter.lSystem.axiom
+        inputById("rules").value = editor.presenter.lSystem.rules
             .entries.joinToString("; ") { it.key + " => " + it.value }
-        inputById("angle").value = presenter.lSystem.value.angle.toDegrees().toString()
-        inputById("iterations").value = presenter.lSystem.iterations.toString()
+        inputById("angle").value = editor.presenter.lSystem.angle.toDegrees().toString()
+        inputById("iterations").value = editor.presenter.iterations.toString()
     }
 
     private fun applyTheme1() {
@@ -230,81 +228,6 @@ class WebUI(val window: Window, val document: Document) {
         camera.updateProjectionMatrix()
 
         renderer.setSize(window.innerWidth, window.innerHeight)
-    }
-
-    class LSystem3dPresenter {
-        private val lSystems = listOf(
-            ConfigurableLSystem(kochSnowflake, title = "Koch snowflake", url = "https://en.wikipedia.org/wiki/Koch_snowflake"),
-            ConfigurableLSystem(cesaroFractal, title = "Cesaro fractal", url = "http://mathworld.wolfram.com/CesaroFractal.html"),
-            ConfigurableLSystem(quadraticType2Curve, title = "Quadratic type 2", url = "https://en.wikipedia.org/wiki/Koch_snowflake#Variants_of_the_Koch_curve"),
-            ConfigurableLSystem(hilbertCurve, title = "Hilbert curve", url = "https://en.wikipedia.org/wiki/Hilbert_curve"),
-            ConfigurableLSystem(lindenmayerCurve, title = "Lindenmayer curve"),
-            ConfigurableLSystem(gosperCurve, title = "Gosper curve", url = "https://en.wikipedia.org/wiki/Gosper_curve"),
-            ConfigurableLSystem(sierpinskiTriangle, title = "Sierpinski triangle", url = "https://en.wikipedia.org/wiki/Sierpinski_triangle"),
-            ConfigurableLSystem(sierpinskiArrowheadCurve, title = "Sierpinski arrow head triangle", url = "https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve"),
-            ConfigurableLSystem(dragonCurve, maxIterations = 14, title = "Dragon curve", url = "https://en.wikipedia.org/wiki/Dragon_curve"),
-            ConfigurableLSystem(fractalPlant, title = "Plant", url = "https://en.wikipedia.org/wiki/L-system#Example_7:_Fractal_plant"),
-//            ConfigurableLSystem(kochCurve3d, title = "Koch curve 3d", url = "https://github.com/Hiestaa/3D-Lsystem/blob/master/lsystem/KochCurve3D.py"),
-            ConfigurableLSystem(hilbertCurve3d, title = "Hilbert Curve 3d", url = "https://math.stackexchange.com/questions/123642/representing-a-3d-hilbert-curve-as-an-l-system")
-        )
-        var lSystem: ConfigurableLSystem = lSystems.first()
-        var debugMode = false
-        private var debugStepSize = 1
-
-        fun generatePoints(): List<Vector3> {
-            val points = lSystem.value
-                .generatePoints(lSystem.iterations)
-                .toList().fitCenteredInto(-100.0, -100.0, -100.0, 100.0, 100.0, 100.0)
-            return points.let {
-                if (debugMode) it.take(debugStepSize) else it
-            }
-        }
-
-        fun switch(direction: Int) {
-            val i = lSystems.indexOfFirst { it.value == lSystem.value } + direction
-            lSystem = when {
-                i < 0 -> lSystems.last()
-                i >= lSystems.size -> lSystems.first()
-                else -> lSystems[i]
-            }
-            debugMode = false
-            debugStepSize = 0
-        }
-
-        fun changeIterationCount(increment: Int) {
-            lSystem.iterations += increment
-            if (lSystem.iterations > lSystem.maxIterations) {
-                lSystem.iterations = lSystem.maxIterations
-            }
-            if (lSystem.iterations <= 0) {
-                lSystem.iterations = 0
-            }
-        }
-
-        fun increaseDebugStep() {
-            if (debugMode) debugStepSize++
-        }
-
-        fun decreaseDebugStep() {
-            if (debugMode) debugStepSize--
-        }
-
-        fun changeAngle(value: Double) {
-            lSystem.value.apply {
-                angle = round((angle + value).toDegrees()).toRadians()
-                if (angle < 0) angle += 2 * PI
-                if (angle > 2 * PI) angle -= 2 * PI
-            }
-        }
-
-        class ConfigurableLSystem(
-            val value: LSystem,
-            val maxIterations: Int = 9,
-            val title: String = "",
-            val url: String? = null
-        ) {
-            var iterations: Int = 1
-        }
     }
 
     fun toggleConfigToolbar(document: Document) {
