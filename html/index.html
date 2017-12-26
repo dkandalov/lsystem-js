@@ -23,6 +23,7 @@
             font-size: 15px;
             font-family: 'Nunito', sans-serif;
         }
+
         input {
             font-size: 15px;
             font-family: 'Nunito', sans-serif;
@@ -37,6 +38,32 @@
             width: 99%
         }
 
+        #show-help {
+            position: absolute;
+            top: 4px;
+            right: 7px;
+        }
+
+        #help-wrapper {
+            position: absolute;
+            top: 70px;
+            text-align: center;
+            margin: 2px 2px 2px 0.5%;
+            width: 99%
+        }
+
+        #help {
+            text-align: left;
+            background: aliceblue;
+            display: inline-block;
+            width: auto;
+            padding: 20px;
+        }
+
+        #help ul {
+            list-style-type: none;
+        }
+
         #axiom {
             width: 60px;
         }
@@ -48,53 +75,77 @@
         #angle {
             width: 35px;
         }
-        
+
         #iterations {
             width: 25px;
         }
     </style>
 </head>
 <body>
-<!--
-Shortcuts (work when focus is outside of text inputs):
-` - toggle toolbar (to change one of the L-System inputs, modify it in the textbox and press enter)
-n - next L-System
-N - previous L-System
-u - open URL associated with the current L-System
-i - increase amount of iterations
-I - decrease amount of iterations
-a - increase angle by 5 degrees
-A - decrease angle by 5 degrees
-q - white/black colors
-w - black/white colors
-c - reset 3d navigation to original position
-drag mouse - rotate object in space
-ctrl+cmd drag mouse - move object in space
-mouse scroll - zoom in/out
-
-Interpretation of L-System output:
-FGHI - draw a line in current direction (note that the path will be closed by connecting the first and last point)
-other letters - no action; only used for substitution rules
-[ - push current position and angle on stack
-] - pop current position and angle from stack
-+- - rotate around Z axis (clockwise/counter-clockwise in 2d space)
-^& - rotate around Y axis
-<> - rotate around X axis
-
-L-System rules syntax:
-<rules> ::= <rule> ["; " <rule>]*
-<rule> ::= <char> " => " <string>
--->
 <div id="config-toolbar">
     <label>Title:<input type="text" id="title" readonly/></label>&nbsp;&nbsp;
     <label>Axiom:<input type="text" id="axiom" value="F"/></label>&nbsp;&nbsp;
     <label>Rules:<input type="text" id="rules" value="F => F+F--F+F"/></label>&nbsp;&nbsp;
     <label>Angle:<input type="text" id="angle" value="60"/></label>&nbsp;&nbsp;
     <label>Iterations:<input type="text" id="iterations" value="2"/></label>&nbsp;&nbsp;
+    <a id="show-help" href="#">Show Help</a>
 </div>
+<div id="help-wrapper">
+    <div id="help" style="display: none">
+        Shortcuts (work when focus is outside of text inputs):
+        <ul>
+            <li><b>`</b> - toggle toolbar (to change one of the L-System inputs, modify it in the textbox and press
+                enter)
+            </li>
+            <li><b>n</b> - next L-System</li>
+            <li><b>N</b> - previous L-System</li>
+            <li><b>u</b> - open URL associated with the current L-System</li>
+            <li><b>i</b> - increase amount of iterations</li>
+            <li><b>I</b> - decrease amount of iterations</li>
+            <li><b>a</b> - increase angle by 5 degrees</li>
+            <li><b>A</b> - decrease angle by 5 degrees</li>
+            <li><b>q</b> - white/black colors</li>
+            <li><b>w</b> - black/white colors</li>
+            <li><b>c</b> - reset 3d navigation to original position</li>
+            <li><b>drag mouse</b> - rotate object in space</li>
+            <li><b>ctrl+cmd drag mouse</b> - move object in space</li>
+            <li><b>mouse scroll</b> - zoom in/out</li>
+        </ul>
+        Interpretation of L-System output:
+        <ul>
+            <li><b>FGHI</b> - draw a line in current direction (note that the path will be closed by connecting the
+                first and last point)
+            </li>
+            <li><b>other letters</b> - no action; only used for substitution rules</li>
+            <li><b>[</b> - push current position and angle on stack</li>
+            <li><b>]</b> - pop current position and angle from stack</li>
+            <li><b>+-</b> - rotate around Z axis (clockwise/counter-clockwise in 2d space)</li>
+            <li><b>^&</b> - rotate around Y axis</li>
+            <li><b><></b> - rotate around X axis</li>
+        </ul>
+        L-System rules syntax:
+        <ul>
+            <li>&lt;rules&gt; ::= &lt;rule&gt; ["; " &lt;rule&gt;]*</li>
+            <li>&lt;rule&gt; ::= &lt;char&gt; " =&gt; " &lt;string&gt;</li>
+        </ul>
+    </div>
+</div>
+
 <div id="content"></div>
 </body>
 <script>
     this["lsystem-js"].lsystem.main(window, document);
+
+    let showHelp = document.getElementById("show-help");
+    showHelp.addEventListener("click", function() {
+        let it = document.getElementById("help");
+        if (it.style.display === "none") {
+            it.style.display = "";
+            showHelp.text = "Hide Help";
+        } else {
+            it.style.display = "none";
+            showHelp.text = "Show Help";
+        }
+    });
 </script>
 </html>
