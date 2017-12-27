@@ -43,6 +43,7 @@
   var THREE$PerspectiveCamera = $module$three.PerspectiveCamera;
   var THREE$Scene = $module$three.Scene;
   var THREE$WebGLRenderer = $module$three.WebGLRenderer;
+  var numberToInt = Kotlin.numberToInt;
   var THREE$EffectComposer = $module$three.EffectComposer;
   var THREE$RenderPass = $module$three.RenderPass;
   var THREE$ShaderPass = $module$three.ShaderPass;
@@ -57,6 +58,7 @@
   var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
   var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
   var THREE$Color = $module$three.Color;
+  var Triple = Kotlin.kotlin.Triple;
   var THREE$LineBasicMaterial = $module$three.LineBasicMaterial;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var wrapFunction = Kotlin.wrapFunction;
@@ -523,8 +525,6 @@
     this.renderer_otbw2q$_0 = this.renderer_otbw2q$_0;
     this.composer_7cvly7$_0 = this.composer_7cvly7$_0;
     this.stats_2ckilo$_0 = this.stats_2ckilo$_0;
-    this.windowHalfX_0 = this.window_0.innerWidth / 2.0;
-    this.windowHalfY_0 = this.window_0.innerHeight / 2.0;
     var $receiver = new WebUI$material1$ObjectLiteral();
     $receiver.color = 0;
     $receiver.opacity = 1.0;
@@ -589,9 +589,9 @@
       this.stats_2ckilo$_0 = stats;
     }
   });
-  function WebUI$init$lambda$lambda(closure$child) {
+  function WebUI$init$lambda$lambda(closure$canvas) {
     return function (f) {
-      closure$child.focus();
+      closure$canvas.focus();
       return Unit;
     };
   }
@@ -636,27 +636,36 @@
       this$WebUI.render_0();
     };
   }
+  function WebUI$init$lambda(this$WebUI) {
+    return function (f) {
+      this$WebUI.onWindowResize_0();
+      return Unit;
+    };
+  }
   WebUI.prototype.init = function () {
-    var container = this.page_0.content;
-    this.camera_0 = new THREE$PerspectiveCamera(33.0, this.window_0.innerWidth / this.window_0.innerHeight, 1.0, 10000.0);
+    var tmp$ = this.calcRenderingSizes_0();
+    var width = tmp$.component1()
+    , height = tmp$.component2()
+    , aspect = tmp$.component3();
+    this.camera_0 = new THREE$PerspectiveCamera(33.0, aspect, 1.0, 10000.0);
     this.camera_0.position.set(0, 0, 400);
     this.stats_0 = new Stats();
     this.scene_0 = new THREE$Scene();
     var $receiver = new THREE$WebGLRenderer();
-    var tmp$;
+    var tmp$_0;
+    var canvas = Kotlin.isType(tmp$_0 = this.page_0.content.appendChild($receiver.domElement), HTMLElement) ? tmp$_0 : throwCCE();
+    canvas.setAttribute('tabindex', '0');
+    canvas.addEventListener('click', WebUI$init$lambda$lambda(canvas));
     $receiver.setPixelRatio(this.window_0.devicePixelRatio);
-    $receiver.setSize(this.window_0.innerWidth, this.window_0.innerHeight);
-    var child = Kotlin.isType(tmp$ = container.appendChild($receiver.domElement), HTMLElement) ? tmp$ : throwCCE();
-    child.setAttribute('tabindex', '0');
-    child.addEventListener('click', WebUI$init$lambda$lambda(child));
+    $receiver.setSize(numberToInt(width), height);
     this.renderer_0 = $receiver;
     this.applyTheme2_0();
     this.composer_0 = new THREE$EffectComposer(this.renderer_0);
     this.composer_0.addPass(new THREE$RenderPass(this.scene_0, this.camera_0));
-    var tmp$_0 = this.composer_0;
+    var tmp$_1 = this.composer_0;
     var $receiver_0 = new THREE$ShaderPass($module$three.CopyShader);
     $receiver_0.renderToScreen = true;
-    tmp$_0.addPass($receiver_0);
+    tmp$_1.addPass($receiver_0);
     var editor = new LSystemEditor();
     var generateScene = WebUI$init$generateScene(this, editor);
     generateScene();
@@ -666,9 +675,7 @@
       return generateScene(), Unit;
     }));
     this.updateConfigToolbar_0(editor);
-    this.window_0.addEventListener('resize', getCallableRef('onWindowResize', function ($receiver, event) {
-      return $receiver.onWindowResize_0(event), Unit;
-    }.bind(null, this)), false);
+    this.window_0.addEventListener('resize', WebUI$init$lambda(this), false);
     this.window_0.addEventListener('keypress', this.onKeyPress_0(editor, orbitControls, getCallableRef('generateScene', function () {
       return generateScene(), Unit;
     })));
@@ -859,12 +866,21 @@
   WebUI.prototype.render_0 = function () {
     this.composer_0.render();
   };
-  WebUI.prototype.onWindowResize_0 = function (event) {
-    this.windowHalfX_0 = this.window_0.innerWidth / 2.0;
-    this.windowHalfY_0 = this.window_0.innerHeight / 2.0;
-    this.camera_0.aspect = this.window_0.innerWidth / this.window_0.innerHeight;
+  WebUI.prototype.onWindowResize_0 = function () {
+    var tmp$ = this.calcRenderingSizes_0();
+    var width = tmp$.component1()
+    , height = tmp$.component2()
+    , aspect = tmp$.component3();
+    this.camera_0.aspect = aspect;
     this.camera_0.updateProjectionMatrix();
-    this.renderer_0.setSize(this.window_0.innerWidth, this.window_0.innerHeight);
+    this.renderer_0.setSize(numberToInt(width), height);
+  };
+  WebUI.prototype.calcRenderingSizes_0 = function () {
+    var toolbarWidth = equals(this.page_0.configToolbar.style.display, 'none') ? 0.0 : this.page_0.configToolbar.getBoundingClientRect().width;
+    var width = this.window_0.innerWidth - toolbarWidth;
+    var height = this.window_0.innerHeight;
+    var aspect = width / height;
+    return new Triple(width, height, aspect);
   };
   WebUI.prototype.toggleConfigToolbar_0 = function () {
     var it = this.page_0.configToolbar;
@@ -874,6 +890,7 @@
      else {
       it.style.display = 'none';
     }
+    this.onWindowResize_0();
   };
   var IllegalArgumentException_init = Kotlin.kotlin.IllegalArgumentException;
   var Math_0 = Math;

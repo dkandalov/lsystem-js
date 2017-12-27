@@ -13,8 +13,6 @@ class WebUI(private val window: Window, private val page: IndexPage) {
     private lateinit var renderer: THREE.WebGLRenderer
     private lateinit var composer: THREE.EffectComposer
     private lateinit var stats: Stats
-    private var windowHalfX = window.innerWidth / 2.0
-    private var windowHalfY = window.innerHeight / 2.0
 
     private val material1 = THREE.LineBasicMaterial(object {}.applyDynamic {
         color = 0x000000
@@ -30,29 +28,23 @@ class WebUI(private val window: Window, private val page: IndexPage) {
     })
     private var lineMaterial = material1
 
-
     fun init() {
-        val container = page.content
+        val (width, height, aspect) = calcRenderingSizes()
 
-        camera = THREE.PerspectiveCamera(
-            fov = 33.0,
-            aspect = window.innerWidth.toDouble() / window.innerHeight,
-            near = 1.0,
-            far = 10000.0
-        )
+        camera = THREE.PerspectiveCamera(fov = 33.0, aspect = aspect, near = 1.0, far = 10000.0)
         camera.position.set(0, 0, 400)
         stats = Stats()
         //container.appendChild(stats.dom)
 
         scene = THREE.Scene()
         renderer = THREE.WebGLRenderer().apply {
-            setPixelRatio(window.devicePixelRatio)
-            setSize(window.innerWidth, window.innerHeight)
-            val child = container.appendChild(this.domElement) as HTMLElement
-            child.setAttribute("tabindex", "0")
-            child.addEventListener("click", { _ ->
-                child.focus() // Need this to make canvas take focus on mouse click.
+            val canvas = page.content.appendChild(this.domElement) as HTMLElement
+            canvas.setAttribute("tabindex", "0")
+            canvas.addEventListener("click", { _ ->
+                canvas.focus() // Need this to make canvas take focus on mouse click.
             })
+            setPixelRatio(window.devicePixelRatio)
+            setSize(width.toInt(), height)
         }
         applyTheme2()
 
@@ -97,7 +89,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         initConfigToolbar(editor, ::generateScene)
         updateConfigToolbar(editor)
 
-        window.addEventListener("resize", ::onWindowResize, false)
+        window.addEventListener("resize", { _ -> onWindowResize() }, false)
         window.addEventListener("keypress", onKeyPress(editor, orbitControls, ::generateScene))
     }
 
@@ -194,15 +186,23 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         composer.render()
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    private fun onWindowResize(event: Event) {
-        windowHalfX = window.innerWidth / 2.0
-        windowHalfY = window.innerHeight / 2.0
-
-        camera.aspect = window.innerWidth / window.innerHeight.toDouble()
+    private fun onWindowResize() {
+        val (width, height, aspect) = calcRenderingSizes()
+        camera.aspect = aspect
         camera.updateProjectionMatrix()
+        renderer.setSize(width.toInt(), height)
+    }
 
-        renderer.setSize(window.innerWidth, window.innerHeight)
+    private fun calcRenderingSizes(): Triple<Double, Int, Double> {
+        val toolbarWidth =
+            if (page.configToolbar.style.display == "none")
+                0.0 else page.configToolbar.getBoundingClientRect().width
+
+        val width = window.innerWidth - toolbarWidth
+        val height = window.innerHeight
+        val aspect = width / height
+
+        return Triple(width, height, aspect)
     }
 
     private fun toggleConfigToolbar() {
@@ -213,6 +213,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
                 it.style.display = "none"
             }
         }
+        onWindowResize()
     }
 
     private fun List<Vector3>.fitCenteredInto(x1: Double, y1: Double, z1: Double, x2: Double, y2: Double, z2: Double): List<Vector3> {

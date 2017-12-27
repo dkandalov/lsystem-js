@@ -14,28 +14,33 @@
 
     <script type="text/javascript" src="js/kotlin.js"></script>
     <script type="text/javascript" src="js/lsystem-js.js"></script>
-    <title>🎄🤖</title>
+    <title>🤖🐢</title>
     <style>
         body {
             background-color: #000000;
             margin: 0;
             overflow: hidden;
-            font-size: 15px;
+            font-size: 16px;
             font-family: 'Nunito', sans-serif;
         }
 
         input {
-            font-size: 15px;
+            font-size: 16px;
             font-family: 'Nunito', sans-serif;
         }
 
         #config-toolbar {
-            position: absolute;
-            text-align: center;
+            float: left;
+            width: 30vw;
+            height: 100vh;
+            display: inline-block;
+            position: relative;
+            text-align: left;
             background: aliceblue;
-            margin: 2px 2px 2px 0.5%;
-            border: 1px black;
-            width: 99%
+        }
+
+        #config-toolbar .form-field {
+            padding: 10px;
         }
 
         #show-help {
@@ -82,14 +87,18 @@
     </style>
 </head>
 <body>
-<div id="config-toolbar">
-    <label>Title:<input type="text" id="title" readonly/></label>&nbsp;&nbsp;
-    <label>Axiom:<input type="text" id="axiom" value="F"/></label>&nbsp;&nbsp;
-    <label>Rules:<input type="text" id="rules" value="F => F+F--F+F"/></label>&nbsp;&nbsp;
-    <label>Angle:<input type="text" id="angle" value="60"/></label>&nbsp;&nbsp;
-    <label>Iterations:<input type="text" id="iterations" value="2"/></label>&nbsp;&nbsp;
-    <a id="show-help" href="#">Show Help</a>
+
+<div id="content">
+    <div id="config-toolbar">
+        <div class="form-field"><label>Title:<input type="text" id="title" readonly/></label></div>
+        <div class="form-field"><label>Axiom:<input type="text" id="axiom" value="F"/></label></div>
+        <div class="form-field"><label>Rules:<input type="text" id="rules" value="F => F+F--F+F"/></label></div>
+        <div class="form-field"><label>Angle:<input type="text" id="angle" value="60"/></label></div>
+        <div class="form-field"><label>Iterations:<input type="text" id="iterations" value="2"/></label></div>
+        <a id="show-help" href="#">Show Help</a>
+    </div>
 </div>
+
 <div id="help-wrapper">
     <div id="help" style="display: none">
         Shortcuts (work when focus is outside of text inputs):
@@ -130,8 +139,6 @@
         </ul>
     </div>
 </div>
-
-<div id="content"></div>
 </body>
 <script>
     this["lsystem-js"].lsystem.main(window, document);
