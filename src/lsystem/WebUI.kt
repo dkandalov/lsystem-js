@@ -86,18 +86,11 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         val orbitControls = THREE.OrbitControls(camera, renderer.domElement)
         orbitControls.keyPanSpeed = 0.0
 
-        initConfigToolbar(editor, ::generateScene)
-        updateConfigToolbar(editor)
+        init(editor, ::generateScene)
+        update(editor)
 
         window.addEventListener("resize", { _ -> onWindowResize() }, false)
         window.addEventListener("keypress", onKeyPress(editor, orbitControls, ::generateScene))
-    }
-
-    private fun THREE.Object3D.clear() {
-        while (children.length > 0) {
-            val children: dynamic = children
-            remove(children[0])
-        }
     }
 
     private fun onKeyPress(
@@ -123,21 +116,21 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         return { event ->
             if (event is KeyboardEvent) {
                 if (event.key == "`") {
-                    toggleConfigToolbar()
+                    toggleLSystemEditor()
                 }
                 if (event.target !is HTMLInputElement) {
                     val action = mapping[event.key]
                     if (action != null) {
                         action()
                         updateUI()
-                        updateConfigToolbar(editor)
+                        update(editor)
                     }
                 }
             }
         }
     }
 
-    private fun initConfigToolbar(editor: LSystemEditor, updateUI: () -> Unit) {
+    private fun init(editor: LSystemEditor, updateUI: () -> Unit) {
         fun applyChanges() {
             editor.presenter.lSystem.axiom = page.axiom.value
             editor.presenter.lSystem.rules = page.rules.value
@@ -150,11 +143,11 @@ class WebUI(private val window: Window, private val page: IndexPage) {
             updateUI()
         }
         listOf(page.axiom, page.rules, page.angle, page.iterations).forEach {
-            it.addEventListener("change", { _ -> applyChanges() })
+            it.addEventListener("input", { _ -> applyChanges() })
         }
     }
 
-    private fun updateConfigToolbar(editor: LSystemEditor) {
+    private fun update(editor: LSystemEditor) {
         page.title.value = editor.presenter.title
         page.axiom.value = editor.presenter.lSystem.axiom
         page.rules.value = editor.presenter.lSystem.rules
@@ -194,19 +187,19 @@ class WebUI(private val window: Window, private val page: IndexPage) {
     }
 
     private fun calcRenderingSizes(): Triple<Double, Int, Double> {
-        val toolbarWidth =
-            if (page.configToolbar.style.display == "none")
-                0.0 else page.configToolbar.getBoundingClientRect().width
+        val editorWidth =
+            if (page.lSystemEditor.style.display == "none")
+                0.0 else page.lSystemEditor.getBoundingClientRect().width
 
-        val width = window.innerWidth - toolbarWidth
+        val width = window.innerWidth - editorWidth
         val height = window.innerHeight
         val aspect = width / height
 
         return Triple(width, height, aspect)
     }
 
-    private fun toggleConfigToolbar() {
-        page.configToolbar.let {
+    private fun toggleLSystemEditor() {
+        page.lSystemEditor.let {
             if (it.style.display == "none") {
                 it.style.display = ""
             } else {
@@ -214,6 +207,14 @@ class WebUI(private val window: Window, private val page: IndexPage) {
             }
         }
         onWindowResize()
+    }
+
+    @Suppress("UnsafeCastFromDynamic")
+    private fun THREE.Object3D.clear() {
+        while (children.length > 0) {
+            val children: dynamic = children
+            remove(children[0])
+        }
     }
 
     private fun List<Vector3>.fitCenteredInto(x1: Double, y1: Double, z1: Double, x2: Double, y2: Double, z2: Double): List<Vector3> {

@@ -8,7 +8,7 @@ import org.w3c.dom.Node
 class IndexPage(document: Document) {
     val body = document.body!!
     val content = document.getElementById("content") as Node
-    val configToolbar = document.getElementById("config-toolbar") as HTMLDivElement
+    val lSystemEditor = document.getElementById("lsystem-editor") as HTMLDivElement
     val axiom = document.getElementById("axiom") as HTMLInputElement
     val rules = document.getElementById("rules") as HTMLInputElement
     val angle = document.getElementById("angle") as HTMLInputElement
