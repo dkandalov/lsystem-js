@@ -24,11 +24,6 @@
             font-family: 'Nunito', sans-serif;
         }
 
-        input {
-            font-size: 16px;
-            font-family: 'Nunito', sans-serif;
-        }
-
         #config-toolbar {
             float: left;
             width: 30vw;
@@ -36,17 +31,24 @@
             display: inline-block;
             position: relative;
             text-align: left;
-            background: aliceblue;
+            background: #FAFAFA;
         }
 
         #config-toolbar .form-field {
-            padding: 10px;
+            padding: 5px 25px 5px 20px;
         }
 
-        #show-help {
-            position: absolute;
-            top: 4px;
-            right: 7px;
+        #config-toolbar input {
+            width: 100%;
+            border: 2px solid #ccc;
+            border-radius: 2px;
+            transition: border-color 0.2s;
+            font-size: 16px;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        #config-toolbar input:focus {
+            border : 2px solid #222;
         }
 
         #help-wrapper {
@@ -68,34 +70,37 @@
         #help ul {
             list-style-type: none;
         }
-
-        #axiom {
-            width: 60px;
-        }
-
-        #rules {
-            width: 250px;
-        }
-
-        #angle {
-            width: 35px;
-        }
-
-        #iterations {
-            width: 25px;
-        }
     </style>
 </head>
 <body>
 
 <div id="content">
     <div id="config-toolbar">
-        <div class="form-field"><label>Title:<input type="text" id="title" readonly/></label></div>
-        <div class="form-field"><label>Axiom:<input type="text" id="axiom" value="F"/></label></div>
-        <div class="form-field"><label>Rules:<input type="text" id="rules" value="F => F+F--F+F"/></label></div>
-        <div class="form-field"><label>Angle:<input type="text" id="angle" value="60"/></label></div>
-        <div class="form-field"><label>Iterations:<input type="text" id="iterations" value="2"/></label></div>
-        <a id="show-help" href="#">Show Help</a>
+        <h2 class="form-field">L-System Playground</h2>
+        <hr/>
+        <div class="form-field">
+            <h3><label for="title">Title</label></h3>
+            <input type="text" id="title" readonly/>
+        </div>
+        <div class="form-field">
+            <h3><label for="axiom">Axiom</label></h3>
+            <input type="text" id="axiom" value="F"/>
+        </div>
+        <div class="form-field">
+            <h3><label for="rules">Rules</label></h3>
+            <input type="text" id="rules" value="F => F+F--F+F"/>
+        </div>
+        <div class="form-field">
+            <h3><label for="angle">Angle</label></h3>
+            <input type="text" id="angle" value="60"/>
+        </div>
+        <div class="form-field">
+            <h3><label for="iterations">Iterations</label></h3>
+            <input type="text" id="iterations" value="2"/>
+        </div>
+        <div class="form-field">
+            <a id="show-help" href="#">Show Help</a>
+        </div>
     </div>
 </div>
 
