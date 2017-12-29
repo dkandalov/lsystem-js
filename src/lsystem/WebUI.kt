@@ -146,6 +146,11 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         listOf(page.axiom, page.rules, page.angle, page.iterations).forEach {
             it.addEventListener("input", { _ -> applyChanges() })
         }
+        page.title.addEventListener("change", { _ ->
+            editor.presenter = editor.lSystemPresenters.find { it.title == page.title.value }!!
+            update(editor)
+            updateUI()
+        })
 
         val child = page.title.firstElementChild!!.cloneNode(deep = true) as HTMLOptionElement
         page.title.innerHTML = ""
