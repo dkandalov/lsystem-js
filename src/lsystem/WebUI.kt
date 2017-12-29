@@ -3,6 +3,7 @@ package lsystem
 import lsystem.THREE.Vector3
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.Window
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
@@ -144,6 +145,17 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         }
         listOf(page.axiom, page.rules, page.angle, page.iterations).forEach {
             it.addEventListener("input", { _ -> applyChanges() })
+        }
+
+        val child = page.title.firstElementChild!!.cloneNode(deep = true) as HTMLOptionElement
+        page.title.innerHTML = ""
+        editor.lSystemPresenters.forEachIndexed { i, presenter ->
+            val node = (child.cloneNode(deep = true) as HTMLOptionElement).also {
+                it.textContent = presenter.title
+                it.value = presenter.title
+                if (i == 0) it.setAttribute("selected", "selected")
+            }
+            page.title.appendChild(node)
         }
     }
 

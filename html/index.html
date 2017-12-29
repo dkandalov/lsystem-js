@@ -44,7 +44,7 @@
             margin: 5px 0 5px 0;
         }
 
-        #lsystem-editor input {
+        #lsystem-editor input, select {
             width: 100%;
             border: 2px solid #ccc;
             border-radius: 2px;
@@ -54,7 +54,7 @@
             outline: none;
         }
 
-        #lsystem-editor input:focus {
+        #lsystem-editor input:focus, select:focus {
             border : 2px solid #222;
         }
 
@@ -96,7 +96,10 @@
         <hr/>
         <div class="form-field">
             <h3><label for="title">Title</label></h3>
-            <input type="text" id="title" readonly/>
+            <select id="title">
+                <option value="Foo">Foo</option>
+                <option value="Bar">Bar</option>
+            </select>
         </div>
         <div class="form-field axiom">
             <h3><label for="axiom">Axiom</label></h3>

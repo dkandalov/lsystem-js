@@ -4,7 +4,7 @@ import kotlin.math.PI
 import kotlin.math.round
 
 class LSystemEditor {
-    private val lSystemPresenters = listOf(
+    val lSystemPresenters = listOf(
         LSystemPresenter(kochSnowflake, title = "Koch snowflake", url = "https://en.wikipedia.org/wiki/Koch_snowflake"),
         LSystemPresenter(cesaroFractal, title = "Cesaro fractal", url = "http://mathworld.wolfram.com/CesaroFractal.html"),
         LSystemPresenter(quadraticType2Curve, title = "Quadratic type 2", url = "https://en.wikipedia.org/wiki/Koch_snowflake#Variants_of_the_Koch_curve"),
