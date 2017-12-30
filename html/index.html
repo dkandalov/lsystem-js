@@ -44,7 +44,7 @@
             margin: 5px 0 5px 0;
         }
 
-        #lsystem-editor input, select {
+        #lsystem-editor input, textarea, select {
             width: 100%;
             border: 2px solid #ccc;
             border-radius: 2px;
@@ -56,8 +56,13 @@
             padding: 0;
         }
 
-        #lsystem-editor input:focus, select:focus {
+        #lsystem-editor input:focus, textarea:focus, select:focus {
             border : 2px solid #222;
+        }
+
+        #lsystem-editor textarea {
+            height: auto;
+            resize: none;
         }
 
         .help-popup {
@@ -182,7 +187,7 @@
         <div class="form-field rules">
             <h3><label for="rules">Rules</label></h3>
             <div class="help-popup"><svg class="icon"><use xlink:href="#help"></use></svg></div>
-            <input type="text" id="rules" value="F => F+F--F+F"/>
+            <textarea id="rules">F => F+F--F+F</textarea>
         </div>
         <div class="form-field angle">
             <h3><label for="angle">Angle</label></h3>
@@ -295,5 +300,15 @@
     tippy(".angle .help-popup", tippyConfig(".help-angle"));
     tippy(".iterations .help-popup", tippyConfig(".help-iterations"));
     tippy(".shortcuts .help-popup", tippyConfig(".help-shortcuts"));
+
+    let tx = document.getElementsByTagName('textarea');
+    for (let i = 0; i < tx.length; i++) {
+        tx[i].setAttribute('style', 'height:' + (tx[i].scrollHeight) + 'px;overflow-y:hidden;');
+        tx[i].addEventListener("input", onInput, false);
+    }
+    function onInput() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    }
 </script>
 </html>

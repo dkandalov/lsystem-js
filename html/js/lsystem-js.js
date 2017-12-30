@@ -71,7 +71,7 @@
     this.lSystemEditor = Kotlin.isType(tmp$_0 = document.getElementById('lsystem-editor'), HTMLDivElement) ? tmp$_0 : throwCCE();
     this.title = Kotlin.isType(tmp$_1 = document.getElementById('title'), HTMLSelectElement) ? tmp$_1 : throwCCE();
     this.axiom = Kotlin.isType(tmp$_2 = document.getElementById('axiom'), HTMLInputElement) ? tmp$_2 : throwCCE();
-    this.rules = Kotlin.isType(tmp$_3 = document.getElementById('rules'), HTMLInputElement) ? tmp$_3 : throwCCE();
+    this.rules = Kotlin.isType(tmp$_3 = document.getElementById('rules'), HTMLTextAreaElement) ? tmp$_3 : throwCCE();
     this.angle = Kotlin.isType(tmp$_4 = document.getElementById('angle'), HTMLInputElement) ? tmp$_4 : throwCCE();
     this.iterations = Kotlin.isType(tmp$_5 = document.getElementById('iterations'), HTMLInputElement) ? tmp$_5 : throwCCE();
   }
