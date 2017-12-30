@@ -68,11 +68,11 @@
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
     this.content = Kotlin.isType(tmp$ = document.getElementById('content'), Node) ? tmp$ : throwCCE();
     this.lSystemEditor = Kotlin.isType(tmp$_0 = document.getElementById('lsystem-editor'), HTMLDivElement) ? tmp$_0 : throwCCE();
-    this.axiom = Kotlin.isType(tmp$_1 = document.getElementById('axiom'), HTMLInputElement) ? tmp$_1 : throwCCE();
-    this.rules = Kotlin.isType(tmp$_2 = document.getElementById('rules'), HTMLInputElement) ? tmp$_2 : throwCCE();
-    this.angle = Kotlin.isType(tmp$_3 = document.getElementById('angle'), HTMLInputElement) ? tmp$_3 : throwCCE();
-    this.iterations = Kotlin.isType(tmp$_4 = document.getElementById('iterations'), HTMLInputElement) ? tmp$_4 : throwCCE();
-    this.title = Kotlin.isType(tmp$_5 = document.getElementById('title'), HTMLInputElement) ? tmp$_5 : throwCCE();
+    this.title = Kotlin.isType(tmp$_1 = document.getElementById('title'), HTMLSelectElement) ? tmp$_1 : throwCCE();
+    this.axiom = Kotlin.isType(tmp$_2 = document.getElementById('axiom'), HTMLInputElement) ? tmp$_2 : throwCCE();
+    this.rules = Kotlin.isType(tmp$_3 = document.getElementById('rules'), HTMLInputElement) ? tmp$_3 : throwCCE();
+    this.angle = Kotlin.isType(tmp$_4 = document.getElementById('angle'), HTMLInputElement) ? tmp$_4 : throwCCE();
+    this.iterations = Kotlin.isType(tmp$_5 = document.getElementById('iterations'), HTMLInputElement) ? tmp$_5 : throwCCE();
   }
   IndexPage.$metadata$ = {
     kind: Kind_CLASS,
@@ -423,8 +423,8 @@
   }
   var dontConnectDots;
   function LSystemEditor() {
-    this.lSystemPresenters_0 = listOf([new LSystemEditor$LSystemPresenter(kochSnowflake, void 0, 'Koch snowflake', 'https://en.wikipedia.org/wiki/Koch_snowflake'), new LSystemEditor$LSystemPresenter(cesaroFractal, void 0, 'Cesaro fractal', 'http://mathworld.wolfram.com/CesaroFractal.html'), new LSystemEditor$LSystemPresenter(quadraticType2Curve, void 0, 'Quadratic type 2', 'https://en.wikipedia.org/wiki/Koch_snowflake#Variants_of_the_Koch_curve'), new LSystemEditor$LSystemPresenter(hilbertCurve, void 0, 'Hilbert curve', 'https://en.wikipedia.org/wiki/Hilbert_curve'), new LSystemEditor$LSystemPresenter(lindenmayerCurve, void 0, 'Lindenmayer curve'), new LSystemEditor$LSystemPresenter(gosperCurve, void 0, 'Gosper curve', 'https://en.wikipedia.org/wiki/Gosper_curve'), new LSystemEditor$LSystemPresenter(sierpinskiTriangle, void 0, 'Sierpinski triangle', 'https://en.wikipedia.org/wiki/Sierpinski_triangle'), new LSystemEditor$LSystemPresenter(sierpinskiArrowheadCurve, void 0, 'Sierpinski arrow head triangle', 'https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve'), new LSystemEditor$LSystemPresenter(dragonCurve, 14, 'Dragon curve', 'https://en.wikipedia.org/wiki/Dragon_curve'), new LSystemEditor$LSystemPresenter(fractalPlant, void 0, 'Plant', 'https://en.wikipedia.org/wiki/L-system#Example_7:_Fractal_plant'), new LSystemEditor$LSystemPresenter(hilbertCurve3d, void 0, 'Hilbert Curve 3d', 'https://math.stackexchange.com/questions/123642/representing-a-3d-hilbert-curve-as-an-l-system')]);
-    this.presenter = first(this.lSystemPresenters_0);
+    this.lSystemPresenters = listOf([new LSystemEditor$LSystemPresenter(kochSnowflake, void 0, 'Koch snowflake', 'https://en.wikipedia.org/wiki/Koch_snowflake'), new LSystemEditor$LSystemPresenter(cesaroFractal, void 0, 'Cesaro fractal', 'http://mathworld.wolfram.com/CesaroFractal.html'), new LSystemEditor$LSystemPresenter(quadraticType2Curve, void 0, 'Quadratic type 2', 'https://en.wikipedia.org/wiki/Koch_snowflake#Variants_of_the_Koch_curve'), new LSystemEditor$LSystemPresenter(hilbertCurve, void 0, 'Hilbert curve', 'https://en.wikipedia.org/wiki/Hilbert_curve'), new LSystemEditor$LSystemPresenter(lindenmayerCurve, void 0, 'Lindenmayer curve'), new LSystemEditor$LSystemPresenter(gosperCurve, void 0, 'Gosper curve', 'https://en.wikipedia.org/wiki/Gosper_curve'), new LSystemEditor$LSystemPresenter(sierpinskiTriangle, void 0, 'Sierpinski triangle', 'https://en.wikipedia.org/wiki/Sierpinski_triangle'), new LSystemEditor$LSystemPresenter(sierpinskiArrowheadCurve, void 0, 'Sierpinski arrow head triangle', 'https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve'), new LSystemEditor$LSystemPresenter(dragonCurve, 14, 'Dragon curve', 'https://en.wikipedia.org/wiki/Dragon_curve'), new LSystemEditor$LSystemPresenter(fractalPlant, void 0, 'Plant', 'https://en.wikipedia.org/wiki/L-system#Example_7:_Fractal_plant'), new LSystemEditor$LSystemPresenter(hilbertCurve3d, void 0, 'Hilbert Curve 3d', 'https://math.stackexchange.com/questions/123642/representing-a-3d-hilbert-curve-as-an-l-system')]);
+    this.presenter = first(this.lSystemPresenters);
     this.debugMode = false;
     this.debugStepSize_0 = 1;
   }
@@ -434,7 +434,7 @@
   };
   LSystemEditor.prototype.changeLSystem_za3lpa$ = function (direction) {
     var tmp$;
-    var $receiver = this.lSystemPresenters_0;
+    var $receiver = this.lSystemPresenters;
     var indexOfFirst$result;
     indexOfFirst$break: do {
       var tmp$_0;
@@ -453,11 +453,11 @@
      while (false);
     var i = indexOfFirst$result + direction | 0;
     if (i < 0)
-      tmp$ = last_0(this.lSystemPresenters_0);
-    else if (i >= this.lSystemPresenters_0.size)
-      tmp$ = first(this.lSystemPresenters_0);
+      tmp$ = last_0(this.lSystemPresenters);
+    else if (i >= this.lSystemPresenters.size)
+      tmp$ = first(this.lSystemPresenters);
     else
-      tmp$ = this.lSystemPresenters_0.get_za3lpa$(i);
+      tmp$ = this.lSystemPresenters.get_za3lpa$(i);
     this.presenter = tmp$;
     this.debugMode = false;
     this.debugStepSize_0 = 0;
@@ -818,13 +818,56 @@
       return Unit;
     };
   }
+  function WebUI$init$lambda_0(closure$editor, this$WebUI, closure$updateUI) {
+    return function (f) {
+      var tmp$ = closure$editor;
+      var $receiver = closure$editor.lSystemPresenters;
+      var firstOrNull$result;
+      firstOrNull$break: do {
+        var tmp$_0;
+        tmp$_0 = $receiver.iterator();
+        while (tmp$_0.hasNext()) {
+          var element = tmp$_0.next();
+          if (equals(element.title, this$WebUI.page_0.title.value)) {
+            firstOrNull$result = element;
+            break firstOrNull$break;
+          }
+        }
+        firstOrNull$result = null;
+      }
+       while (false);
+      tmp$.presenter = ensureNotNull(firstOrNull$result);
+      this$WebUI.update_0(closure$editor);
+      closure$updateUI();
+      return Unit;
+    };
+  }
   WebUI.prototype.init_0 = function (editor, updateUI) {
-    var applyChanges = WebUI$init$applyChanges(this, editor, updateUI);
     var tmp$;
-    tmp$ = listOf([this.page_0.axiom, this.page_0.rules, this.page_0.angle, this.page_0.iterations]).iterator();
-    while (tmp$.hasNext()) {
-      var element = tmp$.next();
+    var applyChanges = WebUI$init$applyChanges(this, editor, updateUI);
+    var tmp$_0;
+    tmp$_0 = listOf([this.page_0.axiom, this.page_0.rules, this.page_0.angle, this.page_0.iterations]).iterator();
+    while (tmp$_0.hasNext()) {
+      var element = tmp$_0.next();
       element.addEventListener('input', WebUI$init$lambda$lambda_0(applyChanges));
+    }
+    this.page_0.title.addEventListener('change', WebUI$init$lambda_0(editor, this, updateUI));
+    var child = Kotlin.isType(tmp$ = ensureNotNull(this.page_0.title.firstElementChild).cloneNode(true), HTMLOptionElement) ? tmp$ : throwCCE();
+    this.page_0.title.innerHTML = '';
+    var tmp$_1, tmp$_0_0;
+    var index = 0;
+    tmp$_1 = editor.lSystemPresenters.iterator();
+    while (tmp$_1.hasNext()) {
+      var item = tmp$_1.next();
+      var i = (tmp$_0_0 = index, index = tmp$_0_0 + 1 | 0, tmp$_0_0);
+      var tmp$_2;
+      var $receiver = Kotlin.isType(tmp$_2 = child.cloneNode(true), HTMLOptionElement) ? tmp$_2 : throwCCE();
+      $receiver.textContent = item.title;
+      $receiver.value = item.title;
+      if (i === 0)
+        $receiver.setAttribute('selected', 'selected');
+      var node = $receiver;
+      this.page_0.title.appendChild(node);
     }
   };
   function WebUI$update$lambda(it) {
