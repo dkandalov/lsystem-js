@@ -57,6 +57,7 @@
   var toBoxedChar = Kotlin.toBoxedChar;
   var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
   var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
+  var roundToInt = Kotlin.kotlin.math.roundToInt_yrwdxr$;
   var THREE$Color = $module$three.Color;
   var Triple = Kotlin.kotlin.Triple;
   var THREE$LineBasicMaterial = $module$three.LineBasicMaterial;
@@ -878,7 +879,7 @@
     this.page_0.title.value = editor.presenter.title;
     this.page_0.axiom.value = editor.presenter.lSystem.axiom;
     this.page_0.rules.value = joinToString(editor.presenter.lSystem.rules.entries, '; ', void 0, void 0, void 0, void 0, WebUI$update$lambda);
-    this.page_0.angle.value = toDegrees(editor.presenter.lSystem.angle).toString();
+    this.page_0.angle.value = roundToInt(toDegrees(editor.presenter.lSystem.angle)).toString();
     this.page_0.iterations.value = editor.presenter.iterations.toString();
   };
   WebUI.prototype.applyTheme1_0 = function () {

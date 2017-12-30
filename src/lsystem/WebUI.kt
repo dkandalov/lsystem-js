@@ -7,6 +7,7 @@ import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.Window
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
+import kotlin.math.roundToInt
 
 class WebUI(private val window: Window, private val page: IndexPage) {
     private lateinit var camera: THREE.PerspectiveCamera
@@ -169,7 +170,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         page.axiom.value = editor.presenter.lSystem.axiom
         page.rules.value = editor.presenter.lSystem.rules
             .entries.joinToString("; ") { it.key + " => " + it.value }
-        page.angle.value = editor.presenter.lSystem.angle.toDegrees().toString()
+        page.angle.value = editor.presenter.lSystem.angle.toDegrees().roundToInt().toString()
         page.iterations.value = editor.presenter.iterations.toString()
     }
 
