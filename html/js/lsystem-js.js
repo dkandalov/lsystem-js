@@ -781,8 +781,9 @@
     var mapping = mapOf([to('n', WebUI$onKeyPress$lambda(editor)), to('N', WebUI$onKeyPress$lambda_0(editor)), to('i', WebUI$onKeyPress$lambda_1(editor)), to('I', WebUI$onKeyPress$lambda_2(editor)), to('a', WebUI$onKeyPress$lambda_3(editor)), to('A', WebUI$onKeyPress$lambda_4(editor)), to('c', WebUI$onKeyPress$lambda_5(orbitControls)), to('q', WebUI$onKeyPress$lambda_6(this)), to('w', WebUI$onKeyPress$lambda_7(this)), to('d', WebUI$onKeyPress$lambda_8(editor)), to('s', WebUI$onKeyPress$lambda_9(editor)), to('S', WebUI$onKeyPress$lambda_10(editor)), to('u', WebUI$onKeyPress$lambda_11(this, editor))]);
     return WebUI$onKeyPress$lambda_12(this, mapping, updateUI, editor);
   };
-  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
+  var trim = Kotlin.kotlin.text.trim_gw00vp$;
   var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
   var mapCapacity = Kotlin.kotlin.collections.mapCapacity_za3lpa$;
   var coerceAtLeast = Kotlin.kotlin.ranges.coerceAtLeast_dqglrj$;
   var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_xf5xz2$;
@@ -790,24 +791,33 @@
     return function () {
       closure$editor.presenter.lSystem.axiom = this$WebUI.page_0.axiom.value;
       var tmp$ = closure$editor.presenter.lSystem;
-      var $receiver = split(this$WebUI.page_0.rules.value, ['; ']);
-      var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
+      var $receiver = split(this$WebUI.page_0.rules.value, ['\n']);
+      var destination = ArrayList_init();
       var tmp$_0;
       tmp$_0 = $receiver.iterator();
       while (tmp$_0.hasNext()) {
-        var item = tmp$_0.next();
-        destination.add_11rb$(split(item, [' => ']));
+        var element = tmp$_0.next();
+        var tmp$_1;
+        if (trim(Kotlin.isCharSequence(tmp$_1 = element) ? tmp$_1 : throwCCE()).toString().length > 0)
+          destination.add_11rb$(element);
       }
-      var capacity = coerceAtLeast(mapCapacity(collectionSizeOrDefault(destination, 10)), 16);
-      var destination_0 = LinkedHashMap_init(capacity);
-      var tmp$_1;
-      tmp$_1 = destination.iterator();
-      while (tmp$_1.hasNext()) {
-        var element = tmp$_1.next();
-        var pair = new Pair(toBoxedChar(element.get_za3lpa$(0).charCodeAt(0)), element.get_za3lpa$(1));
-        destination_0.put_xwzc9p$(pair.first, pair.second);
+      var destination_0 = ArrayList_init(collectionSizeOrDefault(destination, 10));
+      var tmp$_2;
+      tmp$_2 = destination.iterator();
+      while (tmp$_2.hasNext()) {
+        var item = tmp$_2.next();
+        destination_0.add_11rb$(split(item, [' => ']));
       }
-      tmp$.rules = destination_0;
+      var capacity = coerceAtLeast(mapCapacity(collectionSizeOrDefault(destination_0, 10)), 16);
+      var destination_1 = LinkedHashMap_init(capacity);
+      var tmp$_3;
+      tmp$_3 = destination_0.iterator();
+      while (tmp$_3.hasNext()) {
+        var element_0 = tmp$_3.next();
+        var pair = new Pair(toBoxedChar(element_0.get_za3lpa$(0).charCodeAt(0)), element_0.get_za3lpa$(1));
+        destination_1.put_xwzc9p$(pair.first, pair.second);
+      }
+      tmp$.rules = destination_1;
       closure$editor.presenter.lSystem.angle = toRadians_0(toDouble(this$WebUI.page_0.angle.value));
       closure$editor.presenter.iterations = toInt(this$WebUI.page_0.iterations.value);
       closure$updateUI();
@@ -878,7 +888,7 @@
   WebUI.prototype.update_0 = function (editor) {
     this.page_0.title.value = editor.presenter.title;
     this.page_0.axiom.value = editor.presenter.lSystem.axiom;
-    this.page_0.rules.value = joinToString(editor.presenter.lSystem.rules.entries, '; ', void 0, void 0, void 0, void 0, WebUI$update$lambda);
+    this.page_0.rules.value = joinToString(editor.presenter.lSystem.rules.entries, '\n', void 0, void 0, void 0, void 0, WebUI$update$lambda);
     this.page_0.angle.value = roundToInt(toDegrees(editor.presenter.lSystem.angle)).toString();
     this.page_0.iterations.value = editor.presenter.iterations.toString();
   };

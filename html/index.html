@@ -240,7 +240,7 @@
     </p>
     Rules syntax:
     <ul>
-        <li>&lt;rules&gt; ::= &lt;rule&gt; ["; " &lt;rule&gt;]*</li>
+        <li>&lt;rules&gt; ::= &lt;rule&gt; [&lt;new line&gt; &lt;rule&gt;]*</li>
         <li>&lt;rule&gt; ::= &lt;char&gt; " =&gt; " &lt;string&gt;</li>
     </ul>
     The following commands can be used:
@@ -301,14 +301,14 @@
     tippy(".iterations .help-popup", tippyConfig(".help-iterations"));
     tippy(".shortcuts .help-popup", tippyConfig(".help-shortcuts"));
 
-    let tx = document.getElementsByTagName('textarea');
-    for (let i = 0; i < tx.length; i++) {
-        tx[i].setAttribute('style', 'height:' + (tx[i].scrollHeight) + 'px;overflow-y:hidden;');
-        tx[i].addEventListener("input", onInput, false);
+    let textarea = document.getElementsByTagName("textarea");
+    for (let i = 0; i < textarea.length; i++) {
+        textarea[i].setAttribute("style", "height:" + (textarea[i].scrollHeight) + 'px;overflow-y:hidden;');
+        textarea[i].addEventListener("input", onInput, false);
     }
     function onInput() {
-        this.style.height = 'auto';
-        this.style.height = (this.scrollHeight) + 'px';
+        this.style.height = "auto";
+        this.style.height = (this.scrollHeight) + "px";
     }
 </script>
 </html>

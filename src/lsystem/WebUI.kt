@@ -136,7 +136,8 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         fun applyChanges() {
             editor.presenter.lSystem.axiom = page.axiom.value
             editor.presenter.lSystem.rules = page.rules.value
-                .split("; ")
+                .split("\n")
+                .filter { it.trim().isNotEmpty() }
                 .map { it.split(" => ") }
                 .associate { Pair(it[0][0], it[1]) }
             editor.presenter.lSystem.angle = page.angle.value.toDouble().toRadians()
@@ -169,7 +170,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         page.title.value = editor.presenter.title
         page.axiom.value = editor.presenter.lSystem.axiom
         page.rules.value = editor.presenter.lSystem.rules
-            .entries.joinToString("; ") { it.key + " => " + it.value }
+            .entries.joinToString("\n") { it.key + " => " + it.value }
         page.angle.value = editor.presenter.lSystem.angle.toDegrees().roundToInt().toString()
         page.iterations.value = editor.presenter.iterations.toString()
     }
@@ -206,8 +207,8 @@ class WebUI(private val window: Window, private val page: IndexPage) {
 
     private fun calcRenderingSizes(): Triple<Double, Int, Double> {
         val editorWidth =
-            if (page.lSystemEditor.style.display == "none")
-                0.0 else page.lSystemEditor.getBoundingClientRect().width
+            if (page.lSystemEditor.style.display == "none") 0.0
+            else page.lSystemEditor.getBoundingClientRect().width
 
         val width = window.innerWidth - editorWidth
         val height = window.innerHeight
