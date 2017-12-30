@@ -52,7 +52,7 @@ fun String.toPoints(
 
         forEach { c ->
             when (c) {
-                'F', 'G', 'H', 'I' -> {
+                'F', 'G', 'H', 'I', 'f', 'g', 'h', 'i' -> {
                     point.add(step.clone().applyQuaternion(direction))
                     yield(point.clone())
                 }

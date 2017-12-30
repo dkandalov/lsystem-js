@@ -236,7 +236,7 @@
             var closure$angle = this.local$closure$angle;
             var tmp$;
             tmp$ = unboxChar(toBoxedChar(element));
-            if (tmp$ === 70 || tmp$ === 71 || tmp$ === 72 || tmp$ === 73) {
+            if (tmp$ === 70 || tmp$ === 71 || tmp$ === 72 || tmp$ === 73 || tmp$ === 102 || tmp$ === 103 || tmp$ === 104 || tmp$ === 105) {
               this.local$point.v.add(this.local$step.clone().applyQuaternion(this.local$direction.v));
               this.state_0 = 15;
               this.result_0 = this.local$$receiver.yield_11rb$(this.local$point.v.clone(), this.local$closure$continuation);
