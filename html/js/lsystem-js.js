@@ -69,7 +69,7 @@
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
     this.content = Kotlin.isType(tmp$ = document.getElementById('content'), Node) ? tmp$ : throwCCE();
     this.lSystemEditor = Kotlin.isType(tmp$_0 = document.getElementById('lsystem-editor'), HTMLDivElement) ? tmp$_0 : throwCCE();
-    this.title = Kotlin.isType(tmp$_1 = document.getElementById('title'), HTMLSelectElement) ? tmp$_1 : throwCCE();
+    this.name = Kotlin.isType(tmp$_1 = document.getElementById('name'), HTMLSelectElement) ? tmp$_1 : throwCCE();
     this.axiom = Kotlin.isType(tmp$_2 = document.getElementById('axiom'), HTMLInputElement) ? tmp$_2 : throwCCE();
     this.rules = Kotlin.isType(tmp$_3 = document.getElementById('rules'), HTMLTextAreaElement) ? tmp$_3 : throwCCE();
     this.angle = Kotlin.isType(tmp$_4 = document.getElementById('angle'), HTMLInputElement) ? tmp$_4 : throwCCE();
@@ -492,16 +492,16 @@
     if ($receiver.angle > 2 * math.PI)
       $receiver.angle -= 2 * math.PI;
   };
-  function LSystemEditor$LSystemPresenter(lSystem, maxIterations, title, url) {
+  function LSystemEditor$LSystemPresenter(lSystem, maxIterations, name, url) {
     if (maxIterations === void 0)
       maxIterations = 9;
-    if (title === void 0)
-      title = '';
+    if (name === void 0)
+      name = '';
     if (url === void 0)
       url = null;
     this.lSystem = lSystem;
     this.maxIterations = maxIterations;
-    this.title = title;
+    this.name = name;
     this.url = url;
     this.iterations = 1;
   }
@@ -839,7 +839,7 @@
         tmp$_0 = $receiver.iterator();
         while (tmp$_0.hasNext()) {
           var element = tmp$_0.next();
-          if (equals(element.title, this$WebUI.page_0.title.value)) {
+          if (equals(element.name, this$WebUI.page_0.name.value)) {
             firstOrNull$result = element;
             break firstOrNull$break;
           }
@@ -862,9 +862,9 @@
       var element = tmp$_0.next();
       element.addEventListener('input', WebUI$init$lambda$lambda_0(applyChanges));
     }
-    this.page_0.title.addEventListener('change', WebUI$init$lambda_0(editor, this, updateUI));
-    var child = Kotlin.isType(tmp$ = ensureNotNull(this.page_0.title.firstElementChild).cloneNode(true), HTMLOptionElement) ? tmp$ : throwCCE();
-    this.page_0.title.innerHTML = '';
+    this.page_0.name.addEventListener('change', WebUI$init$lambda_0(editor, this, updateUI));
+    var child = Kotlin.isType(tmp$ = ensureNotNull(this.page_0.name.firstElementChild).cloneNode(true), HTMLOptionElement) ? tmp$ : throwCCE();
+    this.page_0.name.innerHTML = '';
     var tmp$_1, tmp$_0_0;
     var index = 0;
     tmp$_1 = editor.lSystemPresenters.iterator();
@@ -873,12 +873,12 @@
       var i = (tmp$_0_0 = index, index = tmp$_0_0 + 1 | 0, tmp$_0_0);
       var tmp$_2;
       var $receiver = Kotlin.isType(tmp$_2 = child.cloneNode(true), HTMLOptionElement) ? tmp$_2 : throwCCE();
-      $receiver.textContent = item.title;
-      $receiver.value = item.title;
+      $receiver.textContent = item.name;
+      $receiver.value = item.name;
       if (i === 0)
         $receiver.setAttribute('selected', 'selected');
       var node = $receiver;
-      this.page_0.title.appendChild(node);
+      this.page_0.name.appendChild(node);
     }
   };
   function WebUI$update$lambda(it) {
@@ -886,7 +886,7 @@
     return String.fromCharCode($receiver) + ' => ' + it.value;
   }
   WebUI.prototype.update_0 = function (editor) {
-    this.page_0.title.value = editor.presenter.title;
+    this.page_0.name.value = editor.presenter.name;
     this.page_0.axiom.value = editor.presenter.lSystem.axiom;
     this.page_0.rules.value = joinToString(editor.presenter.lSystem.rules.entries, '\n', void 0, void 0, void 0, void 0, WebUI$update$lambda);
     this.page_0.angle.value = roundToInt(toDegrees(editor.presenter.lSystem.angle)).toString();

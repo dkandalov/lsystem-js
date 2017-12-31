@@ -173,8 +173,8 @@
         <h2 class="form-field">L-System Playground</h2>
         <hr/>
         <div class="form-field">
-            <h3><label for="title">Title</label></h3>
-            <select id="title">
+            <h3><label for="name">Name</label></h3>
+            <select id="name">
                 <option value="Foo">Foo</option>
                 <option value="Bar">Bar</option>
             </select>
@@ -304,9 +304,10 @@
     let textarea = document.getElementsByTagName("textarea");
     for (let i = 0; i < textarea.length; i++) {
         textarea[i].setAttribute("style", "height:" + (textarea[i].scrollHeight) + 'px;overflow-y:hidden;');
-        textarea[i].addEventListener("input", onInput, false);
+        textarea[i].addEventListener("input", updateHeight, false);
+        textarea[i].addEventListener("change", updateHeight, false);
     }
-    function onInput() {
+    function updateHeight() {
         this.style.height = "auto";
         this.style.height = (this.scrollHeight) + "px";
     }

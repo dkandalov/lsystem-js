@@ -148,26 +148,26 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         listOf(page.axiom, page.rules, page.angle, page.iterations).forEach {
             it.addEventListener("input", { _ -> applyChanges() })
         }
-        page.title.addEventListener("change", { _ ->
-            editor.presenter = editor.lSystemPresenters.find { it.title == page.title.value }!!
+        page.name.addEventListener("change", { _ ->
+            editor.presenter = editor.lSystemPresenters.find { it.name == page.name.value }!!
             update(editor)
             updateUI()
         })
 
-        val child = page.title.firstElementChild!!.cloneNode(deep = true) as HTMLOptionElement
-        page.title.innerHTML = ""
+        val child = page.name.firstElementChild!!.cloneNode(deep = true) as HTMLOptionElement
+        page.name.innerHTML = ""
         editor.lSystemPresenters.forEachIndexed { i, presenter ->
             val node = (child.cloneNode(deep = true) as HTMLOptionElement).also {
-                it.textContent = presenter.title
-                it.value = presenter.title
+                it.textContent = presenter.name
+                it.value = presenter.name
                 if (i == 0) it.setAttribute("selected", "selected")
             }
-            page.title.appendChild(node)
+            page.name.appendChild(node)
         }
     }
 
     private fun update(editor: LSystemEditor) {
-        page.title.value = editor.presenter.title
+        page.name.value = editor.presenter.name
         page.axiom.value = editor.presenter.lSystem.axiom
         page.rules.value = editor.presenter.lSystem.rules
             .entries.joinToString("\n") { it.key + " => " + it.value }
