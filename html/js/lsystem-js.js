@@ -503,7 +503,7 @@
     this.maxIterations = maxIterations;
     this.name = name;
     this.url = url;
-    this.iterations = 1;
+    this.iterations = 2;
   }
   LSystemEditor$LSystemPresenter.prototype.generatePoints = function () {
     return this.lSystem.generatePoints_za3lpa$(this.iterations);

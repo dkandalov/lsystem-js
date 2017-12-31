@@ -72,7 +72,7 @@ class LSystemEditor {
         val name: String = "",
         val url: String? = null
     ) {
-        var iterations: Int = 1
+        var iterations: Int = 2
 
         fun generatePoints(): Sequence<THREE.Vector3> {
             return lSystem.generatePoints(iterations)
