@@ -2,7 +2,6 @@ package lsystem
 
 import lsystem.THREE.Vector3
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.Window
 import org.w3c.dom.events.Event
@@ -92,7 +91,10 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         update(editor)
 
         window.addEventListener("resize", { _ -> onWindowResize() }, false)
-        window.addEventListener("keypress", onKeyPress(editor, orbitControls, ::generateScene))
+        window.addEventListener("keypress", onKeyPress(editor, orbitControls, {
+            generateScene()
+            update(editor)
+        }))
     }
 
     private fun onKeyPress(
@@ -101,32 +103,26 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         updateUI: () -> Unit
     ): (Event) -> Unit {
         val mapping = mapOf(
-            "i" to { editor.changeIterationCount(1) },
-            "I" to { editor.changeIterationCount(-1) },
-            "a" to { editor.changeAngle(5.toRadians()) },
-            "A" to { editor.changeAngle((-5).toRadians()) },
+            "`" to { toggleLSystemEditor() },
+            "(" to { editor.changeIterationCount(-1); updateUI() },
+            ")" to { editor.changeIterationCount(1); updateUI() },
+            "{" to { editor.changeAngle((-5).toRadians()); updateUI() },
+            "}" to { editor.changeAngle(5.toRadians()); updateUI() },
             "c" to { orbitControls.reset() },
-            "q" to { applyTheme1() },
-            "w" to { applyTheme2() },
-            "d" to { editor.debugMode = !editor.debugMode },
-            "s" to { editor.increaseDebugStep() },
-            "S" to { editor.decreaseDebugStep() },
             "u" to { window.open(editor.presenter.url ?: "")?.focus() }
+            //"q" to { applyTheme1() },
+            //"w" to { applyTheme2() },
+            //"d" to { editor.debugMode = !editor.debugMode },
+            //"s" to { editor.increaseDebugStep() },
+            //"S" to { editor.decreaseDebugStep() },
         )
         return { event ->
             if (event is KeyboardEvent) {
-                if (event.key == "`") {
+                val action = mapping[event.key]
+                if (action != null) {
+                    action()
                     event.preventDefault()
                     event.stopImmediatePropagation()
-                    toggleLSystemEditor()
-                }
-                if (event.target !is HTMLInputElement) {
-                    val action = mapping[event.key]
-                    if (action != null) {
-                        action()
-                        updateUI()
-                        update(editor)
-                    }
                 }
             }
         }

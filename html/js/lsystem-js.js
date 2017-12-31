@@ -51,11 +51,11 @@
   var getCallableRef = Kotlin.getCallableRef;
   var to = Kotlin.kotlin.to_ujzrz7$;
   var mapOf = Kotlin.kotlin.collections.mapOf_qfcya0$;
-  var equals = Kotlin.equals;
   var split = Kotlin.kotlin.text.split_ip8yn$;
   var toBoxedChar = Kotlin.toBoxedChar;
   var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
   var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
+  var equals = Kotlin.equals;
   var roundToInt = Kotlin.kotlin.math.roundToInt_yrwdxr$;
   var THREE$Color = $module$three.Color;
   var Triple = Kotlin.kotlin.Triple;
@@ -612,6 +612,13 @@
       return Unit;
     };
   }
+  function WebUI$init$lambda_0(closure$generateScene, closure$editor, this$WebUI) {
+    return function () {
+      closure$generateScene();
+      this$WebUI.update_0(closure$editor);
+      return Unit;
+    };
+  }
   WebUI.prototype.init = function () {
     var tmp$ = this.calcRenderingSizes_0();
     var width = tmp$.component1()
@@ -646,99 +653,70 @@
     }));
     this.update_0(editor);
     this.window_0.addEventListener('resize', WebUI$init$lambda(this), false);
-    this.window_0.addEventListener('keypress', this.onKeyPress_0(editor, orbitControls, getCallableRef('generateScene', function () {
-      return generateScene(), Unit;
-    })));
+    this.window_0.addEventListener('keypress', this.onKeyPress_0(editor, orbitControls, WebUI$init$lambda_0(generateScene, editor, this)));
   };
-  function WebUI$onKeyPress$lambda(closure$editor) {
+  function WebUI$onKeyPress$lambda(this$WebUI) {
     return function () {
-      closure$editor.changeIterationCount_za3lpa$(1);
+      this$WebUI.toggleLSystemEditor_0();
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_0(closure$editor) {
+  function WebUI$onKeyPress$lambda_0(closure$editor, closure$updateUI) {
     return function () {
       closure$editor.changeIterationCount_za3lpa$(-1);
+      closure$updateUI();
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_1(closure$editor) {
+  function WebUI$onKeyPress$lambda_1(closure$editor, closure$updateUI) {
     return function () {
-      closure$editor.changeAngle_14dthe$(toRadians(5));
+      closure$editor.changeIterationCount_za3lpa$(1);
+      closure$updateUI();
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_2(closure$editor) {
+  function WebUI$onKeyPress$lambda_2(closure$editor, closure$updateUI) {
     return function () {
       closure$editor.changeAngle_14dthe$(toRadians(-5));
+      closure$updateUI();
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_3(closure$orbitControls) {
+  function WebUI$onKeyPress$lambda_3(closure$editor, closure$updateUI) {
+    return function () {
+      closure$editor.changeAngle_14dthe$(toRadians(5));
+      closure$updateUI();
+      return Unit;
+    };
+  }
+  function WebUI$onKeyPress$lambda_4(closure$orbitControls) {
     return function () {
       closure$orbitControls.reset();
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_4(this$WebUI) {
-    return function () {
-      this$WebUI.applyTheme1_0();
-      return Unit;
-    };
-  }
-  function WebUI$onKeyPress$lambda_5(this$WebUI) {
-    return function () {
-      this$WebUI.applyTheme2_0();
-      return Unit;
-    };
-  }
-  function WebUI$onKeyPress$lambda_6(closure$editor) {
-    return function () {
-      closure$editor.debugMode = !closure$editor.debugMode;
-      return Unit;
-    };
-  }
-  function WebUI$onKeyPress$lambda_7(closure$editor) {
-    return function () {
-      closure$editor.increaseDebugStep();
-      return Unit;
-    };
-  }
-  function WebUI$onKeyPress$lambda_8(closure$editor) {
-    return function () {
-      closure$editor.decreaseDebugStep();
-      return Unit;
-    };
-  }
-  function WebUI$onKeyPress$lambda_9(this$WebUI, closure$editor) {
+  function WebUI$onKeyPress$lambda_5(this$WebUI, closure$editor) {
     return function () {
       var tmp$, tmp$_0;
       return (tmp$_0 = this$WebUI.window_0.open((tmp$ = closure$editor.presenter.url) != null ? tmp$ : '')) != null ? (tmp$_0.focus(), Unit) : null;
     };
   }
-  function WebUI$onKeyPress$lambda_10(this$WebUI, closure$mapping, closure$updateUI, closure$editor) {
+  function WebUI$onKeyPress$lambda_6(closure$mapping) {
     return function (event) {
       if (Kotlin.isType(event, KeyboardEvent)) {
-        if (equals(event.key, '`')) {
+        var action = closure$mapping.get_11rb$(event.key);
+        if (action != null) {
+          action();
           event.preventDefault();
           event.stopImmediatePropagation();
-          this$WebUI.toggleLSystemEditor_0();
-        }
-        if (!Kotlin.isType(event.target, HTMLInputElement)) {
-          var action = closure$mapping.get_11rb$(event.key);
-          if (action != null) {
-            action();
-            closure$updateUI();
-            this$WebUI.update_0(closure$editor);
-          }
         }
       }
       return Unit;
     };
   }
   WebUI.prototype.onKeyPress_0 = function (editor, orbitControls, updateUI) {
-    var mapping = mapOf([to('i', WebUI$onKeyPress$lambda(editor)), to('I', WebUI$onKeyPress$lambda_0(editor)), to('a', WebUI$onKeyPress$lambda_1(editor)), to('A', WebUI$onKeyPress$lambda_2(editor)), to('c', WebUI$onKeyPress$lambda_3(orbitControls)), to('q', WebUI$onKeyPress$lambda_4(this)), to('w', WebUI$onKeyPress$lambda_5(this)), to('d', WebUI$onKeyPress$lambda_6(editor)), to('s', WebUI$onKeyPress$lambda_7(editor)), to('S', WebUI$onKeyPress$lambda_8(editor)), to('u', WebUI$onKeyPress$lambda_9(this, editor))]);
-    return WebUI$onKeyPress$lambda_10(this, mapping, updateUI, editor);
+    var mapping = mapOf([to('`', WebUI$onKeyPress$lambda(this)), to('(', WebUI$onKeyPress$lambda_0(editor, updateUI)), to(')', WebUI$onKeyPress$lambda_1(editor, updateUI)), to('{', WebUI$onKeyPress$lambda_2(editor, updateUI)), to('}', WebUI$onKeyPress$lambda_3(editor, updateUI)), to('c', WebUI$onKeyPress$lambda_4(orbitControls)), to('u', WebUI$onKeyPress$lambda_5(this, editor))]);
+    return WebUI$onKeyPress$lambda_6(mapping);
   };
   var trim = Kotlin.kotlin.text.trim_gw00vp$;
   var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
@@ -788,7 +766,7 @@
       return Unit;
     };
   }
-  function WebUI$init$lambda_0(closure$editor, this$WebUI, closure$updateUI) {
+  function WebUI$init$lambda_1(closure$editor, this$WebUI, closure$updateUI) {
     return function (f) {
       var tmp$ = closure$editor;
       var $receiver = closure$editor.lSystemPresenters;
@@ -821,7 +799,7 @@
       var element = tmp$_0.next();
       element.addEventListener('input', WebUI$init$lambda$lambda_0(applyChanges));
     }
-    this.page_0.name.addEventListener('change', WebUI$init$lambda_0(editor, this, updateUI));
+    this.page_0.name.addEventListener('change', WebUI$init$lambda_1(editor, this, updateUI));
     var child = Kotlin.isType(tmp$ = ensureNotNull(this.page_0.name.firstElementChild).cloneNode(true), HTMLOptionElement) ? tmp$ : throwCCE();
     this.page_0.name.innerHTML = '';
     var tmp$_1, tmp$_0_0;
