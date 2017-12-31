@@ -108,7 +108,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
             ")" to { editor.changeIterationCount(1); updateUI() },
             "{" to { editor.changeAngle((-5).toRadians()); updateUI() },
             "}" to { editor.changeAngle(5.toRadians()); updateUI() },
-            "\\" to { orbitControls.reset() },
+            "r" to { orbitControls.reset() },
             "u" to {
                 val url = editor.presenter.url
                 if (url != null) window.open(url)?.focus()
@@ -120,7 +120,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
             //"S" to { editor.decreaseDebugStep() },
         )
         return { event ->
-            if (event is KeyboardEvent) {
+            if (event is KeyboardEvent && !event.altKey && !event.ctrlKey && !event.metaKey) {
                 val action = mapping[event.key]
                 if (action != null) {
                     action()
