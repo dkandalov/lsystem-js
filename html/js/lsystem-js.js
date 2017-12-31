@@ -719,7 +719,7 @@
     };
   }
   WebUI.prototype.onKeyPress_0 = function (editor, orbitControls, updateUI) {
-    var mapping = mapOf([to('`', WebUI$onKeyPress$lambda(this)), to('(', WebUI$onKeyPress$lambda_0(editor, updateUI)), to(')', WebUI$onKeyPress$lambda_1(editor, updateUI)), to('{', WebUI$onKeyPress$lambda_2(editor, updateUI)), to('}', WebUI$onKeyPress$lambda_3(editor, updateUI)), to('c', WebUI$onKeyPress$lambda_4(orbitControls)), to('u', WebUI$onKeyPress$lambda_5(editor, this))]);
+    var mapping = mapOf([to('`', WebUI$onKeyPress$lambda(this)), to('(', WebUI$onKeyPress$lambda_0(editor, updateUI)), to(')', WebUI$onKeyPress$lambda_1(editor, updateUI)), to('{', WebUI$onKeyPress$lambda_2(editor, updateUI)), to('}', WebUI$onKeyPress$lambda_3(editor, updateUI)), to('\\', WebUI$onKeyPress$lambda_4(orbitControls)), to('u', WebUI$onKeyPress$lambda_5(editor, this))]);
     return WebUI$onKeyPress$lambda_6(mapping);
   };
   var trim = Kotlin.kotlin.text.trim_gw00vp$;

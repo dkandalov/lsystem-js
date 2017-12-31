@@ -108,7 +108,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
             ")" to { editor.changeIterationCount(1); updateUI() },
             "{" to { editor.changeAngle((-5).toRadians()); updateUI() },
             "}" to { editor.changeAngle(5.toRadians()); updateUI() },
-            "c" to { orbitControls.reset() },
+            "\\" to { orbitControls.reset() },
             "u" to {
                 val url = editor.presenter.url
                 if (url != null) window.open(url)?.focus()
