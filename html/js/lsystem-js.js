@@ -424,7 +424,7 @@
   }
   var dontConnectDots;
   function LSystemEditor() {
-    this.lSystemPresenters = listOf([new LSystemEditor$LSystemPresenter(kochSnowflake, void 0, 'Koch snowflake', 'https://en.wikipedia.org/wiki/Koch_snowflake'), new LSystemEditor$LSystemPresenter(cesaroFractal, void 0, 'Cesaro fractal', 'http://mathworld.wolfram.com/CesaroFractal.html'), new LSystemEditor$LSystemPresenter(quadraticType2Curve, void 0, 'Quadratic type 2', 'https://en.wikipedia.org/wiki/Koch_snowflake#Variants_of_the_Koch_curve'), new LSystemEditor$LSystemPresenter(hilbertCurve, void 0, 'Hilbert curve', 'https://en.wikipedia.org/wiki/Hilbert_curve'), new LSystemEditor$LSystemPresenter(lindenmayerCurve, void 0, 'Lindenmayer curve'), new LSystemEditor$LSystemPresenter(gosperCurve, void 0, 'Gosper curve', 'https://en.wikipedia.org/wiki/Gosper_curve'), new LSystemEditor$LSystemPresenter(sierpinskiTriangle, void 0, 'Sierpinski triangle', 'https://en.wikipedia.org/wiki/Sierpinski_triangle'), new LSystemEditor$LSystemPresenter(sierpinskiArrowheadCurve, void 0, 'Sierpinski arrow head triangle', 'https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve'), new LSystemEditor$LSystemPresenter(dragonCurve, 14, 'Dragon curve', 'https://en.wikipedia.org/wiki/Dragon_curve'), new LSystemEditor$LSystemPresenter(fractalPlant, void 0, 'Plant', 'https://en.wikipedia.org/wiki/L-system#Example_7:_Fractal_plant'), new LSystemEditor$LSystemPresenter(hilbertCurve3d, void 0, 'Hilbert Curve 3d', 'https://math.stackexchange.com/questions/123642/representing-a-3d-hilbert-curve-as-an-l-system')]);
+    this.lSystemPresenters = listOf([new LSystemEditor$LSystemPresenter(kochSnowflake, void 0, 'Koch snowflake', 'https://en.wikipedia.org/wiki/Koch_snowflake'), new LSystemEditor$LSystemPresenter(kochCurve, void 0, 'Koch curve', 'https://en.wikipedia.org/wiki/L-system#Example_4:_Koch_curve'), new LSystemEditor$LSystemPresenter(lindenmayerCurve, void 0, 'Lindenmayer curve', 'https://akademikmatematik.tr.gg/Hilbert-Curve.htm'), new LSystemEditor$LSystemPresenter(gosperCurve, void 0, 'Gosper curve', 'https://en.wikipedia.org/wiki/Gosper_curve'), new LSystemEditor$LSystemPresenter(sierpinskiTriangle, void 0, 'Sierpinski triangle', 'https://en.wikipedia.org/wiki/Sierpinski_triangle'), new LSystemEditor$LSystemPresenter(sierpinskiArrowheadCurve, void 0, 'Sierpinski arrow head triangle', 'https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve'), new LSystemEditor$LSystemPresenter(dragonCurve, 14, 'Dragon curve', 'https://en.wikipedia.org/wiki/Dragon_curve'), new LSystemEditor$LSystemPresenter(fractalPlant, void 0, 'Plant', 'https://en.wikipedia.org/wiki/L-system#Example_7:_Fractal_plant'), new LSystemEditor$LSystemPresenter(hilbertCurve, void 0, 'Hilbert curve', 'https://en.wikipedia.org/wiki/Hilbert_curve'), new LSystemEditor$LSystemPresenter(hilbertCurve3d, void 0, 'Hilbert Curve 3d', 'https://math.stackexchange.com/questions/123642/representing-a-3d-hilbert-curve-as-an-l-system')]);
     this.presenter = first(this.lSystemPresenters);
     this.debugMode = false;
     this.debugStepSize_0 = 1;
@@ -696,10 +696,13 @@
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_5(this$WebUI, closure$editor) {
+  function WebUI$onKeyPress$lambda_5(closure$editor, this$WebUI) {
     return function () {
-      var tmp$, tmp$_0;
-      return (tmp$_0 = this$WebUI.window_0.open((tmp$ = closure$editor.presenter.url) != null ? tmp$ : '')) != null ? (tmp$_0.focus(), Unit) : null;
+      var tmp$;
+      var url = closure$editor.presenter.url;
+      if (url != null)
+        (tmp$ = this$WebUI.window_0.open(url)) != null ? (tmp$.focus(), Unit) : null;
+      return Unit;
     };
   }
   function WebUI$onKeyPress$lambda_6(closure$mapping) {
@@ -716,7 +719,7 @@
     };
   }
   WebUI.prototype.onKeyPress_0 = function (editor, orbitControls, updateUI) {
-    var mapping = mapOf([to('`', WebUI$onKeyPress$lambda(this)), to('(', WebUI$onKeyPress$lambda_0(editor, updateUI)), to(')', WebUI$onKeyPress$lambda_1(editor, updateUI)), to('{', WebUI$onKeyPress$lambda_2(editor, updateUI)), to('}', WebUI$onKeyPress$lambda_3(editor, updateUI)), to('c', WebUI$onKeyPress$lambda_4(orbitControls)), to('u', WebUI$onKeyPress$lambda_5(this, editor))]);
+    var mapping = mapOf([to('`', WebUI$onKeyPress$lambda(this)), to('(', WebUI$onKeyPress$lambda_0(editor, updateUI)), to(')', WebUI$onKeyPress$lambda_1(editor, updateUI)), to('{', WebUI$onKeyPress$lambda_2(editor, updateUI)), to('}', WebUI$onKeyPress$lambda_3(editor, updateUI)), to('c', WebUI$onKeyPress$lambda_4(orbitControls)), to('u', WebUI$onKeyPress$lambda_5(editor, this))]);
     return WebUI$onKeyPress$lambda_6(mapping);
   };
   var trim = Kotlin.kotlin.text.trim_gw00vp$;
@@ -1097,6 +1100,7 @@
     return $receiver;
   });
   var kochSnowflake;
+  var kochCurve;
   var cesaroFractal;
   var quadraticType2Curve;
   var hilbertCurve;
@@ -1140,6 +1144,11 @@
   Object.defineProperty(package$lsystem, 'kochSnowflake', {
     get: function () {
       return kochSnowflake;
+    }
+  });
+  Object.defineProperty(package$lsystem, 'kochCurve', {
+    get: function () {
+      return kochCurve;
     }
   });
   Object.defineProperty(package$lsystem, 'cesaroFractal', {
@@ -1203,6 +1212,7 @@
   zAxis = new THREE$Vector3(0, 0, 1);
   dontConnectDots = new THREE$Vector3(kotlin_js_internal_DoubleCompanionObject.NaN, kotlin_js_internal_DoubleCompanionObject.NaN, kotlin_js_internal_DoubleCompanionObject.NaN);
   kochSnowflake = new LSystem('F--F--F', mapOf_0(to(toBoxedChar(70), 'F+F--F+F')), math.PI / 3);
+  kochCurve = new LSystem('F', mapOf_0(to(toBoxedChar(70), 'F+F-F-F+F')), math.PI / 2);
   cesaroFractal = new LSystem('F', mapOf_0(to(toBoxedChar(70), 'F+F-F-F+F')), toRadians(85));
   quadraticType2Curve = new LSystem('F', mapOf_0(to(toBoxedChar(70), 'F+F-F-FF+F+F-F')), math.PI / 2);
   hilbertCurve = new LSystem('A', mapOf([to(toBoxedChar(65), '-BF+AFA+FB-'), to(toBoxedChar(66), '+AF-BFB-FA+')]), math.PI / 2);

@@ -6,16 +6,15 @@ import kotlin.math.round
 class LSystemEditor {
     val lSystemPresenters = listOf(
         LSystemPresenter(kochSnowflake, name = "Koch snowflake", url = "https://en.wikipedia.org/wiki/Koch_snowflake"),
-        LSystemPresenter(cesaroFractal, name = "Cesaro fractal", url = "http://mathworld.wolfram.com/CesaroFractal.html"),
-        LSystemPresenter(quadraticType2Curve, name = "Quadratic type 2", url = "https://en.wikipedia.org/wiki/Koch_snowflake#Variants_of_the_Koch_curve"),
-        LSystemPresenter(hilbertCurve, name = "Hilbert curve", url = "https://en.wikipedia.org/wiki/Hilbert_curve"),
-        LSystemPresenter(lindenmayerCurve, name = "Lindenmayer curve"),
+        LSystemPresenter(kochCurve, name = "Koch curve", url = "https://en.wikipedia.org/wiki/L-system#Example_4:_Koch_curve"),
+//        LSystemPresenter(cesaroFractal, name = "Cesaro fractal", url = "http://mathworld.wolfram.com/CesaroFractal.html"),
+        LSystemPresenter(lindenmayerCurve, name = "Lindenmayer curve", url = "https://akademikmatematik.tr.gg/Hilbert-Curve.htm"),
         LSystemPresenter(gosperCurve, name = "Gosper curve", url = "https://en.wikipedia.org/wiki/Gosper_curve"),
         LSystemPresenter(sierpinskiTriangle, name = "Sierpinski triangle", url = "https://en.wikipedia.org/wiki/Sierpinski_triangle"),
         LSystemPresenter(sierpinskiArrowheadCurve, name = "Sierpinski arrow head triangle", url = "https://en.wikipedia.org/wiki/Sierpi%C5%84ski_arrowhead_curve"),
         LSystemPresenter(dragonCurve, maxIterations = 14, name = "Dragon curve", url = "https://en.wikipedia.org/wiki/Dragon_curve"),
         LSystemPresenter(fractalPlant, name = "Plant", url = "https://en.wikipedia.org/wiki/L-system#Example_7:_Fractal_plant"),
-//            LSystemPresenter(kochCurve3d, name = "Koch curve 3d", url = "https://github.com/Hiestaa/3D-Lsystem/blob/master/lsystem/KochCurve3D.py"),
+        LSystemPresenter(hilbertCurve, name = "Hilbert curve", url = "https://en.wikipedia.org/wiki/Hilbert_curve"),
         LSystemPresenter(hilbertCurve3d, name = "Hilbert Curve 3d", url = "https://math.stackexchange.com/questions/123642/representing-a-3d-hilbert-curve-as-an-l-system")
     )
     var presenter = lSystemPresenters.first()

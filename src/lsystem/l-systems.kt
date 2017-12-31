@@ -14,6 +14,12 @@ val kochSnowflake = LSystem(
     angle = PI / 3
 )
 
+val kochCurve = LSystem(
+    axiom = "F",
+    rules = mapOf('F' to "F+F-F-F+F"),
+    angle = PI / 2
+)
+
 val cesaroFractal = LSystem(
     axiom = "F",
     rules = mapOf('F' to "F+F-F-F+F"),
