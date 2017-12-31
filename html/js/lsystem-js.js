@@ -56,6 +56,7 @@
   var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
   var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
   var equals = Kotlin.equals;
+  var toString = Kotlin.toString;
   var roundToInt = Kotlin.kotlin.math.roundToInt_yrwdxr$;
   var THREE$Color = $module$three.Color;
   var Triple = Kotlin.kotlin.Triple;
@@ -648,7 +649,7 @@
     generateScene();
     var orbitControls = new THREE$OrbitControls(this.camera_0, this.renderer_0.domElement);
     orbitControls.keyPanSpeed = 0.0;
-    this.init_0(editor, getCallableRef('generateScene', function () {
+    this.initEditor_0(editor, getCallableRef('generateScene', function () {
       return generateScene(), Unit;
     }));
     this.update_0(editor);
@@ -724,7 +725,7 @@
   var mapCapacity = Kotlin.kotlin.collections.mapCapacity_za3lpa$;
   var coerceAtLeast = Kotlin.kotlin.ranges.coerceAtLeast_dqglrj$;
   var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_xf5xz2$;
-  function WebUI$init$applyChanges(this$WebUI, closure$editor, closure$updateUI) {
+  function WebUI$initEditor$applyChanges(this$WebUI, closure$editor, closure$updateUI) {
     return function () {
       closure$editor.presenter.lSystem.axiom = this$WebUI.page_0.axiom.value;
       var tmp$ = closure$editor.presenter.lSystem;
@@ -760,13 +761,13 @@
       closure$updateUI();
     };
   }
-  function WebUI$init$lambda$lambda_0(closure$applyChanges) {
+  function WebUI$initEditor$lambda$lambda(closure$applyChanges) {
     return function (f) {
       closure$applyChanges();
       return Unit;
     };
   }
-  function WebUI$init$lambda_1(closure$editor, this$WebUI, closure$updateUI) {
+  function WebUI$initEditor$lambda(closure$editor, this$WebUI, closure$updateUI) {
     return function (f) {
       var tmp$ = closure$editor;
       var $receiver = closure$editor.lSystemPresenters;
@@ -790,16 +791,22 @@
       return Unit;
     };
   }
-  WebUI.prototype.init_0 = function (editor, updateUI) {
+  function WebUI$initEditor$lambda$lambda_0(this$WebUI) {
+    return function (f) {
+      this$WebUI.updateRulesHeight_0();
+      return Unit;
+    };
+  }
+  WebUI.prototype.initEditor_0 = function (editor, updateUI) {
     var tmp$;
-    var applyChanges = WebUI$init$applyChanges(this, editor, updateUI);
+    var applyChanges = WebUI$initEditor$applyChanges(this, editor, updateUI);
     var tmp$_0;
     tmp$_0 = listOf([this.page_0.axiom, this.page_0.rules, this.page_0.angle, this.page_0.iterations]).iterator();
     while (tmp$_0.hasNext()) {
       var element = tmp$_0.next();
-      element.addEventListener('input', WebUI$init$lambda$lambda_0(applyChanges));
+      element.addEventListener('input', WebUI$initEditor$lambda$lambda(applyChanges));
     }
-    this.page_0.name.addEventListener('change', WebUI$init$lambda_1(editor, this, updateUI));
+    this.page_0.name.addEventListener('change', WebUI$initEditor$lambda(editor, this, updateUI));
     var child = Kotlin.isType(tmp$ = ensureNotNull(this.page_0.name.firstElementChild).cloneNode(true), HTMLOptionElement) ? tmp$ : throwCCE();
     this.page_0.name.innerHTML = '';
     var tmp$_1, tmp$_0_0;
@@ -817,6 +824,9 @@
       var node = $receiver;
       this.page_0.name.appendChild(node);
     }
+    var it = this.page_0.rules;
+    it.setAttribute('style', 'height:' + toString(it.scrollHeight) + 'px;overflow-y:hidden;');
+    it.addEventListener('input', WebUI$initEditor$lambda$lambda_0(this));
   };
   function WebUI$update$lambda(it) {
     var $receiver = unboxChar(it.key);
@@ -826,8 +836,13 @@
     this.page_0.name.value = editor.presenter.name;
     this.page_0.axiom.value = editor.presenter.lSystem.axiom;
     this.page_0.rules.value = joinToString(editor.presenter.lSystem.rules.entries, '\n', void 0, void 0, void 0, void 0, WebUI$update$lambda);
+    this.updateRulesHeight_0();
     this.page_0.angle.value = roundToInt(toDegrees(editor.presenter.lSystem.angle)).toString();
     this.page_0.iterations.value = editor.presenter.iterations.toString();
+  };
+  WebUI.prototype.updateRulesHeight_0 = function () {
+    this.page_0.rules.style.height = 'auto';
+    this.page_0.rules.style.height = this.page_0.rules.scrollHeight.toString() + 'px';
   };
   WebUI.prototype.applyTheme1_0 = function () {
     this.lineMaterial_0 = this.material1_0;

@@ -301,16 +301,5 @@
     tippy(".angle .help-popup", tippyConfig(".help-angle"));
     tippy(".iterations .help-popup", tippyConfig(".help-iterations"));
     tippy(".shortcuts .help-popup", tippyConfig(".help-shortcuts"));
-
-    let textarea = document.getElementsByTagName("textarea");
-    for (let i = 0; i < textarea.length; i++) {
-        textarea[i].setAttribute("style", "height:" + (textarea[i].scrollHeight) + 'px;overflow-y:hidden;');
-        textarea[i].addEventListener("input", updateHeight, false);
-        textarea[i].addEventListener("change", updateHeight, false);
-    }
-    function updateHeight() {
-        this.style.height = "auto";
-        this.style.height = (this.scrollHeight) + "px";
-    }
 </script>
 </html>

@@ -2,6 +2,11 @@ package lsystem
 
 import kotlin.math.PI
 
+// Misc links:
+//  - http://www.robertdickau.com/kochsurface.html
+//  - http://algorithmicbotany.org/papers/abop/abop-ch1.pdf
+//  - http://www.kevs3d.co.uk/dev/lsystems
+//  - http://www.3dfractals.com/docs/3DFractals.pdf
 
 val kochSnowflake = LSystem(
     axiom = "F--F--F",

@@ -87,7 +87,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         val orbitControls = THREE.OrbitControls(camera, renderer.domElement)
         orbitControls.keyPanSpeed = 0.0
 
-        init(editor, ::generateScene)
+        initEditor(editor, ::generateScene)
         update(editor)
 
         window.addEventListener("resize", { _ -> onWindowResize() }, false)
@@ -128,7 +128,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         }
     }
 
-    private fun init(editor: LSystemEditor, updateUI: () -> Unit) {
+    private fun initEditor(editor: LSystemEditor, updateUI: () -> Unit) {
         fun applyChanges() {
             editor.presenter.lSystem.axiom = page.axiom.value
             editor.presenter.lSystem.rules = page.rules.value
@@ -160,6 +160,11 @@ class WebUI(private val window: Window, private val page: IndexPage) {
             }
             page.name.appendChild(node)
         }
+
+        page.rules.let {
+            it.setAttribute("style", "height:" + it.scrollHeight + "px;overflow-y:hidden;")
+            it.addEventListener("input", { _ -> updateRulesHeight() })
+        }
     }
 
     private fun update(editor: LSystemEditor) {
@@ -167,8 +172,14 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         page.axiom.value = editor.presenter.lSystem.axiom
         page.rules.value = editor.presenter.lSystem.rules
             .entries.joinToString("\n") { it.key + " => " + it.value }
+        updateRulesHeight()
         page.angle.value = editor.presenter.lSystem.angle.toDegrees().roundToInt().toString()
         page.iterations.value = editor.presenter.iterations.toString()
+    }
+
+    private fun updateRulesHeight() {
+        page.rules.style.height = "auto"
+        page.rules.style.height = page.rules.scrollHeight.toString() + "px"
     }
 
     private fun applyTheme1() {
