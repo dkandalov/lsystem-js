@@ -7,6 +7,7 @@ class LSystemEditor {
     val lSystemPresenters = listOf(
         LSystemPresenter(kochSnowflake, name = "Koch snowflake", url = "https://en.wikipedia.org/wiki/Koch_snowflake"),
         LSystemPresenter(kochCurve, name = "Koch curve", url = "https://en.wikipedia.org/wiki/L-system#Example_4:_Koch_curve"),
+        LSystemPresenter(hexaFlake, name = "Hexa flake", url = "https://en.wikipedia.org/wiki/N-flake#Hexaflake"),
 //        LSystemPresenter(cesaroFractal, name = "Cesaro fractal", url = "http://mathworld.wolfram.com/CesaroFractal.html"),
         LSystemPresenter(lindenmayerCurve, name = "Lindenmayer curve", url = "https://akademikmatematik.tr.gg/Hilbert-Curve.htm"),
         LSystemPresenter(gosperCurve, name = "Gosper curve", url = "https://en.wikipedia.org/wiki/Gosper_curve"),
@@ -15,7 +16,7 @@ class LSystemEditor {
         LSystemPresenter(dragonCurve, maxIterations = 14, name = "Dragon curve", url = "https://en.wikipedia.org/wiki/Dragon_curve"),
         LSystemPresenter(fractalPlant, name = "Plant", url = "https://en.wikipedia.org/wiki/L-system#Example_7:_Fractal_plant"),
         LSystemPresenter(hilbertCurve, name = "Hilbert curve", url = "https://en.wikipedia.org/wiki/Hilbert_curve"),
-        LSystemPresenter(hilbertCurve3d, name = "Hilbert Curve 3d", url = "https://math.stackexchange.com/questions/123642/representing-a-3d-hilbert-curve-as-an-l-system")
+        LSystemPresenter(hilbertCurve3d, name = "Hilbert curve 3d", url = "https://math.stackexchange.com/questions/123642/representing-a-3d-hilbert-curve-as-an-l-system")
     )
     var presenter = lSystemPresenters.first()
     var debugMode = false

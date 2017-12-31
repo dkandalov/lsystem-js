@@ -20,6 +20,12 @@ val kochCurve = LSystem(
     angle = PI / 2
 )
 
+val hexaFlake = LSystem(
+    axiom = "F+F+F+F+F+F",
+    rules = mapOf('F' to "F+F+F--F--F+F+F"),
+    angle = 60.toRadians()
+)
+
 val cesaroFractal = LSystem(
     axiom = "F",
     rules = mapOf('F' to "F+F-F-F+F"),
