@@ -101,8 +101,6 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         updateUI: () -> Unit
     ): (Event) -> Unit {
         val mapping = mapOf(
-            "n" to { editor.changeLSystem(1) },
-            "N" to { editor.changeLSystem(-1) },
             "i" to { editor.changeIterationCount(1) },
             "I" to { editor.changeIterationCount(-1) },
             "a" to { editor.changeAngle(5.toRadians()) },
@@ -118,6 +116,8 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         return { event ->
             if (event is KeyboardEvent) {
                 if (event.key == "`") {
+                    event.preventDefault()
+                    event.stopImmediatePropagation()
                     toggleLSystemEditor()
                 }
                 if (event.target !is HTMLInputElement) {

@@ -29,17 +29,6 @@ class LSystemEditor {
         }
     }
 
-    fun changeLSystem(direction: Int) {
-        val i = lSystemPresenters.indexOfFirst { it.lSystem == presenter.lSystem } + direction
-        presenter = when {
-            i < 0 -> lSystemPresenters.last()
-            i >= lSystemPresenters.size -> lSystemPresenters.first()
-            else -> lSystemPresenters[i]
-        }
-        debugMode = false
-        debugStepSize = 0
-    }
-
     fun changeIterationCount(increment: Int) {
         presenter.iterations += increment
         if (presenter.iterations > presenter.maxIterations) {

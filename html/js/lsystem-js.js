@@ -34,11 +34,9 @@
   var kotlin_js_internal_DoubleCompanionObject = Kotlin.kotlin.js.internal.DoubleCompanionObject;
   var toList = Kotlin.kotlin.sequences.toList_veqyi0$;
   var take_0 = Kotlin.kotlin.collections.take_ba2ldo$;
-  var equals = Kotlin.equals;
-  var last_0 = Kotlin.kotlin.collections.last_2p1efm$;
-  var first = Kotlin.kotlin.collections.first_2p1efm$;
   var round = Kotlin.kotlin.math.round_14dthe$;
   var listOf = Kotlin.kotlin.collections.listOf_i5x0yv$;
+  var first = Kotlin.kotlin.collections.first_2p1efm$;
   var throwUPAE = Kotlin.throwUPAE;
   var THREE$PerspectiveCamera = $module$three.PerspectiveCamera;
   var THREE$Scene = $module$three.Scene;
@@ -53,6 +51,7 @@
   var getCallableRef = Kotlin.getCallableRef;
   var to = Kotlin.kotlin.to_ujzrz7$;
   var mapOf = Kotlin.kotlin.collections.mapOf_qfcya0$;
+  var equals = Kotlin.equals;
   var split = Kotlin.kotlin.text.split_ip8yn$;
   var toBoxedChar = Kotlin.toBoxedChar;
   var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
@@ -433,36 +432,6 @@
     var points = toList(this.presenter.generatePoints());
     return this.debugMode ? take_0(points, this.debugStepSize_0) : points;
   };
-  LSystemEditor.prototype.changeLSystem_za3lpa$ = function (direction) {
-    var tmp$;
-    var $receiver = this.lSystemPresenters;
-    var indexOfFirst$result;
-    indexOfFirst$break: do {
-      var tmp$_0;
-      var index = 0;
-      tmp$_0 = $receiver.iterator();
-      while (tmp$_0.hasNext()) {
-        var item = tmp$_0.next();
-        if (equals(item.lSystem, this.presenter.lSystem)) {
-          indexOfFirst$result = index;
-          break indexOfFirst$break;
-        }
-        index = index + 1 | 0;
-      }
-      indexOfFirst$result = -1;
-    }
-     while (false);
-    var i = indexOfFirst$result + direction | 0;
-    if (i < 0)
-      tmp$ = last_0(this.lSystemPresenters);
-    else if (i >= this.lSystemPresenters.size)
-      tmp$ = first(this.lSystemPresenters);
-    else
-      tmp$ = this.lSystemPresenters.get_za3lpa$(i);
-    this.presenter = tmp$;
-    this.debugMode = false;
-    this.debugStepSize_0 = 0;
-  };
   LSystemEditor.prototype.changeIterationCount_za3lpa$ = function (increment) {
     var tmp$;
     tmp$ = this.presenter;
@@ -683,86 +652,76 @@
   };
   function WebUI$onKeyPress$lambda(closure$editor) {
     return function () {
-      closure$editor.changeLSystem_za3lpa$(1);
+      closure$editor.changeIterationCount_za3lpa$(1);
       return Unit;
     };
   }
   function WebUI$onKeyPress$lambda_0(closure$editor) {
     return function () {
-      closure$editor.changeLSystem_za3lpa$(-1);
+      closure$editor.changeIterationCount_za3lpa$(-1);
       return Unit;
     };
   }
   function WebUI$onKeyPress$lambda_1(closure$editor) {
     return function () {
-      closure$editor.changeIterationCount_za3lpa$(1);
+      closure$editor.changeAngle_14dthe$(toRadians(5));
       return Unit;
     };
   }
   function WebUI$onKeyPress$lambda_2(closure$editor) {
     return function () {
-      closure$editor.changeIterationCount_za3lpa$(-1);
-      return Unit;
-    };
-  }
-  function WebUI$onKeyPress$lambda_3(closure$editor) {
-    return function () {
-      closure$editor.changeAngle_14dthe$(toRadians(5));
-      return Unit;
-    };
-  }
-  function WebUI$onKeyPress$lambda_4(closure$editor) {
-    return function () {
       closure$editor.changeAngle_14dthe$(toRadians(-5));
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_5(closure$orbitControls) {
+  function WebUI$onKeyPress$lambda_3(closure$orbitControls) {
     return function () {
       closure$orbitControls.reset();
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_6(this$WebUI) {
+  function WebUI$onKeyPress$lambda_4(this$WebUI) {
     return function () {
       this$WebUI.applyTheme1_0();
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_7(this$WebUI) {
+  function WebUI$onKeyPress$lambda_5(this$WebUI) {
     return function () {
       this$WebUI.applyTheme2_0();
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_8(closure$editor) {
+  function WebUI$onKeyPress$lambda_6(closure$editor) {
     return function () {
       closure$editor.debugMode = !closure$editor.debugMode;
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_9(closure$editor) {
+  function WebUI$onKeyPress$lambda_7(closure$editor) {
     return function () {
       closure$editor.increaseDebugStep();
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_10(closure$editor) {
+  function WebUI$onKeyPress$lambda_8(closure$editor) {
     return function () {
       closure$editor.decreaseDebugStep();
       return Unit;
     };
   }
-  function WebUI$onKeyPress$lambda_11(this$WebUI, closure$editor) {
+  function WebUI$onKeyPress$lambda_9(this$WebUI, closure$editor) {
     return function () {
       var tmp$, tmp$_0;
       return (tmp$_0 = this$WebUI.window_0.open((tmp$ = closure$editor.presenter.url) != null ? tmp$ : '')) != null ? (tmp$_0.focus(), Unit) : null;
     };
   }
-  function WebUI$onKeyPress$lambda_12(this$WebUI, closure$mapping, closure$updateUI, closure$editor) {
+  function WebUI$onKeyPress$lambda_10(this$WebUI, closure$mapping, closure$updateUI, closure$editor) {
     return function (event) {
       if (Kotlin.isType(event, KeyboardEvent)) {
         if (equals(event.key, '`')) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
           this$WebUI.toggleLSystemEditor_0();
         }
         if (!Kotlin.isType(event.target, HTMLInputElement)) {
@@ -778,8 +737,8 @@
     };
   }
   WebUI.prototype.onKeyPress_0 = function (editor, orbitControls, updateUI) {
-    var mapping = mapOf([to('n', WebUI$onKeyPress$lambda(editor)), to('N', WebUI$onKeyPress$lambda_0(editor)), to('i', WebUI$onKeyPress$lambda_1(editor)), to('I', WebUI$onKeyPress$lambda_2(editor)), to('a', WebUI$onKeyPress$lambda_3(editor)), to('A', WebUI$onKeyPress$lambda_4(editor)), to('c', WebUI$onKeyPress$lambda_5(orbitControls)), to('q', WebUI$onKeyPress$lambda_6(this)), to('w', WebUI$onKeyPress$lambda_7(this)), to('d', WebUI$onKeyPress$lambda_8(editor)), to('s', WebUI$onKeyPress$lambda_9(editor)), to('S', WebUI$onKeyPress$lambda_10(editor)), to('u', WebUI$onKeyPress$lambda_11(this, editor))]);
-    return WebUI$onKeyPress$lambda_12(this, mapping, updateUI, editor);
+    var mapping = mapOf([to('i', WebUI$onKeyPress$lambda(editor)), to('I', WebUI$onKeyPress$lambda_0(editor)), to('a', WebUI$onKeyPress$lambda_1(editor)), to('A', WebUI$onKeyPress$lambda_2(editor)), to('c', WebUI$onKeyPress$lambda_3(orbitControls)), to('q', WebUI$onKeyPress$lambda_4(this)), to('w', WebUI$onKeyPress$lambda_5(this)), to('d', WebUI$onKeyPress$lambda_6(editor)), to('s', WebUI$onKeyPress$lambda_7(editor)), to('S', WebUI$onKeyPress$lambda_8(editor)), to('u', WebUI$onKeyPress$lambda_9(this, editor))]);
+    return WebUI$onKeyPress$lambda_10(this, mapping, updateUI, editor);
   };
   var trim = Kotlin.kotlin.text.trim_gw00vp$;
   var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
