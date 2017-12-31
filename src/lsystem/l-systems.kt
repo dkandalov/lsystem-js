@@ -6,8 +6,7 @@ import kotlin.math.PI
 val kochSnowflake = LSystem(
     axiom = "F--F--F",
     rules = mapOf('F' to "F+F--F+F"),
-    angle = PI / 3,
-    closedPath = true
+    angle = PI / 3
 )
 
 val cesaroFractal = LSystem(

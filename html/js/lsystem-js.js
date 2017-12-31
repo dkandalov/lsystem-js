@@ -1209,7 +1209,7 @@
   yAxis = new THREE$Vector3(0, 1, 0);
   zAxis = new THREE$Vector3(0, 0, 1);
   dontConnectDots = new THREE$Vector3(kotlin_js_internal_DoubleCompanionObject.NaN, kotlin_js_internal_DoubleCompanionObject.NaN, kotlin_js_internal_DoubleCompanionObject.NaN);
-  kochSnowflake = new LSystem('F--F--F', mapOf_0(to(toBoxedChar(70), 'F+F--F+F')), math.PI / 3, true);
+  kochSnowflake = new LSystem('F--F--F', mapOf_0(to(toBoxedChar(70), 'F+F--F+F')), math.PI / 3);
   cesaroFractal = new LSystem('F', mapOf_0(to(toBoxedChar(70), 'F+F-F-F+F')), toRadians(85));
   quadraticType2Curve = new LSystem('F', mapOf_0(to(toBoxedChar(70), 'F+F-F-FF+F+F-F')), math.PI / 2);
   hilbertCurve = new LSystem('A', mapOf([to(toBoxedChar(65), '-BF+AFA+FB-'), to(toBoxedChar(66), '+AF-BFB-FA+')]), math.PI / 2);
