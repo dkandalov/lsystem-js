@@ -2,7 +2,6 @@ package lsystem
 
 import lsystem.THREE.Quaternion
 import lsystem.THREE.Vector3
-import kotlin.coroutines.experimental.buildSequence
 import kotlin.math.PI
 
 /**
@@ -12,8 +11,8 @@ class LSystem(
     var axiom: String,
     var rules: Map<Char, String>,
     var angle: Double,
-    val closedPath: Boolean = false,
-    val stepLength: Double = 10.0
+    private val closedPath: Boolean = false,
+    private val stepLength: Double = 10.0
 ) {
     fun generatePoints(iterations: Int = 3): Sequence<Vector3> {
         return applySubstitutionRules(axiom, rules)
@@ -22,7 +21,7 @@ class LSystem(
     }
 }
 
-fun applySubstitutionRules(axiom: String, rules: Map<Char, String>, input: String = axiom): Sequence<String> = buildSequence {
+fun applySubstitutionRules(axiom: String, rules: Map<Char, String>, input: String = axiom): Sequence<String> = sequence {
     var result = input
     while (true) {
         yield(result)
@@ -40,14 +39,14 @@ fun String.toPoints(
     startPoint: Vector3 = Vector3(0, 0, 0),
     startDirection: Vector3 = Vector3(1, 0, 0)
 ): Sequence<Vector3> {
-    return buildSequence {
+    return sequence {
         yield(startPoint.clone())
 
         var point = startPoint.clone()
         val step = startDirection.clone()
         step.multiplyScalar(stepLength)
 
-        var direction = THREE.Quaternion()
+        var direction = Quaternion()
         val stack = emptyArray<Pair<Vector3, Quaternion>>()
 
         forEach { c ->
