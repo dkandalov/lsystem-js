@@ -222,7 +222,7 @@
         Axiom is the initial state of L-System before any of the rules are applied.
         Axiom corresponds to zero iterations.
     </p>
-    The following commands can be used:
+    The following commands can be used in axiom:
     <ul>
         <li><b>fghiFGHI</b> — move and draw line in the current direction</li>
         <li><b>other letters</b> — no action; can be used for substitution rules</li>
@@ -234,16 +234,16 @@
 </div>
 <div class="help-rules help-content">
     <p>
-        Rules are applies to L-System state on each iteration.
-        These are simple substitution rules which replace letters (aka chars) with strings.
+        Rules are applied to L-System state on each iteration.
+        These are simple substitution rules which replace letters with strings.
         If no rules can be applied, L-System state doesn't change.
     </p>
     Rules syntax:
     <ul>
         <li>&lt;rules&gt; ::= &lt;rule&gt; [&lt;new line&gt; &lt;rule&gt;]*</li>
-        <li>&lt;rule&gt; ::= &lt;char&gt; " =&gt; " &lt;string&gt;</li>
+        <li>&lt;rule&gt; ::= &lt;letter&gt; " =&gt; " &lt;substitution string&gt;</li>
     </ul>
-    The following commands can be used:
+    The following commands can be used in substitution string:
     <ul>
         <li><b>fghiFGHI</b> — move and draw line in the current direction</li>
         <li><b>other letters</b> — no action; can be used for substitution rules</li>
