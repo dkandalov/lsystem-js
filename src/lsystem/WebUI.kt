@@ -41,7 +41,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         renderer = THREE.WebGLRenderer().apply {
             val canvas = page.content.appendChild(this.domElement) as HTMLElement
             canvas.setAttribute("tabindex", "0")
-            canvas.addEventListener("click", { _ ->
+            canvas.addEventListener("click", {
                 canvas.focus() // Need this to make canvas take focus on mouse click.
             })
             setPixelRatio(window.devicePixelRatio)
@@ -60,7 +60,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         fun generateScene() {
             scene.clear()
 
-            var points = Array(0, { Vector3(0, 0, 0) })
+            var points = Array(0) { Vector3(0, 0, 0) }
             editor
                 .generatePoints()
                 .fitCenteredInto(-100.0, -100.0, -100.0, 100.0, 100.0, 100.0)
@@ -69,7 +69,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
                         val bufferGeometry = THREE.BufferGeometry()
                         bufferGeometry.setFromPoints(points)
                         scene.add(THREE.Line(bufferGeometry, lineMaterial))
-                        points = Array(0, { Vector3(0, 0, 0) })
+                        points = Array(0) { Vector3(0, 0, 0) }
                     } else {
                         points.push(it)
                     }
@@ -90,11 +90,11 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         initEditor(editor, ::generateScene)
         update(editor)
 
-        window.addEventListener("resize", { _ -> onWindowResize() }, false)
-        window.addEventListener("keypress", onKeyPress(editor, orbitControls, {
+        window.addEventListener("resize", { onWindowResize() }, false)
+        window.addEventListener("keypress", onKeyPress(editor, orbitControls) {
             generateScene()
             update(editor)
-        }))
+        })
     }
 
     private fun onKeyPress(
@@ -145,7 +145,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
             updateUI()
         }
         listOf(page.axiom, page.rules, page.angle, page.iterations).forEach {
-            it.addEventListener("input", { _ -> applyChanges() })
+            it.addEventListener("input", { applyChanges() })
         }
         page.name.addEventListener("change", { _ ->
             editor.presenter = editor.lSystemPresenters.find { it.name == page.name.value }!!
@@ -166,7 +166,7 @@ class WebUI(private val window: Window, private val page: IndexPage) {
 
         page.rules.let {
             it.setAttribute("style", "height:" + it.scrollHeight + "px;overflow-y:hidden;")
-            it.addEventListener("input", { _ -> updateRulesHeight() })
+            it.addEventListener("input", { updateRulesHeight() })
         }
     }
 

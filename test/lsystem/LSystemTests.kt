@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package lsystem
 
 import lsystem.THREE.Vector3
@@ -30,7 +28,7 @@ class SubstitutionRulesTests {
         outputs expectToEqual listOf("0", "1[0]0", "11[1[0]0]1[0]0")
     }
 
-    @Test fun Koch_curve() {
+    @Test fun koch_curve() {
         val axiom = "F"
         val rules = mapOf(
             'F' to "F+F−F−F+F"

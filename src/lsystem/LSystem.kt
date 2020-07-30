@@ -81,7 +81,7 @@ fun String.toPoints(
 }
 
 private fun rotation(axis: Vector3, angle: Double) =
-    THREE.Quaternion().apply { setFromAxisAngle(axis, angle) }
+    Quaternion().apply { setFromAxisAngle(axis, angle) }
 
 private val xAxis = Vector3(1, 0, 0)
 private val yAxis = Vector3(0, 1, 0)
