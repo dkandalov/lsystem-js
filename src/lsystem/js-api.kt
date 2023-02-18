@@ -4,8 +4,6 @@ package lsystem
 
 import org.w3c.dom.Node
 
-@JsModule("three")
-@JsNonModule
 /**
  * Use custom bindings because ts2kt doesn't work with threejs typescript bindings (https://github.com/Kotlin/ts2kt/issues/52).
  */

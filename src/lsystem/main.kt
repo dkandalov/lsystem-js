@@ -2,8 +2,9 @@ package lsystem
 
 import org.w3c.dom.*
 
+@JsExport
 @JsName("main")
-@Suppress("unused") // Used in index.html
+@OptIn(ExperimentalJsExport::class)
 fun main(window: Window, document: Document) {
     WebUI(window, IndexPage(document)).apply {
         init()
