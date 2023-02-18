@@ -252,8 +252,8 @@ class WebUI(private val window: Window, private val page: IndexPage) {
         val height = y2 - y1
         val depth = z2 - z1
 
-        val minPoint = Vector3(minBy { it.x }!!.x, minBy { it.y }!!.y, minBy { it.z }!!.z)
-        val maxPoint = Vector3(maxBy { it.x }!!.x, maxBy { it.y }!!.y, maxBy { it.z }!!.z)
+        val minPoint = Vector3(minBy { it.x }.x, minBy { it.y }.y, minBy { it.z }.z)
+        val maxPoint = Vector3(maxBy { it.x }.x, maxBy { it.y }.y, maxBy { it.z }.z)
         val pointsWidth = maxPoint.x - minPoint.x
         val pointsHeight = maxPoint.y - minPoint.y
         val pointsDepth = maxPoint.z - minPoint.z
