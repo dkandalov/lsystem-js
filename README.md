@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dkandalov/lsystem-js.svg?branch=master)](https://travis-ci.org/dkandalov/lsystem-js)
+[![Build Status](https://github.com/dkandalov/lsystem-js/workflows/CI/badge.svg)](https://github.com/dkandalov/lsystem-js/actions)
 
 ### L-System Playground
 
