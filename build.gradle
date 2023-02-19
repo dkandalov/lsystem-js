@@ -20,3 +20,15 @@ kotlin {
         test.kotlin.srcDir "test"
     }
 }
+
+tasks.register('copyGeneratedJs') {
+    doLast {
+        copy {
+            from 'build/distributions/'
+            into 'html/js'
+            include '**/*.js'
+            include '**/*.js.map'
+        }
+    }
+}
+build.finalizedBy('copyGeneratedJs')
